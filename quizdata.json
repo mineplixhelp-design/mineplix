@@ -12,16 +12,424 @@
         "answer": "大"
     },
     {
+        "level": "N5",
+        "question": "Angka 4 dalam Bahasa Jepang dapat dibaca 'yon' atau...",
+        "options": ["go", "nana", "shi", "hachi"],
+        "answer": "shi"
+    },
+    {
+        "level": "N5",
+        "question": "Bagaimana cara membaca '水'?",
+        "options": ["Hi", "Ki", "Mizu", "Sora"],
+        "answer": "Mizu"
+    },
+    {
+        "level": "N5",
+        "question": "Kata benda untuk 'sekolah' adalah...",
+        "options": ["Ginkou", "Byouin", "Gakkou", "Shigoto"],
+        "answer": "Gakkou"
+    },
+    {
+        "level": "N5",
+        "question": "Pilihlah partikel yang digunakan untuk menunjukkan tujuan pergerakan (ke).",
+        "options": ["で", "を", "に", "が"],
+        "answer": "に"
+    },
+    {
+        "level": "N5",
+        "question": "Terjemahan dari 'Saya pergi ke Jepang.'",
+        "options": ["わたしはにほんがきます。", "わたしはにほんへいきます。", "わたしはにほんをたべます。", "わたしはにほんがすきです。"],
+        "answer": "わたしはにほんへいきます。"
+    },
+    {
+        "level": "N5",
+        "question": "Pilihlah hiragana untuk 'neko' (kucing).",
+        "options": ["いぬ", "ねこ", "とり", "さかな"],
+        "answer": "ねこ"
+    },
+    {
+        "level": "N5",
+        "question": "Apa arti dari 'すしをたべる'?",
+        "options": ["Minum teh", "Makan sushi", "Membaca buku", "Pergi ke toko"],
+        "answer": "Makan sushi"
+    },
+    {
+        "level": "N5",
+        "question": "Kata sifat 'panas' (cuaca) adalah...",
+        "options": ["さむい (samui)", "あつい (atsui)", "つめたい (tsumetai)", "やすい (yasui)"],
+        "answer": "あつい (atsui)"
+    },
+    
+    
+    {
         "level": "N4",
         "question": "Bentuk sopan dari 'する' (melakukan) adalah...",
         "options": ["します", "しました", "してる", "しなさい"],
         "answer": "します"
     },
     {
-        "level": "N3",
+        "level": "N4",
+        "question": "Apa yang harus ditambahkan untuk membuat kata kerja '食べる' (taberu) menjadi bentuk pasif?",
+        "options": ["-raseru", "-rareru", "-masu", "-tai"],
+        "answer": "-rareru"
+    },
+    {
+        "level": "N4",
+        "question": "Kata '昨日' (kinou) berarti...",
+        "options": ["Besok", "Hari ini", "Kemarin", "Lusa"],
+        "answer": "Kemarin"
+    },
+    {
+        "level": "N4",
+        "question": "Partikel '〜ながら' digunakan untuk menunjukkan...",
+        "options": ["Alasan", "Kontras", "Dua aksi simultan", "Tujuan"],
+        "answer": "Dua aksi simultan"
+    },
+    {
+        "level": "N4",
+        "question": "Bentuk potensial dari '読む' (yomu, membaca) adalah...",
+        "options": ["読ませる", "読まない", "読める", "読んだ"],
+        "answer": "読める"
+    },
+    {
+        "level": "N4",
+        "question": "Pola '〜ほうがいい' digunakan untuk...",
+        "options": ["Larangan", "Saran/Rekomendasi", "Kewajiban", "Kemungkinan"],
+        "answer": "Saran/Rekomendasi"
+    },
+    {
+        "level": "N4",
+        "question": "Apa arti kanji dari '病気'?",
+        "options": ["Cuaca", "Rumah Sakit", "Penyakit", "Kesehatan"],
+        "answer": "Penyakit"
+    },
+    {
+        "level": "N4",
         "question": "Pola kalimat '〜つもりだ' digunakan untuk menyatakan...",
         "options": ["Kemungkinan", "Niat/Rencana", "Pengalaman", "Larangan"],
         "answer": "Niat/Rencana"
+    },
+    {
+        "level": "N4",
+        "question": "Bentuk 'te-shimau' (〜てしまう) berarti...",
+        "options": ["Selesai sepenuhnya", "Mencoba", "Mengizinkan", "Sama dengan"],
+        "answer": "Selesai sepenuhnya"
+    },
+    {
+        "level": "N4",
+        "question": "Kata sifat 'mudah' (gampang) adalah...",
+        "options": ["むずかしい (muzukashii)", "うれしい (ureshii)", "やさしい (yasashii)", "おもしろい (omoshiroi)"],
+        "answer": "やさしい (yasashii)"
+    },
+
+
+    {
+        "level": "N3",
+        "question": "Pilihlah kata yang memiliki arti 'Meskipun' atau 'Walaupun'.",
+        "options": ["しか", "ために", "ばかり", "のに"],
+        "answer": "のに"
+    },
+    {
+        "level": "N3",
+        "question": "Ungkapan '〜はずだ' digunakan ketika Anda merasa...",
+        "options": ["Tidak yakin", "Harus begitu/Seharusnya", "Ingin melakukan", "Sudah selesai"],
+        "answer": "Harus begitu/Seharusnya"
+    },
+    {
+        "level": "N3",
+        "question": "Pola '〜ばよかった' mengekspresikan...",
+        "options": ["Penyesalan", "Kewajiban", "Kemampuan", "Keinginan kuat"],
+        "answer": "Penyesalan"
+    },
+    {
+        "level": "N3",
+        "question": "Apa arti dari '急に'?",
+        "options": ["Pelan-pelan", "Tiba-tiba", "Selalu", "Kadang-kadang"],
+        "answer": "Tiba-tiba"
+    },
+    {
+        "level": "N3",
+        "question": "Kata '経験' (keiken) berarti...",
+        "options": ["Pendidikan", "Gaya", "Pengalaman", "Kenyataan"],
+        "answer": "Pengalaman"
+    },
+    {
+        "level": "N3",
+        "question": "Pola '〜たびに' berarti...",
+        "options": ["Hanya", "Setiap kali", "Setelah", "Sebelum"],
+        "answer": "Setiap kali"
+    },
+    {
+        "level": "N3",
+        "question": "Kanji '都合' (tsugou) berarti...",
+        "options": ["Waktu", "Keadaan/Kenyamanan", "Perjalanan", "Keputusan"],
+        "answer": "Keadaan/Kenyamanan"
+    },
+    {
+        "level": "N3",
+        "question": "Bentuk 'kata kerja + にくい' menunjukkan...",
+        "options": ["Mudah dilakukan", "Sulit dilakukan", "Mungkin dilakukan", "Ingin dilakukan"],
+        "answer": "Sulit dilakukan"
+    },
+    {
+        "level": "N3",
+        "question": "Apa arti dari 'おととし'?",
+        "options": ["Tahun depan", "Tahun lalu", "Dua tahun lalu", "Dua tahun depan"],
+        "answer": "Dua tahun lalu"
+    },
+    {
+        "level": "N3",
+        "question": "Pola '〜そうだ' (setelah bentuk mas) digunakan untuk menunjukkan...",
+        "options": ["Mendengar", "Sepertinya/Kelihatannya", "Harus", "Meskipun"],
+        "answer": "Sepertinya/Kelihatannya"
+    },
+    
+    
+    {
+        "level": "N2",
+        "question": "Apa arti dari ungkapan '〜おかげで'?",
+        "options": ["Meskipun", "Karena", "Berkat...", "Daripada"],
+        "answer": "Berkat..."
+    },
+    {
+        "level": "N2",
+        "question": "Apa arti dari '滅多に〜ない'?",
+        "options": ["Sering", "Sangat mudah", "Jarang", "Tidak pernah"],
+        "answer": "Jarang"
+    },
+    {
+        "level": "N2",
+        "question": "Pola '〜に対して' digunakan untuk menunjukkan...",
+        "options": ["Sebagai hasilnya", "Sebagai lawan dari/Terhadap", "Karena", "Setelah"],
+        "answer": "Sebagai lawan dari/Terhadap"
+    },
+    {
+        "level": "N2",
+        "question": "Pilihlah kata yang berarti 'Sebaliknya'.",
+        "options": ["ところで", "それなのに", "かわりに", "ところが"],
+        "answer": "ところが"
+    },
+    {
+        "level": "N2",
+        "question": "Pola '〜わけがない' menunjukkan...",
+        "options": ["Harus", "Tidak mungkin", "Sebaiknya", "Sepertinya"],
+        "answer": "Tidak mungkin"
+    },
+    {
+        "level": "N2",
+        "question": "Kanji untuk 'memproduksi/membuat' adalah...",
+        "options": ["作", "読", "見", "買"],
+        "answer": "作"
+    },
+    {
+        "level": "N2",
+        "question": "Pola '〜にかぎり' berarti...",
+        "options": ["Hanya untuk/Terbatas pada", "Kecuali", "Setelah", "Pada saat"],
+        "answer": "Hanya untuk/Terbatas pada"
+    },
+    {
+        "level": "N2",
+        "question": "Kata '義務' (gimu) berarti...",
+        "options": ["Pilihan", "Kewajiban", "Kemampuan", "Kebebasan"],
+        "answer": "Kewajiban"
+    },
+    {
+        "level": "N2",
+        "question": "Pola '〜につれて' menunjukkan...",
+        "options": ["Alasan", "Seiring dengan", "Tidak pernah", "Penyesalan"],
+        "answer": "Seiring dengan"
+    },
+    {
+        "level": "N2",
+        "question": "Ungkapan 'V-dictionary + べきだ' berarti...",
+        "options": ["Sepertinya", "Harus/Seharusnya", "Tidak mungkin", "Hanya"],
+        "answer": "Harus/Seharusnya"
+    },
+
+
+    {
+        "level": "N1",
+        "question": "Pilihlah ungkapan yang berarti 'Seolah-olah'.",
+        "options": ["はずだ", "ようだ", "わけがない", "かのように"],
+        "answer": "かのように"
+    },
+    {
+        "level": "N1",
+        "question": "Arti dari kata '克復' (kokufuku) adalah...",
+        "options": ["Kekalahan", "Penemuan", "Pemulihan/Mengatasi", "Kemarahan"],
+        "answer": "Pemulihan/Mengatasi"
+    },
+    {
+        "level": "N1",
+        "question": "Pola '〜いっぽうだ' menunjukkan tren yang...",
+        "options": ["Berubah-ubah", "Menurun", "Terus meningkat/Berjalan terus", "Selesai"],
+        "answer": "Terus meningkat/Berjalan terus"
+    },
+    {
+        "level": "N1",
+        "question": "Apa arti dari idiom '腕が立つ' (Ude ga Tatsu)?",
+        "options": ["Lengannya berdiri", "Terampil/Mahir", "Lengan pendek", "Malas"],
+        "answer": "Terampil/Mahir"
+    },
+    {
+        "level": "N1",
+        "question": "Pola '〜にもかかわらず' berarti...",
+        "options": ["Sesuai dengan", "Karena", "Terlepas dari/Meskipun", "Sejak"],
+        "answer": "Terlepas dari/Meskipun"
+    },
+    {
+        "level": "N1",
+        "question": "Kata '不可欠' (fukaketsu) berarti...",
+        "options": ["Tidak penting", "Mungkin", "Sangat diperlukan", "Dilarang"],
+        "answer": "Sangat diperlukan"
+    },
+    {
+        "level": "N1",
+        "question": "Pola '〜にほかならない' digunakan untuk menekankan...",
+        "options": ["Pengecualian", "Hanya itu/Tidak lain adalah", "Harapan", "Kebutuhan"],
+        "answer": "Hanya itu/Tidak lain adalah"
+    },
+    {
+        "level": "N1",
+        "question": "Arti dari 'はたして' (hatashite) adalah...",
+        "options": ["Akhirnya", "Meskipun", "Benarkah/Sungguh", "Dengan cepat"],
+        "answer": "Benarkah/Sungguh"
+    },
+    {
+        "level": "N1",
+        "question": "Pola '〜であれ' digunakan untuk menunjukkan...",
+        "options": ["Kemungkinan", "Pengalaman", "Apapun itu/Baik...maupun...", "Niat"],
+        "answer": "Apapun itu/Baik...maupun..."
+    },
+    {
+        "level": "N1",
+        "question": "Pola '〜ときたら' digunakan untuk...",
+        "options": ["Memperkenalkan topik dengan nada negatif/kritik", "Menyatakan masa lalu", "Menyatakan kondisi", "Menyatakan perbandingan"],
+        "answer": "Memperkenalkan topik dengan nada negatif/kritik"
+    },
+
+
+    
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: あ?",
+        "options": ["i", "e", "a", "u"],
+        "answer": "a"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: き?",
+        "options": ["ko", "ki", "ku", "ka"],
+        "answer": "ki"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: さ?",
+        "options": ["shi", "sa", "su", "se"],
+        "answer": "sa"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: ち?",
+        "options": ["chi", "ta", "tsu", "te"],
+        "answer": "chi"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: ぬ?",
+        "options": ["na", "ni", "nu", "no"],
+        "answer": "nu"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: ふ?",
+        "options": ["ha", "hi", "he", "fu"],
+        "answer": "fu"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: め?",
+        "options": ["ma", "mi", "mu", "me"],
+        "answer": "me"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: よ?",
+        "options": ["ya", "yu", "yo", "ra"],
+        "answer": "yo"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: り?",
+        "options": ["ra", "ro", "ri", "ru"],
+        "answer": "ri"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Hiragana apa ini: ん?",
+        "options": ["wa", "wo", "n", "mo"],
+        "answer": "n"
+    },
+
+    
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: イ?",
+        "options": ["a", "u", "i", "e"],
+        "answer": "i"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ク?",
+        "options": ["ki", "ku", "ke", "ko"],
+        "answer": "ku"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: シ?",
+        "options": ["sa", "su", "shi", "se"],
+        "answer": "shi"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ツ?",
+        "options": ["ta", "chi", "tsu", "te"],
+        "answer": "tsu"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ノ?",
+        "options": ["na", "no", "nu", "ni"],
+        "answer": "no"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ヘ?",
+        "options": ["ha", "hi", "fu", "he"],
+        "answer": "he"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ム?",
+        "options": ["ma", "mi", "mu", "me"],
+        "answer": "mu"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ユ?",
+        "options": ["ya", "yo", "yu", "ra"],
+        "answer": "yu"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ロ?",
+        "options": ["ra", "ri", "ru", "ro"],
+        "answer": "ro"
+    },
+    {
+        "level": "N5-Script",
+        "question": "Katakana apa ini: ワ?",
+        "options": ["n", "wo", "wa", "mo"],
+        "answer": "wa"
     }
-    // ... lanjutkan dengan semua data kuis Anda
 ]
