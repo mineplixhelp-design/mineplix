@@ -1,0 +1,27 @@
+[
+    {
+        "level": "N5",
+        "question": "Apa arti dari 'ありがとう'?",
+        "options": ["Selamat tinggal", "Tolong", "Terima kasih", "Maaf"],
+        "answer": "Terima kasih"
+    },
+    {
+        "level": "N5",
+        "question": "Kanji untuk 'besar' adalah...",
+        "options": ["小", "中", "大", "上"],
+        "answer": "大"
+    },
+    {
+        "level": "N4",
+        "question": "Bentuk sopan dari 'する' (melakukan) adalah...",
+        "options": ["します", "しました", "してる", "しなさい"],
+        "answer": "します"
+    },
+    {
+        "level": "N3",
+        "question": "Pola kalimat '〜つもりだ' digunakan untuk menyatakan...",
+        "options": ["Kemungkinan", "Niat/Rencana", "Pengalaman", "Larangan"],
+        "answer": "Niat/Rencana"
+    }
+    // ... lanjutkan dengan semua data kuis Anda
+]
