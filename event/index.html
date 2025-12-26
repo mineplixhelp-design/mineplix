@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event</title>
+    <title>Event Dashboard Full Screen</title>
     <style>
         * {
             margin: 0;
@@ -26,9 +26,9 @@
         .event-container {
             width: 100%;
             height: 100vh;
-            background: #f5eedc;
             display: flex;
             flex-direction: column;
+            padding-bottom: 60px; /* Jarak untuk footer */
         }
 
         .navbar {
@@ -37,11 +37,10 @@
             overflow-x: auto;
             white-space: nowrap;
             scrollbar-width: none;
+            z-index: 10;
         }
 
-        .navbar::-webkit-scrollbar {
-            display: none;
-        }
+        .navbar::-webkit-scrollbar { display: none; }
 
         .tab-link {
             flex: 1;
@@ -50,22 +49,27 @@
             font-size: 13px;
             border: none;
             background: transparent;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             outline: none;
             font-weight: 800;
             text-transform: uppercase;
             text-align: center;
             min-width: 150px;
+            cursor: pointer;
         }
 
-        .tab-link:active {
-            background: rgba(255, 255, 255, 0.05);
-            transform: scale(0.98);
+        /* --- LOGIK WARNA TAB ACTIVE --- */
+        
+        /* Warna saat Saran Aktif */
+        .tab-link.active-saran {
+            background: #ffffff !important;
+            color: #d32f2f !important;
         }
 
-        .tab-link.active {
-            color: #fff;
-            background: #2467ff;
+        /* Warna saat Japan Aktif */
+        .tab-link.active-japan {
+            background: #000000 !important;
+            color: #00d2ff !important;
         }
 
         .content-area {
@@ -96,11 +100,14 @@
             flex-shrink: 0;
         }
 
+        /* Gambar tidak bisa diklik/drag */
         .char-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            pointer-events: none;
+            user-select: none;
         }
 
         .info-box {
@@ -110,41 +117,23 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            text-align: left;
-            position: relative;
-            overflow: hidden;
         }
 
-        .info-box h2 {
-            font-size: 20px;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-
-        .info-box p {
-            font-size: 16px;
-            line-height: 1.8;
-            margin-bottom: 35px;
-            color: #333;
-            font-weight: 500;
-            max-width: 500px;
-        }
+        .info-box h2 { font-size: 28px; margin-bottom: 20px; font-weight: 900; }
+        .info-box p { font-size: 16px; line-height: 1.8; margin-bottom: 35px; color: #333; font-weight: 500; max-width: 500px; }
 
         .btn-action {
+            display: inline-block;
             padding: 18px 45px;
             border-radius: 50px;
-            border: none;
+            text-decoration: none;
             color: #fff;
             font-weight: 700;
             text-transform: uppercase;
-            outline: none;
             transition: 0.2s;
         }
 
-        .btn-action:active {
-            filter: brightness(0.8);
-        }
-
+        /* Style Content */
         #saran .info-box { background: #fff; }
         #saran h2 { color: #d32f2f; }
         #saran .btn-action { background: #d32f2f; }
@@ -152,33 +141,27 @@
         #japan .info-box { background: #000; color: #fff; }
         #japan p { color: #ccc; }
         #japan h2 { color: #00d2ff; }
-        #japan .btn-action { 
-            background: #00d2ff; 
-            color: #0a0a20;
-        }
+        #japan .btn-action { background: #00d2ff; color: #000; }
 
-        .floating-jp {
-            position: absolute;
-            right: 40px;
-            top: 40px;
-            font-size: 120px;
-            opacity: 0.1;
-            color: #fff;
-            animation: float 4s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-30px); }
+        /* Footer Tetap di Bawah */
+        .footer-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: #121212;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 12px;
         }
 
         @media (max-width: 800px) {
             .event-card { flex-direction: column; }
-            .char-box, .info-box { width: 100%; }
-            .char-box { height: 35%; }
-            .info-box { height: 65%; padding: 30px; align-items: center; text-align: center; }
-            .navbar { justify-content: flex-start; }
-            .tab-link { flex: none; width: auto; }
+            .char-box { height: 35%; width: 100%; }
+            .info-box { height: 65%; width: 100%; padding: 30px; align-items: center; text-align: center; }
         }
     </style>
 </head>
@@ -186,8 +169,8 @@
 
 <div class="event-container">
     <div class="navbar">
-        <button class="tab-link active" onclick="openEvent(event, 'saran')">Saran Masukan</button>
-        <button class="tab-link" onclick="openEvent(event, 'japan')">Games Japan Learn</button>>
+        <button class="tab-link active-saran" onclick="openEvent(event, 'saran', 'active-saran')">Saran Masukan</button>
+        <button class="tab-link" onclick="openEvent(event, 'japan', 'active-japan')">Games Japan Learn</button>
         <button class="tab-link">Coming soon</button>
     </div>
 
@@ -198,7 +181,7 @@
                 <div class="info-box">
                     <h2>SARAN & MASUKAN</h2>
                     <p>Bantu kami membangun komunitas yang lebih baik. Suaramu sangat berarti untuk perkembangan server ke depannya agar semakin seru!</p>
-                    <button class="btn-action">ISI FORMULIR</button>
+                    <a href="https://forms.google.com/link-kamu" target="_blank" class="btn-action">ISI FORMULIR</a>
                 </div>
             </div>
         </div>
@@ -207,31 +190,42 @@
             <div class="event-card">
                 <div class="char-box"><img src="event2.png" alt="Japan"></div>
                 <div class="info-box">
-                    <div class="floating-jp">あ</div>
                     <h2>LEARNING JAPANESE</h2>
                     <p>Metode belajar unik lewat interaksi in-game. Kumpulkan poin bahasa dan tukarkan dengan item langka setiap minggu secara otomatis.</p>
-                    <button class="btn-action">MAIN SEKARANG</button>
+                    <a href="/event/learn" class="btn-action">MAIN SEKARANG</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<footer class="footer-fixed">
+    mineplix.my.id &copy; 2025 - Event
+</footer>
+
 <script>
-    function openEvent(evt, eventId) {
+    function openEvent(evt, eventId, activeClass) {
+        // Sembunyikan semua konten
         let contents = document.getElementsByClassName("tab-content");
         for (let i = 0; i < contents.length; i++) {
             contents[i].style.display = "none";
             contents[i].classList.remove("active");
         }
+
+        // Hapus semua class active (saran maupun japan) dari semua tab
         let tabs = document.getElementsByClassName("tab-link");
         for (let i = 0; i < tabs.length; i++) {
-            tabs[i].classList.remove("active");
+            tabs[i].classList.remove("active-saran");
+            tabs[i].classList.remove("active-japan");
         }
+
+        // Tampilkan konten yang dipilih
         const activeContent = document.getElementById(eventId);
         activeContent.style.display = "flex";
         activeContent.classList.add("active");
-        evt.currentTarget.classList.add("active");
+
+        // Tambahkan class warna spesifik ke tab yang diklik
+        evt.currentTarget.classList.add(activeClass);
     }
 </script>
 
