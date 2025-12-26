@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Dashboard Full Screen</title>
+    <title>Event</title>
     <style>
         * {
             margin: 0;
@@ -145,11 +145,11 @@
             filter: brightness(0.8);
         }
 
-        #saran .info-box { background: #fffcf5; }
+        #saran .info-box { background: #fff; }
         #saran h2 { color: #d32f2f; }
         #saran .btn-action { background: #d32f2f; }
         
-        #japan .info-box { background: #0a0a20; color: #fff; }
+        #japan .info-box { background: #000; color: #fff; }
         #japan p { color: #ccc; }
         #japan h2 { color: #00d2ff; }
         #japan .btn-action { 
@@ -167,29 +167,9 @@
             animation: float 4s infinite ease-in-out;
         }
 
-        #mineplix .info-box { background: #0d1b0d; color: #fff; }
-        #mineplix p { color: #889988; font-family: monospace; }
-        #mineplix h2 { color: #4caf50; }
-        #mineplix .btn-action { background: #4caf50; color: #0d1b0d; }
-
-        .scanline {
-            width: 100%;
-            height: 2px;
-            background: rgba(76, 175, 80, 0.1);
-            position: absolute;
-            top: 0;
-            left: 0;
-            animation: scan 4s linear infinite;
-        }
-
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-30px); }
-        }
-
-        @keyframes scan {
-            0% { top: 0%; }
-            100% { top: 100%; }
         }
 
         @media (max-width: 800px) {
@@ -207,14 +187,14 @@
 <div class="event-container">
     <div class="navbar">
         <button class="tab-link active" onclick="openEvent(event, 'saran')">Saran Masukan</button>
-        <button class="tab-link" onclick="openEvent(event, 'japan')">Games Japan Learn</button>
-        <button class="tab-link" onclick="openEvent(event, 'mineplix')">Mineplix X PlixSmp</button>
+        <button class="tab-link" onclick="openEvent(event, 'japan')">Games Japan Learn</button>>
+        <button class="tab-link">Coming soon</button>
     </div>
 
     <div class="content-area">
         <div id="saran" class="tab-content active">
             <div class="event-card">
-                <div class="char-box"><img src="https://via.placeholder.com/600x800/d32f2f/fff?text=SURVEI" alt="Saran"></div>
+                <div class="char-box"><img src="event1.png" alt="Saran"></div>
                 <div class="info-box">
                     <h2>SARAN & MASUKAN</h2>
                     <p>Bantu kami membangun komunitas yang lebih baik. Suaramu sangat berarti untuk perkembangan server ke depannya agar semakin seru!</p>
@@ -225,24 +205,12 @@
 
         <div id="japan" class="tab-content">
             <div class="event-card">
-                <div class="char-box"><img src="https://via.placeholder.com/600x800/00d2ff/000?text=JAPAN" alt="Japan"></div>
+                <div class="char-box"><img src="event2.png" alt="Japan"></div>
                 <div class="info-box">
                     <div class="floating-jp">あ</div>
-                    <h2>JAPANESE LEARNING</h2>
+                    <h2>LEARNING JAPANESE</h2>
                     <p>Metode belajar unik lewat interaksi in-game. Kumpulkan poin bahasa dan tukarkan dengan item langka setiap minggu secara otomatis.</p>
                     <button class="btn-action">MAIN SEKARANG</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="mineplix" class="tab-content">
-            <div class="event-card">
-                <div class="char-box"><img src="https://via.placeholder.com/600x800/4caf50/000?text=MINEPLIX" alt="Mineplix"></div>
-                <div class="info-box">
-                    <div class="scanline"></div>
-                    <h2>COMUNITY COLAB</h2>
-                    <p>Sinergi dua dunia! Masuki gerbang kolaborasi eksklusif dengan fitur survival yang telah ditingkatkan sepenuhnya untuk komunitas.</p>
-                    <button class="btn-action">GABUNG SERVER</button>
                 </div>
             </div>
         </div>
