@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mineplix - Minecraft Survival Server</title>
-  <meta name="description" content="Mineplix adalah server Minecraft Survival Indonesia terbaik dengan mode Ecowar unik, Custom Economy, Land Claim, Rank System, dan Cross-Play Java & Bedrock Edition.">
+    <meta name="description" content="Mineplix adalah server Minecraft Survival Indonesia terbaik dengan mode Ecowar unik, Custom Economy, Land Claim, Rank System, dan Cross-Play Java & Bedrock Edition.">
     <meta name="keywords" content="Minecraft, Server Minecraft Indonesia, Mineplix, Minecraft Survival">
     <meta name="author" content="Mineplix Team">
     <link rel="icon" type="image/png" href="https://mineplix.biz.id/publick/img/icon.png">
@@ -20,25 +20,32 @@
     <meta name="twitter:image" content="https://mineplix.biz.id/publick/img/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Syne:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Syne:wght@800;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --bg-blue: #0236dd;
-            --bg-dark-blue: #0023a0;
             --neon-green: #a3ff12;
-            --neon-green-hover: #82e000;
             --text-white: #ffffff;
             --text-dark: #0a0a14;
-            --card-bg: #f4f5f8;
             --font-main: 'Plus Jakarta Sans', sans-serif;
             --font-hero: 'Syne', sans-serif;
+            --card-purple: #5e3df2;
+            --card-purple-light: #704eff;
+            --card-lime-dark: #1a2e05;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            outline: none;
+            cursor: default !important;
+        }
+
+        ::selection {
+            background-color: var(--bg-blue);
+            color: var(--text-white);
         }
 
         body {
@@ -51,7 +58,7 @@
         .hero-wrapper {
             position: sticky;
             top: 0;
-            height: 50vh;
+            height: 40vh;
             width: 100%;
             background-color: var(--bg-blue);
             background-image: 
@@ -70,12 +77,12 @@
             align-items: center;
             padding: 20px 5%;
             min-height: 80px;
+            background-color: var(--bg-blue);
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 100;
-            transition: all 0.3s ease;
         }
 
         .logo {
@@ -86,18 +93,14 @@
             font-size: 1.35rem;
             color: var(--text-white);
             text-decoration: none;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 8px 22px 8px 14px;
+            padding: 8px 0px;
             height: 50px;
-            border-radius: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
             letter-spacing: -0.5px;
-            transition: all 0.3s ease;
+            transition: transform 0.1s ease;
         }
 
-        .logo:hover {
-            background: rgba(255, 255, 255, 0.25);
+        .logo:hover, .logo:active {
+            transform: scale(0.98);
         }
 
         .logo-img {
@@ -121,21 +124,24 @@
             transition: all 0.3s ease;
         }
 
-        .nav-links a {
+        .nav-links div {
             color: var(--text-white);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
             padding: 8px 20px;
             border-radius: 30px;
-            transition: all 0.3s ease;
+            transition: transform 0.1s ease;
             display: inline-flex;
             align-items: center;
             height: 100%;
         }
 
-        .nav-links a:hover,
-        .nav-links a.active {
+        .nav-links div:hover, .nav-links div:active {
+            transform: scale(0.96);
+        }
+
+        .nav-links div.active {
             background-color: rgba(255, 255, 255, 0.2);
         }
 
@@ -151,57 +157,26 @@
             border-radius: 40px;
             font-weight: 800;
             font-size: 0.95rem;
-            cursor: pointer;
             text-decoration: none;
             backdrop-filter: blur(12px);
-            transition: all 0.3s ease;
+            transition: transform 0.1s ease;
         }
 
-        .btn-store:hover {
-            background: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-        }
-
-        /* EFEK SCROLL: BACKGROUND ICON TITLE, DESKTOP NAV BAR & STORE BUTTON MENJADI TRANSPARAN */
-        .navbar.scrolled {
-            background-color: var(--bg-blue);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            padding: 14px 5%;
-        }
-
-        .navbar.scrolled .logo {
-            background: transparent !important;
-            border-color: transparent !important;
-            backdrop-filter: none !important;
-            box-shadow: none !important;
-            padding-left: 0;
-        }
-
-        @media (min-width: 769px) {
-            .navbar.scrolled .nav-links,
-            .navbar.scrolled .btn-store {
-                background: transparent !important;
-                border-color: transparent !important;
-                backdrop-filter: none !important;
-                box-shadow: none !important;
-            }
-
-            .navbar.scrolled .btn-store:hover {
-                background: rgba(255, 255, 255, 0.1) !important;
-            }
-        }
-
-        .navbar.scrolled .burger div {
-            background-color: var(--text-white);
+        .btn-store:hover, .btn-store:active {
+            transform: scale(0.98);
         }
 
         .burger {
             display: none;
-            cursor: pointer;
             flex-direction: column;
             gap: 6px;
             z-index: 101;
             padding: 8px;
+            transition: transform 0.1s ease;
+        }
+
+        .burger:hover, .burger:active {
+            transform: scale(0.95);
         }
 
         .burger div {
@@ -214,29 +189,28 @@
 
         .close-btn {
             display: none;
-            position: absolute;
-            top: 32px;
+            position: fixed;
+            top: 24px;
             right: 5%;
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            background: transparent;
-            border: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.2s ease;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+        }
+
+        .close-btn:hover, .close-btn:active {
+            transform: scale(0.9);
         }
 
         .close-btn svg {
-            width: 32px;
-            height: 32px;
+            width: 24px;
+            height: 24px;
             stroke: var(--text-white);
-            stroke-width: 2.5;
+            stroke-width: 3;
             stroke-linecap: round;
-        }
-
-        .close-btn:hover {
-            opacity: 0.7;
         }
 
         .hero {
@@ -261,7 +235,6 @@
             user-select: none;
             max-width: 1000px;
             margin: 0 auto;
-            word-wrap: break-word;
         }
 
         .hero-title .highlight {
@@ -272,164 +245,299 @@
             position: relative;
             z-index: 10;
             background-color: #ffffff;
-            border-radius: 40px 40px 0 0;
-            padding: 60px 5% 40px;
+            padding: 20px 20px 0 20px;
             color: var(--text-dark);
-            box-shadow: none;
-            margin-top: 0;
-            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1200px;
+        .grid-container {
             margin: 0 auto;
             width: 100%;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
         }
 
-        .info-card {
-            background-color: var(--card-bg);
-            border-radius: 28px;
-            padding: 32px 26px;
+        .card-wiki {
+            background-color: var(--card-purple);
+            color: #ffffff;
+            border-radius: 36px;
+            padding: 48px 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 250px;
-            transition: transform 0.3s ease;
+            min-height: 480px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .info-card:hover {
-            transform: translateY(-6px);
-        }
-
-        .info-card h3 {
+        .card-wiki-title {
             font-family: var(--font-hero);
-            font-size: 1.35rem;
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.05;
+            letter-spacing: -1px;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            margin-bottom: 20px;
         }
 
-        .info-card p {
-            font-size: 0.82rem;
-            color: #666;
+        .card-wiki-title .highlight-text {
+            color: var(--neon-green);
+        }
+
+        .card-wiki-desc {
+            font-size: 1rem;
             font-weight: 600;
-            line-height: 1.4;
+            line-height: 1.6;
+            opacity: 0.9;
+            max-width: 90%;
+            margin-bottom: 30px;
         }
 
-        /* TOMBOL CARD DENGAN HEIGHT & PADDING LEBIH BESAR */
-        .card-pill {
-            margin-top: 20px;
+        .btn-wiki-action {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 30px;
-            padding: 14px 22px;
-            min-height: 48px;
+            gap: 12px;
+            background-color: var(--neon-green);
+            color: var(--card-lime-dark);
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 18px 36px;
+            border-radius: 100px;
+            text-decoration: none;
+            width: fit-content;
+            transition: transform 0.1s ease;
+        }
+
+        .btn-wiki-action:hover, .btn-wiki-action:active {
+            transform: scale(0.97);
+        }
+
+        .btn-wiki-action svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card-info {
+            border-radius: 32px;
+            padding: 32px 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex: 1;
+            position: relative;
+        }
+
+        .card-java {
+            background-color: var(--card-purple-light);
+            color: #ffffff;
+        }
+
+        .card-bedrock {
+            background-color: var(--neon-green);
+            color: var(--card-lime-dark);
+        }
+
+        .card-badge {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .card-info-title {
+            font-family: var(--font-hero);
+            font-size: 1.6rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        .copy-pill-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-radius: 100px;
             font-weight: 800;
             font-size: 0.9rem;
+            border: none;
             width: 100%;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            transition: transform 0.1s ease;
         }
 
-        .card-pill:active {
-            transform: scale(0.98);
+        .copy-pill-btn:active {
+            transform: scale(0.97);
         }
 
-        .pill-blue {
-            background-color: var(--bg-blue);
-            color: white;
+        .card-java .copy-pill-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
         }
 
-        .pill-blue:hover {
-            opacity: 0.9;
+        .card-bedrock .copy-pill-btn {
+            background-color: rgba(26, 46, 5, 0.12);
+            color: var(--card-lime-dark);
         }
 
-        .copyable-pill {
-            cursor: pointer;
-            user-select: none;
+        .copy-icon {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+            flex-shrink: 0;
+            margin-left: 8px;
         }
 
-        .copyable-pill.copied {
-            background-color: #10b981 !important;
-            color: white !important;
+        .bedrock-address-group {
+            display: flex;
+            gap: 8px;
         }
 
         .footer {
-            margin-top: 60px;
-            padding-top: 30px;
-            border-top: 1px solid #e5e7eb;
+            margin-top: 20px;
+            padding: 50px 5% 40px;
+            background-color: var(--bg-blue);
+            color: var(--text-white);
+            margin-left: -5vw;
+            margin-right: -5vw;
+            margin-bottom: -20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 350px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: var(--text-white);
+        }
+
+        .footer-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .footer-nav-group {
+            display: flex;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav-col {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .footer-nav-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-green);
+        }
+
+        .footer-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            list-style: none;
+        }
+
+        .footer-nav-links div {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .footer-nav-links div:hover {
+            opacity: 0.8;
+        }
+
+        .footer-bottom {
+            width: 90%;
+            margin: 0 auto;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 16px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            width: 100%;
         }
 
         .footer-text {
             font-size: 0.85rem;
-            color: #71717a;
+            color: rgba(255, 255, 255, 0.6);
             font-weight: 600;
         }
 
-        .footer-links {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-        }
-
-        .footer-links a {
-            color: #71717a;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 700;
-            transition: color 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--bg-blue);
-        }
-
-        @media (max-width: 992px) {
-            .cards-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-wrapper {
-                height: 50vh;
-            }
-
-            .cards-grid {
+        @media (max-width: 868px) {
+            .grid-container {
                 grid-template-columns: 1fr;
+            }
+
+            .card-wiki {
+                min-height: auto;
+                padding: 36px 28px;
+            }
+
+            .card-wiki-desc {
+                max-width: 100%;
+            }
+
+            .hero-wrapper {
+                height: 35vh;
             }
 
             .burger {
                 display: flex;
             }
 
-            .navbar .nav-links,
-            .navbar.scrolled .nav-links {
+            .navbar .nav-links {
                 position: fixed !important;
                 top: 0 !important;
                 left: 0 !important;
                 width: 100vw !important;
                 height: 100vh !important;
                 background-color: #0236dd !important;
-                background: #0236dd !important;
                 flex-direction: column !important;
                 justify-content: center !important;
                 align-items: center !important;
@@ -444,24 +552,19 @@
                 transition: opacity 0.3s ease, visibility 0.3s ease;
             }
 
-            .navbar .nav-links.active,
-            .navbar.scrolled .nav-links.active {
+            .navbar .nav-links.active {
                 opacity: 1 !important;
                 visibility: visible !important;
             }
 
-            .close-btn {
-                display: flex;
+            .close-btn.active {
+                display: flex !important;
             }
 
-            .nav-links a {
+            .nav-links div {
                 color: var(--text-white) !important;
                 font-size: 1.6rem;
                 font-weight: 800;
-                padding: 12px 30px;
-                border-radius: 30px;
-                text-align: center;
-                height: auto;
             }
 
             .btn-store {
@@ -472,13 +575,22 @@
                 display: inline-block !important;
             }
 
-            .hero {
-                padding: 60px 15px 20px;
+            .footer {
+                margin-left: -20px;
+                margin-right: -20px;
             }
 
-            .footer {
+            .footer-top {
+                flex-direction: column;
+            }
+
+            .footer-bottom {
                 flex-direction: column;
                 text-align: center;
+            }
+
+            .bedrock-address-group {
+                flex-direction: column;
             }
         }
     </style>
@@ -486,24 +598,24 @@
 <body>
 
     <nav class="navbar" id="navbar">
-        <a href="/" class="logo">
+        <div onclick="window.location.href='/'" class="logo">
             <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/32'">
             Mineplix
-        </a>
+        </div>
 
         <ul class="nav-links" id="navLinks">
-            <button class="close-btn" id="closeBtn" aria-label="Close Menu">
-                <svg viewBox="0 0 24 24" fill="none">
-                    <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-            </button>
-
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/com">Community</a></li>
-            <li><a href="https://store.mineplix.biz.id" target="_blank" class="mobile-store-btn" style="display: none;">Mineplix store</a></li>
+            <li><div onclick="window.location.href='/'" class="active">Home</div></li>
+            <li><div onclick="window.location.href='/com'">Community</div></li>
+            <li><div onclick="window.open('https://store.mineplix.biz.id', '_blank')" class="mobile-store-btn" style="display: none;">Mineplix store</div></li>
         </ul>
 
-        <a href="https://store.mineplix.biz.id" target="_blank" class="btn-store">Mineplix store</a>
+        <div class="close-btn" id="closeBtn" aria-label="Close Menu">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+        </div>
+
+        <div onclick="window.open('https://store.mineplix.biz.id', '_blank')" class="btn-store">Mineplix store</div>
 
         <div class="burger" id="burgerToggle">
             <div class="line1"></div>
@@ -521,127 +633,140 @@
     </div>
 
     <div class="bottom-container">
-        <div class="cards-grid">
-            
-            <div class="info-card">
+        <div class="grid-container">
+            <div class="card-wiki">
                 <div>
-                    <h3>ECOWAR &<br>LET'S FOR SURVIVE</h3>
-                    <p>Selamat datang di Mineplix! Server survival dengan mode Ecowar unik dan pengalaman bertahan hidup yang seru.</p>
+                    <h2 class="card-wiki-title">
+                        SERVER GUIDE &<br><span class="highlight-text">WIKI MINEPLIX</span>
+                    </h2>
+                    <p class="card-wiki-desc">
+                        Temukan panduan lengkap bermain di Mineplix! Pelajari cara klaim wilayah (Land Claim), perintah dasar, sistem pekerjaan (Jobs), custom items, hingga tutorial ekonomi server untuk memulai petualanganmu.
+                    </p>
                 </div>
-                <div class="card-pill pill-blue" style="justify-content: space-between;">
-                    <span>STATUS SERVER</span>
-                    <span style="background: var(--neon-green); color: black; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">ONLINE</span>
-                </div>
-            </div>
-
-            <div class="info-card">
                 <div>
-                    <h3>IP PORT INDO<br>(JAVA & BEDROCK)</h3>
-                    <p>Klik tombol IP atau Port di bawah ini untuk menyalin secara otomatis for java ip only!.</p>
-                </div>
-                <div style="display: flex; gap: 8px; margin-top: 20px;">
-                    <div class="card-pill pill-blue copyable-pill" style="flex: 1; font-size: 0.8rem;" data-copy="play.mineplix.my.id">
-                        play.mineplix.my.id
-                    </div>
-                    <div class="card-pill pill-blue copyable-pill" style="width: auto; padding: 14px 16px; font-size: 0.85rem;" data-copy="25672">
-                        25672
+                    <div onclick="window.open('https://wiki.mineplix.my.id', '_blank')" class="btn-wiki-action">
+                        <span>BUKA WIKI MINEPLIX</span>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 6v2h8.59L3.41 19.17l1.41 1.41L16 9.41V18h2V6H6z"/>
+                        </svg>
                     </div>
                 </div>
             </div>
 
-            <div class="info-card">
-                <div>
-                    <h3>UNIQUE<br>FEATURES</h3>
-                    <p>Nikmati berbagai macam fitur unggulan seperti Custom Economy, Land Claim system, Rank System interaktif, Quest menarik, serta event seru yang selalu hadir setiap minggunya untuk meningkatkan pengalaman bermain kamu!</p>
+            <div class="right-column">
+                <div class="card-info card-java">
+                    <div>
+                        <span class="card-badge">Java Edition</span>
+                        <h3 class="card-info-title">SERVER IP JAVA</h3>
+                    </div>
+                    <div class="copy-pill-btn" data-copy="play.mineplix.my.id">
+                        <span class="btn-label">play.mineplix.my.id</span>
+                        <svg class="copy-icon" viewBox="0 0 24 24">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="card-info card-bedrock">
+                    <div>
+                        <span class="card-badge">Bedrock Edition</span>
+                        <h3 class="card-info-title">IP & PORT BEDROCK</h3>
+                    </div>
+                    <div class="bedrock-address-group">
+                        <div class="copy-pill-btn" style="flex: 1.2;" data-copy="play.mineplix.my.id">
+                            <span class="btn-label">play.mineplix.my.id</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                        </div>
+                        <div class="copy-pill-btn" style="flex: 0.8;" data-copy="25672">
+                            <span class="btn-label">Port: 25672</span>
+                            <svg class="copy-icon" viewBox="0 0 24 24">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="info-card">
-                <div>
-                    <h3>SERVER GUIDE<br>& TUTORIAL</h3>
-                    <p>Panduan lengkap pemula, cara klaim land, dan command server.</p>
-                </div>
-                <a href="https://wiki.mineplix.biz.id/guide" target="_blank" class="card-pill pill-blue">
-                    BACA PANDUAN
-                </a>
-            </div>
-
-            <div class="info-card">
-                <div>
-                    <h3>SERVER WIKI<br>& FEATURES</h3>
-                    <p>Informasi seputar custom items, job system, dan fitur survival.</p>
-                </div>
-                <a href="https://wiki.mineplix.my.id" target="_blank" class="card-pill pill-blue">
-                    BUKA WIKI
-                </a>
-            </div>
-
-            <div class="info-card">
-                <div>
-                    <h3>COMMUNITY<br>& SUPPORT</h3>
-                    <p>Bergabung dengan Discord kami untuk bantuan & diskusi pemain.</p>
-                </div>
-                <a href="https://discord.gg" target="_blank" class="card-pill pill-blue">
-                    JOIN DISCORD
-                </a>
-            </div>
-
         </div>
 
         <footer class="footer">
-            <p class="footer-text">&copy; Mineplix 2k26. All rights reserved.</p>
-            <ul class="footer-links">
-                <li><a href="/terms">Terms</a></li>
-                <li><a href="/privacy">Privacy Policy</a></li>
-            </ul>
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" width="28" height="28" style="border-radius: 50%;">
+                        Mineplix
+                    </div>
+                    <p class="footer-desc">
+                        Server Minecraft Survival Indonesia terbaik dengan mode Ecowar, Custom Economy, Land Claim, dan sistem Cross-Play Java & Bedrock.
+                    </p>
+                </div>
+
+                <div class="footer-nav-group">
+                    <div class="footer-nav-col">
+                        <span class="footer-nav-title">Navigasi</span>
+                        <ul class="footer-nav-links">
+                            <li><div onclick="window.location.href='/'">Home</div></li>
+                            <li><div onclick="window.location.href='/com'">Community</div></li>
+                            <li><div onclick="window.open('https://store.mineplix.biz.id', '_blank')">Store</div></li>
+                            <li><div onclick="window.open('https://wiki.mineplix.my.id', '_blank')">Wiki & Guide</div></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-nav-col">
+                        <span class="footer-nav-title">Informasi</span>
+                        <ul class="footer-nav-links">
+                            <li><div onclick="window.location.href='/terms'">Terms of Service</div></li>
+                            <li><div onclick="window.location.href='/privacy'">Privacy Policy</div></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-text">&copy; Mineplix 2k26. All rights reserved.</p>
+                <p class="footer-text">Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+            </div>
         </footer>
     </div>
 
     <script>
-        const navbar = document.getElementById('navbar');
         const burger = document.getElementById('burgerToggle');
         const navLinks = document.getElementById('navLinks');
         const closeBtn = document.getElementById('closeBtn');
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
+        function closeMenu() {
+            navLinks.classList.remove('active');
+            closeBtn.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
 
         burger.addEventListener('click', () => {
             navLinks.classList.add('active');
+            closeBtn.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
 
-        closeBtn.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
+        closeBtn.addEventListener('click', closeMenu);
 
-        const menuItems = navLinks.querySelectorAll('a');
+        const menuItems = navLinks.querySelectorAll('div');
         menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
+            item.addEventListener('click', closeMenu);
         });
 
-        const copyableElements = document.querySelectorAll('.copyable-pill');
-        copyableElements.forEach(elem => {
-            const originalText = elem.innerText;
-            elem.addEventListener('click', () => {
-                const textToCopy = elem.getAttribute('data-copy');
+        const copyableButtons = document.querySelectorAll('.copy-pill-btn');
+        copyableButtons.forEach(btn => {
+            const labelSpan = btn.querySelector('.btn-label');
+            const originalText = labelSpan.innerText;
+
+            btn.addEventListener('click', () => {
+                const textToCopy = btn.getAttribute('data-copy');
                 navigator.clipboard.writeText(textToCopy);
 
-                elem.innerText = "Telah disalin!";
-                elem.classList.add('copied');
+                labelSpan.innerText = "Disalin!";
 
                 setTimeout(() => {
-                    elem.innerText = originalText;
-                    elem.classList.remove('copied');
+                    labelSpan.innerText = originalText;
                 }, 2000);
             });
         });
