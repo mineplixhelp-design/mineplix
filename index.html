@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mineplix - Minecraft Survival Server</title>
+  <meta name="description" content="Mineplix adalah server Minecraft Survival Indonesia terbaik dengan mode Ecowar unik, Custom Economy, Land Claim, Rank System, dan Cross-Play Java & Bedrock Edition.">
+    <meta name="keywords" content="Minecraft, Server Minecraft Indonesia, Mineplix, Minecraft Survival, Server Bedrock, Server Java, Ecowar, Game Survival">
+    <meta name="author" content="Mineplix Team">
+    <link rel="icon" type="image/png" href="https://mineplix.biz.id/publick/img/icon.png">
+    <link rel="apple-touch-icon" href="https://mineplix.biz.id/publick/img/icon.png">
+    <meta property="og:title" content="Mineplix - Minecraft Survival Server">
+    <meta property="og:description" content="Bergabunglah dengan Mineplix! Server survival Minecraft terbaik di Indonesia. Mainkan mode Ecowar unik bersama teman-temanmu di Java & Bedrock.">
+    <meta property="og:image" content="https://mineplix.biz.id/publick/img/icon.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:url" content="https://mineplix.biz.id">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Mineplix - Minecraft Survival Server">
+    <meta name="twitter:description" content="Server Minecraft Survival Indonesia dengan Custom Economy, Land Claim, dan Cross-Play Java/Bedrock.">
+    <meta name="twitter:image" content="https://mineplix.biz.id/publick/img/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800;900&family=Syne:wght@800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-blue: #0236dd;
+            --bg-dark-blue: #0023a0;
+            --neon-green: #a3ff12;
+            --neon-green-hover: #82e000;
+            --text-white: #ffffff;
+            --text-dark: #0a0a14;
+            --card-bg: #f4f5f8;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+            --font-hero: 'Syne', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-blue);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+
+        .hero-wrapper {
+            position: sticky;
+            top: 0;
+            height: 50vh;
+            width: 100%;
+            background-color: var(--bg-blue);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 1;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            min-height: 80px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 1.35rem;
+            color: var(--text-white);
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 22px 8px 14px;
+            height: 50px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(12px);
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            height: 50px;
+            border-radius: 40px;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-store {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-white);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 8px 26px;
+            height: 50px;
+            border-radius: 40px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-store:hover {
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        /* EFEK SCROLL: BACKGROUND ICON TITLE, DESKTOP NAV BAR & STORE BUTTON MENJADI TRANSPARAN */
+        .navbar.scrolled {
+            background-color: var(--bg-blue);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            padding: 14px 5%;
+        }
+
+        .navbar.scrolled .logo {
+            background: transparent !important;
+            border-color: transparent !important;
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+            padding-left: 0;
+        }
+
+        @media (min-width: 769px) {
+            .navbar.scrolled .nav-links,
+            .navbar.scrolled .btn-store {
+                background: transparent !important;
+                border-color: transparent !important;
+                backdrop-filter: none !important;
+                box-shadow: none !important;
+            }
+
+            .navbar.scrolled .btn-store:hover {
+                background: rgba(255, 255, 255, 0.1) !important;
+            }
+        }
+
+        .navbar.scrolled .burger div {
+            background-color: var(--text-white);
+        }
+
+        .burger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 101;
+            padding: 8px;
+        }
+
+        .burger div {
+            width: 28px;
+            height: 3px;
+            background-color: var(--text-white);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn {
+            display: none;
+            position: absolute;
+            top: 32px;
+            right: 5%;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: none;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s ease;
+        }
+
+        .close-btn svg {
+            width: 32px;
+            height: 32px;
+            stroke: var(--text-white);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .close-btn:hover {
+            opacity: 0.7;
+        }
+
+        .hero {
+            position: relative;
+            text-align: center;
+            padding: 80px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .hero-title {
+            font-family: var(--font-hero);
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            text-transform: uppercase;
+            color: var(--text-white);
+            user-select: none;
+            max-width: 1000px;
+            margin: 0 auto;
+            word-wrap: break-word;
+        }
+
+        .hero-title .highlight {
+            color: var(--neon-green);
+        }
+
+        .bottom-container {
+            position: relative;
+            z-index: 10;
+            background-color: #ffffff;
+            border-radius: 40px 40px 0 0;
+            padding: 60px 5% 40px;
+            color: var(--text-dark);
+            box-shadow: none;
+            margin-top: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .info-card {
+            background-color: var(--card-bg);
+            border-radius: 28px;
+            padding: 32px 26px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .info-card h3 {
+            font-family: var(--font-hero);
+            font-size: 1.35rem;
+            font-weight: 900;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .info-card p {
+            font-size: 0.82rem;
+            color: #666;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* TOMBOL CARD DENGAN HEIGHT & PADDING LEBIH BESAR */
+        .card-pill {
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 30px;
+            padding: 14px 22px;
+            min-height: 48px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            width: 100%;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .card-pill:active {
+            transform: scale(0.98);
+        }
+
+        .pill-blue {
+            background-color: var(--bg-blue);
+            color: white;
+        }
+
+        .pill-blue:hover {
+            opacity: 0.9;
+        }
+
+        .copyable-pill {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .copyable-pill.copied {
+            background-color: #10b981 !important;
+            color: white !important;
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: #71717a;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #71717a;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 700;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--bg-blue);
+        }
+
+        @media (max-width: 992px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-wrapper {
+                height: 50vh;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .navbar .nav-links,
+            .navbar.scrolled .nav-links {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                background-color: #0236dd !important;
+                background: #0236dd !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                align-items: center !important;
+                gap: 24px !important;
+                padding: 40px 20px !important;
+                border-radius: 0 !important;
+                border: none !important;
+                backdrop-filter: none !important;
+                z-index: 9999 !important;
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+
+            .navbar .nav-links.active,
+            .navbar.scrolled .nav-links.active {
+                opacity: 1 !important;
+                visibility: visible !important;
+            }
+
+            .close-btn {
+                display: flex;
+            }
+
+            .nav-links a {
+                color: var(--text-white) !important;
+                font-size: 1.6rem;
+                font-weight: 800;
+                padding: 12px 30px;
+                border-radius: 30px;
+                text-align: center;
+                height: auto;
+            }
+
+            .btn-store {
+                display: none;
+            }
+
+            .mobile-store-btn {
+                display: inline-block !important;
+            }
+
+            .hero {
+                padding: 60px 15px 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar" id="navbar">
+        <a href="/" class="logo">
+            <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/32'">
+            Mineplix
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+            <button class="close-btn" id="closeBtn" aria-label="Close Menu">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/com">Community</a></li>
+            <li><a href="https://store.mineplix.biz.id" target="_blank" class="mobile-store-btn" style="display: none;">Mineplix store</a></li>
+        </ul>
+
+        <a href="https://store.mineplix.biz.id" target="_blank" class="btn-store">Mineplix store</a>
+
+        <div class="burger" id="burgerToggle">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <div class="hero-wrapper">
+        <section class="hero">
+            <h1 class="hero-title">
+                <span class="highlight">#</span>Let's For<br>Survive
+            </h1>
+        </section>
+    </div>
+
+    <div class="bottom-container">
+        <div class="cards-grid">
+            
+            <div class="info-card">
+                <div>
+                    <h3>ECOWAR &<br>LET'S FOR SURVIVE</h3>
+                    <p>Selamat datang di Mineplix! Server survival dengan mode Ecowar unik dan pengalaman bertahan hidup yang seru.</p>
+                </div>
+                <div class="card-pill pill-blue" style="justify-content: space-between;">
+                    <span>STATUS SERVER</span>
+                    <span style="background: var(--neon-green); color: black; padding: 2px 8px; border-radius: 10px; font-size: 0.75rem;">ONLINE</span>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div>
+                    <h3>IP PORT INDO<br>(JAVA & BEDROCK)</h3>
+                    <p>Klik tombol IP atau Port di bawah ini untuk menyalin secara otomatis for java ip only!.</p>
+                </div>
+                <div style="display: flex; gap: 8px; margin-top: 20px;">
+                    <div class="card-pill pill-blue copyable-pill" style="flex: 1; font-size: 0.8rem;" data-copy="play.mineplix.my.id">
+                        play.mineplix.my.id
+                    </div>
+                    <div class="card-pill pill-blue copyable-pill" style="width: auto; padding: 14px 16px; font-size: 0.85rem;" data-copy="25672">
+                        25672
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div>
+                    <h3>UNIQUE<br>FEATURES</h3>
+                    <p>Nikmati berbagai macam fitur unggulan seperti Custom Economy, Land Claim system, Rank System interaktif, Quest menarik, serta event seru yang selalu hadir setiap minggunya untuk meningkatkan pengalaman bermain kamu!</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div>
+                    <h3>SERVER GUIDE<br>& TUTORIAL</h3>
+                    <p>Panduan lengkap pemula, cara klaim land, dan command server.</p>
+                </div>
+                <a href="https://wiki.mineplix.biz.id/guide" target="_blank" class="card-pill pill-blue">
+                    BACA PANDUAN
+                </a>
+            </div>
+
+            <div class="info-card">
+                <div>
+                    <h3>SERVER WIKI<br>& FEATURES</h3>
+                    <p>Informasi seputar custom items, job system, dan fitur survival.</p>
+                </div>
+                <a href="https://wiki.mineplix.my.id" target="_blank" class="card-pill pill-blue">
+                    BUKA WIKI
+                </a>
+            </div>
+
+            <div class="info-card">
+                <div>
+                    <h3>COMMUNITY<br>& SUPPORT</h3>
+                    <p>Bergabung dengan Discord kami untuk bantuan & diskusi pemain.</p>
+                </div>
+                <a href="https://discord.gg" target="_blank" class="card-pill pill-blue">
+                    JOIN DISCORD
+                </a>
+            </div>
+
+        </div>
+
+        <footer class="footer">
+            <p class="footer-text">&copy; Mineplix 2k26. All rights reserved.</p>
+            <ul class="footer-links">
+                <li><a href="/terms">Terms</a></li>
+                <li><a href="/privacy">Privacy Policy</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        const burger = document.getElementById('burgerToggle');
+        const navLinks = document.getElementById('navLinks');
+        const closeBtn = document.getElementById('closeBtn');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        burger.addEventListener('click', () => {
+            navLinks.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        closeBtn.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        const menuItems = navLinks.querySelectorAll('a');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        const copyableElements = document.querySelectorAll('.copyable-pill');
+        copyableElements.forEach(elem => {
+            const originalText = elem.innerText;
+            elem.addEventListener('click', () => {
+                const textToCopy = elem.getAttribute('data-copy');
+                navigator.clipboard.writeText(textToCopy);
+
+                elem.innerText = "Telah disalin!";
+                elem.classList.add('copied');
+
+                setTimeout(() => {
+                    elem.innerText = originalText;
+                    elem.classList.remove('copied');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
