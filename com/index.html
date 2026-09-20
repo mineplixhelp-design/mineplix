@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community - Mineplix Minecraft Survival Server</title>
-    <meta name="description" content="Bergabunglah dengan Komunitas Mineplix! Temukan link Discord, WhatsApp, dan Blog Resmi Mineplix Server Minecraft Indonesia.">
-    <meta name="keywords" content="Minecraft, Server Minecraft Indonesia, Mineplix Community, Discord Mineplix, WhatsApp Mineplix, Blog Mineplix">
+    <title>Community - Mineplix Minecraft Server</title>
+    <meta name="description" content="Bergabunglah dengan komunitas Mineplix melalui Discord dan WhatsApp untuk mendapatkan informasi terbaru, event, dan berinteraksi dengan sesama pemain.">
+    <meta name="keywords" content="Minecraft, Server Minecraft Indonesia, Mineplix, Komunitas Mineplix, Discord Mineplix, WhatsApp Mineplix">
     <meta name="author" content="Mineplix Team">
     <link rel="icon" type="image/png" href="https://mineplix.biz.id/publick/img/icon.png">
     <link rel="apple-touch-icon" href="https://mineplix.biz.id/publick/img/icon.png">
-    <meta property="og:title" content="Community - Mineplix Minecraft Survival Server">
-    <meta property="og:description" content="Bergabunglah dengan komunitas Mineplix! Dapatkan teman bermain baru, event seru, update terbaru di Discord, WhatsApp, dan Blog kami.">
+    <meta property="og:title" content="Community - Mineplix Minecraft Server">
+    <meta property="og:description" content="Bergabunglah dengan komunitas Mineplix melalui Discord dan WhatsApp untuk berinteraksi dengan sesama pemain.">
     <meta property="og:url" content="https://mineplix.biz.id/com">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://mineplix.biz.id/publick/img/icon.png">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Community - Mineplix Minecraft Survival Server">
-    <meta name="twitter:description" content="Gabung komunitas Mineplix via Discord, WhatsApp, dan ikuti Blog Resmi kami.">
+    <meta name="twitter:title" content="Community - Mineplix Minecraft Server">
+    <meta name="twitter:description" content="Komunitas resmi Mineplix di Discord dan WhatsApp.">
     <meta name="twitter:image" content="https://mineplix.biz.id/publick/img/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,9 +30,6 @@
             --text-dark: #0a0a14;
             --font-main: 'Plus Jakarta Sans', sans-serif;
             --font-hero: 'Syne', sans-serif;
-            --card-purple: #5e3df2;
-            --card-purple-light: #704eff;
-            --card-orange-dark: #cc5200;
         }
 
         * {
@@ -44,31 +41,20 @@
         }
 
         ::selection {
-            background-color: var(--bg-blue);
-            color: var(--text-white);
+            background-color: #ffffff;
+            color: var(--bg-blue);
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         body {
             font-family: var(--font-main);
             background-color: var(--bg-blue);
             color: var(--text-white);
-            overflow-x: hidden;
-        }
-
-        .hero-wrapper {
-            position: sticky;
-            top: 0;
-            height: 40vh;
-            width: 100%;
-            background-color: var(--bg-blue);
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            z-index: 1;
         }
 
         .navbar {
@@ -77,7 +63,7 @@
             align-items: center;
             padding: 20px 5%;
             min-height: 80px;
-            background-color: var(--bg-blue);
+            background-color: rgba(2, 54, 221, 0.5);
             position: fixed;
             top: 0;
             left: 0;
@@ -93,7 +79,6 @@
             font-size: 1.35rem;
             color: var(--text-white);
             text-decoration: none;
-            padding: 8px 0px;
             height: 50px;
             letter-spacing: -0.5px;
             transition: transform 0.1s ease;
@@ -126,7 +111,6 @@
 
         .nav-links div {
             color: var(--text-white);
-            text-decoration: none;
             font-size: 0.9rem;
             font-weight: 700;
             padding: 8px 20px;
@@ -145,6 +129,10 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
 
+        .mobile-store-item {
+            display: none;
+        }
+
         .btn-store {
             display: flex;
             align-items: center;
@@ -157,7 +145,6 @@
             border-radius: 40px;
             font-weight: 800;
             font-size: 0.95rem;
-            text-decoration: none;
             backdrop-filter: blur(12px);
             transition: transform 0.1s ease;
         }
@@ -213,15 +200,24 @@
             stroke-linecap: round;
         }
 
-        .hero {
+        .hero-wrapper {
             position: relative;
+            height: 80vh;
+            width: 100%;
+            background-color: var(--bg-blue);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .hero {
             text-align: center;
             padding: 80px 20px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex-grow: 1;
         }
 
         .hero-title {
@@ -232,7 +228,6 @@
             letter-spacing: -1.5px;
             text-transform: uppercase;
             color: var(--text-white);
-            user-select: none;
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -245,211 +240,179 @@
             position: relative;
             z-index: 10;
             background-color: #ffffff;
-            padding: 20px 20px 0 20px;
+            padding: 60px 5% 0;
             color: var(--text-dark);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            width: 100%;
         }
 
-        /* Grid 3 Kolom Sama Besar */
-        .grid-container-community {
+        .grid-container {
             margin: 0 auto;
             width: 100%;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            max-width: 1100px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            align-items: stretch;
         }
 
-        /* Folder Style Design untuk Card */
-        .card-folder {
-            position: relative;
-            border-radius: 0px 36px 36px 36px;
-            padding: 44px 36px;
+        .square-card {
+            background-color: var(--bg-blue);
+            padding: 30px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 480px;
-            color: #ffffff;
-            margin-top: 24px; /* Space untuk Tab Folder di atas */
-            transition: transform 0.2s ease;
+            color: var(--text-white);
+            position: relative;
+            flex: 1 1 450px;
+            min-height: max-content;
         }
 
-        /* Tab Atas Folder */
-        .card-folder::before {
-            content: '';
-            position: absolute;
-            top: -22px;
-            left: 0;
-            width: 50%;
-            height: 24px;
-            border-radius: 18px 18px 0 0;
-            background-color: inherit;
-        }
-
-        .card-folder:hover {
-            transform: translateY(-4px);
-        }
-
-        .card-discord {
-            background-color: var(--card-purple);
-        }
-
-        .card-wa {
-            background-color: var(--card-purple-light);
-        }
-
-        .card-blog {
-            background-color: var(--accent-orange);
-        }
-
-        .card-badge {
-            font-size: 0.8rem;
+        .card-info-title {
+            font-size: 1.6rem;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            opacity: 0.85;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
             margin-bottom: 12px;
-            display: block;
-        }
-
-        .card-com-title {
-            font-family: var(--font-hero);
-            font-size: clamp(1.8rem, 3vw, 2.4rem);
-            font-weight: 900;
-            line-height: 1.1;
-            letter-spacing: -1px;
             text-transform: uppercase;
-            margin-bottom: 16px;
         }
 
-        .card-com-desc {
+        .card-info-desc {
             font-size: 0.95rem;
             font-weight: 500;
-            line-height: 1.65;
-            opacity: 0.92;
-            margin-bottom: 30px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 24px;
         }
 
-        .btn-com-action {
+        .link-text-group {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .link-text-inline {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background-color: rgba(255, 255, 255, 0.2);
-            color: #ffffff;
-            backdrop-filter: blur(8px);
-            font-weight: 800;
+            gap: 8px;
             font-size: 0.95rem;
-            padding: 16px 28px;
-            border-radius: 100px;
-            text-decoration: none;
-            width: 100%;
-            transition: transform 0.1s ease, background-color 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 700;
+            transition: transform 0.15s ease, opacity 0.15s ease;
         }
 
-        .btn-com-action:hover, .btn-com-action:active {
-            transform: scale(0.97);
-            background-color: rgba(255, 255, 255, 0.3);
+        .link-text-inline:hover {
+            transform: translateX(4px);
+            opacity: 0.9;
         }
 
-        .btn-com-action svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-            flex-shrink: 0;
+        .link-text-inline .arrow-icon {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-white);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
         }
 
         .footer {
-            margin-top: 20px;
-            padding: 50px 5% 40px;
+            margin-top: 60px;
+            padding: 60px 5% 40px;
             background-color: var(--bg-blue);
             color: var(--text-white);
-            margin-left: -5vw;
-            margin-right: -5vw;
-            margin-bottom: -20px;
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            margin-left: -50vw;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 40px;
         }
 
         .footer-top {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
-            width: 90%;
+            width: 100%;
+            max-width: 1100px;
             margin: 0 auto;
+            gap: 40px;
         }
 
         .footer-brand {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-width: 350px;
+            gap: 16px;
+            max-width: 450px;
         }
 
         .footer-logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 16px;
             font-weight: 900;
-            font-size: 1.4rem;
+            font-size: clamp(2rem, 4vw, 3rem);
             color: var(--text-white);
+            letter-spacing: -1px;
+        }
+
+        .footer-logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 50%;
         }
 
         .footer-desc {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
             font-weight: 500;
         }
 
-        .footer-nav-group {
-            display: flex;
-            gap: 50px;
-            flex-wrap: wrap;
-        }
-
-        .footer-nav-col {
+        .footer-nav {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .footer-nav-title {
-            font-size: 0.85rem;
+            font-size: 1.1rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-white);
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
         }
 
         .footer-nav-links {
+            list-style: none;
             display: flex;
             flex-direction: column;
             gap: 10px;
-            list-style: none;
         }
 
         .footer-nav-links div {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
             font-weight: 600;
-            transition: opacity 0.2s ease;
+            transition: color 0.2s ease;
         }
 
         .footer-nav-links div:hover {
-            opacity: 0.8;
+            color: var(--text-white);
         }
 
         .footer-bottom {
-            width: 90%;
+            width: 100%;
+            max-width: 1100px;
             margin: 0 auto;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -458,23 +421,22 @@
         }
 
         .footer-text {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
             font-weight: 600;
         }
 
-        @media (max-width: 992px) {
-            .grid-container-community {
-                grid-template-columns: 1fr;
+        @media (max-width: 868px) {
+            .grid-container {
+                gap: 20px;
             }
 
-            .card-folder {
-                min-height: auto;
-                padding: 36px 28px;
+            .square-card {
+                flex: 1 1 100%;
             }
 
             .hero-wrapper {
-                height: 35vh;
+                height: 70vh;
             }
 
             .burger {
@@ -517,26 +479,23 @@
                 font-weight: 800;
             }
 
+            .mobile-store-item {
+                display: list-item !important;
+            }
+
             .btn-store {
                 display: none;
             }
 
-            .mobile-store-btn {
-                display: inline-block !important;
-            }
-
-            .footer {
-                margin-left: -20px;
-                margin-right: -20px;
-            }
-
             .footer-top {
                 flex-direction: column;
+                gap: 30px;
             }
 
             .footer-bottom {
                 flex-direction: column;
-                text-align: center;
+                align-items: flex-start;
+                gap: 12px;
             }
         }
     </style>
@@ -552,7 +511,8 @@
         <ul class="nav-links" id="navLinks">
             <li><div onclick="window.location.href='/'">Home</div></li>
             <li><div onclick="window.location.href='/com'" class="active">Community</div></li>
-            <li><div onclick="window.open('https://store.mineplix.biz.id', '_blank')" class="mobile-store-btn" style="display: none;">Mineplix store</div></li>
+            <li><div onclick="window.location.href='/wiki'">Wiki</div></li>
+            <li class="mobile-store-item"><div onclick="window.open('https://store.mineplix.biz.id', '_blank')">Mineplix store</div></li>
         </ul>
 
         <div class="close-btn" id="closeBtn" aria-label="Close Menu">
@@ -579,72 +539,47 @@
     </div>
 
     <div class="bottom-container">
-        <div class="grid-container-community">
-            
-            <!-- Card 1: Discord -->
-            <div class="card-folder card-discord">
+        <div class="grid-container">
+            <div class="square-card">
                 <div>
-                    <span class="card-badge">Official Voice & Chat</span>
-                    <h2 class="card-com-title">DISCORD SERVER</h2>
-                    <p class="card-com-desc">
-                        Tempat nongkrong utama para pemain Mineplix! Dapatkan info update server, ikuti giveaway, ngobrol di voice channel, dan dapatkan bantuan langsung dari tim staff.
+                    <h2 class="card-info-title">Discord Server</h2>
+                    <p class="card-info-desc">
+                        Bergabunglah dengan server Discord resmi Mineplix untuk berdiskusi dengan komunitas, mendapatkan update event terbaru, voice chat, dan bantuan staff secara langsung.
                     </p>
                 </div>
-                <div>
-                    <div onclick="window.open('https://discord.gg/SUqrcFYyYE', '_blank')" class="btn-com-action">
-                        <span>GABUNG DISCORD</span>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M6 6v2h8.59L3.41 19.17l1.41 1.41L16 9.41V18h2V6H6z"/>
+                <div class="link-text-group">
+                    <div class="link-text-inline" onclick="window.open('https://discord.gg/SUqrcFYyYE', '_blank')">
+                        <span class="btn-label">Let's Join</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </div>
             </div>
 
-            <!-- Card 2: WhatsApp -->
-            <div class="card-folder card-wa">
+            <div class="square-card">
                 <div>
-                    <span class="card-badge">Instant Messaging</span>
-                    <h2 class="card-com-title">WHATSAPP GROUP</h2>
-                    <p class="card-com-desc">
-                        Tetap terhubung langsung dari HP kamu. Dapatkan pengumuman cepat mengenai maintenance, event khusus harian, dan interaksi santai sesama survivor Indonesia.
+                    <h2 class="card-info-title">WhatsApp Group</h2>
+                    <p class="card-info-desc">
+                        Masuk ke dalam grup WhatsApp Mineplix untuk berinteraksi lebih santai dengan sesama pemain, berbagi info singkat, dan mendapatkan pengumuman penting secara cepat.
                     </p>
                 </div>
-                <div>
-                    <div onclick="window.open('https://chat.whatsapp.com/GSylylDvgYX1XX57vsrRpZ', '_blank')" class="btn-com-action">
-                        <span>GABUNG WHATSAPP</span>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M6 6v2h8.59L3.41 19.17l1.41 1.41L16 9.41V18h2V6H6z"/>
+                <div class="link-text-group">
+                    <div class="link-text-inline" onclick="window.open('https://chat.whatsapp.com/GSylylDvgYX1XX57vsrRpZ', '_blank')">
+                        <span class="btn-label">Let's Join</span>
+                        <svg class="arrow-icon" viewBox="0 0 24 24">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
                         </svg>
                     </div>
                 </div>
             </div>
-
-            <!-- Card 3: Official Blog -->
-            <div class="card-folder card-blog">
-                <div>
-                    <span class="card-badge">Articles & News</span>
-                    <h2 class="card-com-title">OFFICIAL BLOG</h2>
-                    <p class="card-com-desc">
-                        Baca berita, changelog update game, artikel tips & trik survival, serta cerita seru seputar perkembangan server Mineplix langsung dari para developer.
-                    </p>
-                </div>
-                <div>
-                    <div onclick="window.location.href='/blogpost'" class="btn-com-action">
-                        <span>BACA BLOG POST</span>
-                        <svg viewBox="0 0 24 24">
-                            <path d="M6 6v2h8.59L3.41 19.17l1.41 1.41L16 9.41V18h2V6H6z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
         <footer class="footer">
             <div class="footer-top">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" width="28" height="28" style="border-radius: 50%;">
+                        <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" class="footer-logo-img">
                         Mineplix
                     </div>
                     <p class="footer-desc">
@@ -652,24 +587,14 @@
                     </p>
                 </div>
 
-                <div class="footer-nav-group">
-                    <div class="footer-nav-col">
-                        <span class="footer-nav-title">Navigasi</span>
-                        <ul class="footer-nav-links">
-                            <li><div onclick="window.location.href='/'">Home</div></li>
-                            <li><div onclick="window.location.href='/com'">Community</div></li>
-                            <li><div onclick="window.open('https://store.mineplix.biz.id', '_blank')">Store</div></li>
-                            <li><div onclick="window.open('https://wiki.mineplix.my.id', '_blank')">Wiki & Guide</div></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-nav-col">
-                        <span class="footer-nav-title">Informasi</span>
-                        <ul class="footer-nav-links">
-                            <li><div onclick="window.location.href='/terms'">Terms of Service</div></li>
-                            <li><div onclick="window.location.href='/privacy'">Privacy Policy</div></li>
-                        </ul>
-                    </div>
+                <div class="footer-nav">
+                    <h3 class="footer-nav-title">Navigation</h3>
+                    <ul class="footer-nav-links">
+                        <li><div onclick="window.location.href='/'">Home</div></li>
+                        <li><div onclick="window.location.href='/com'">Community</div></li>
+                        <li><div onclick="window.location.href='/wiki'">Wiki</div></li>
+                        <li><div onclick="window.open('https://store.mineplix.biz.id', '_blank')">Mineplix Store</div></li>
+                    </ul>
                 </div>
             </div>
 
