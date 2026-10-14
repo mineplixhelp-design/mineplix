@@ -3,674 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mineplix - Minecraft Survival Server</title>
-    <meta name="description" content="Mineplix adalah server Minecraft Survival Indonesia terbaik dengan mode Ecowar unik, Custom Economy, Land Claim, Rank System, dan Cross-Play Java & Bedrock Edition.">
-    <meta name="keywords" content="Minecraft, Server Minecraft Indonesia, Mineplix, Minecraft Survival">
-    <meta name="author" content="Mineplix Team">
-    <link rel="icon" type="image/png" href="https://mineplix.biz.id/publick/img/icon.png">
-    <link rel="apple-touch-icon" href="https://mineplix.biz.id/publick/img/icon.png">
-    <meta property="og:title" content="Mineplix - Minecraft Survival Server">
-    <meta property="og:description" content="Bergabunglah dengan Mineplix! Server survival Minecraft terbaik di Indonesia. Mainkan mode Ecowar unik bersama teman-temanmu di Java & Bedrock.">
-    <meta property="og:url" content="https://mineplix.biz.id">
-    <meta property="og:type" content="website">
-    <meta property="og:image" content="https://mineplix.biz.id/publick/img/icon.png">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Mineplix - Minecraft Survival Server">
-    <meta name="twitter:description" content="Server Minecraft Survival Indonesia dengan Custom Economy, Land Claim, dan Cross-Play Java/Bedrock.">
-    <meta name="twitter:image" content="https://mineplix.biz.id/publick/img/icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Syne:wght@800;900&display=swap" rel="stylesheet">
-    
+    <title>Mineplix</title>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
     <style>
+        @font-face {
+            font-family: 'DieGrotesk-C';
+            src: url('https://op.al/fonts/DieGrotesk-C-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DieGrotesk-C';
+            src: url('https://op.al/fonts/DieGrotesk-C-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
         :root {
-            --bg-blue: #0236dd;
-            --accent-orange: #ff6b00;
-            --text-white: #ffffff;
-            --text-dark: #0a0a14;
-            --font-main: 'Plus Jakarta Sans', sans-serif;
-            --font-hero: 'Syne', sans-serif;
+            --color-primary: #a78bfa;
+            --color-primary-light: rgba(167, 139, 250, 0.15);
+            --color-primary-dark: #7c3aed;
+            --color-primary-deep: #4c1d95;
+            --color-bg-body: #0a0712;
+            --color-surface: #141022;
+            --color-text-main: #ffffff;
+            --color-text-muted: #9ca3af;
+            --color-text-light: #6b7280;
+            --color-text-footer: #e9d5ff;
+            
+            --gradient-body: #0a0712;
+            --gradient-cta: linear-gradient(180deg, #0a0712 0%, #7c3aed 100%);
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 32px;
+            --radius-full: 9999px;
+
+            --space-xs: 6px;
+            --space-sm: 12px;
+            --space-md: 20px;
+            --space-lg: 30px;
+            --space-xl: 60px;
+            --space-xxl: 80px;
+        }
+
+        ::selection {
+            background-color: #ffffff;
+            color: var(--color-primary-dark);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'DieGrotesk-C', system-ui, -apple-system, sans-serif;
+            border: none;
             outline: none;
-            cursor: default !important;
-        }
-
-        ::selection {
-            background-color: #ffffff;
-            color: var(--bg-blue);
-        }
-
-        html, body {
-            width: 100%;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
+            box-shadow: none;
+            text-decoration: none;
         }
 
         body {
-            font-family: var(--font-main);
-            background-color: var(--bg-blue);
-            color: var(--text-white);
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            min-height: 80px;
-            background-color: rgba(2, 54, 221, 0.5);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 900;
-            font-size: 1.35rem;
-            color: var(--text-white);
-            text-decoration: none;
-            height: 50px;
-            letter-spacing: -0.5px;
-            transition: transform 0.1s ease;
-        }
-
-        .logo:hover, .logo:active {
-            transform: scale(0.98);
-        }
-
-        .logo-img {
-            width: 32px;
-            height: 32px;
-            object-fit: contain;
-            border-radius: 50%;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            list-style: none;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 10px;
-            height: 50px;
-            border-radius: 40px;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            transition: all 0.3s ease;
-        }
-
-        .nav-links div {
-            color: var(--text-white);
-            font-size: 0.9rem;
-            font-weight: 700;
-            padding: 8px 20px;
-            border-radius: 30px;
-            transition: transform 0.1s ease;
-            display: inline-flex;
-            align-items: center;
-            height: 100%;
-        }
-
-        .nav-links div:hover, .nav-links div:active {
-            transform: scale(0.96);
-        }
-
-        .nav-links div.active {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .mobile-store-item {
-            display: none;
-        }
-
-        .btn-store {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.15);
-            color: var(--text-white);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            padding: 8px 26px;
-            height: 50px;
-            border-radius: 40px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            backdrop-filter: blur(12px);
-            transition: transform 0.1s ease;
-        }
-
-        .btn-store:hover, .btn-store:active {
-            transform: scale(0.98);
-        }
-
-        .burger {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            z-index: 101;
-            padding: 8px;
-            transition: transform 0.1s ease;
-        }
-
-        .burger:hover, .burger:active {
-            transform: scale(0.95);
-        }
-
-        .burger div {
-            width: 28px;
-            height: 3px;
-            background-color: var(--text-white);
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
-        .close-btn {
-            display: none;
-            position: fixed;
-            top: 24px;
-            right: 5%;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: transform 0.1s ease;
-        }
-
-        .close-btn:hover, .close-btn:active {
-            transform: scale(0.9);
-        }
-
-        .close-btn svg {
-            width: 24px;
-            height: 24px;
-            stroke: var(--text-white);
-            stroke-width: 3;
-            stroke-linecap: round;
-        }
-
-        .hero-wrapper {
-            position: relative;
-            height: 80vh;
-            width: 100%;
-            background-color: var(--bg-blue);
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-            background-size: 40px 40px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-        }
-
-        .hero {
-            text-align: center;
-            padding: 80px 20px 20px;
-        }
-
-        .hero-title {
-            font-family: var(--font-hero);
-            font-size: clamp(2.2rem, 6vw, 4.5rem);
-            font-weight: 900;
-            line-height: 1.05;
-            letter-spacing: -1.5px;
-            text-transform: uppercase;
-            color: var(--text-white);
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .hero-title .highlight {
-            color: var(--accent-orange);
-        }
-
-        .bottom-container {
-            position: relative;
-            z-index: 10;
-            background-color: #ffffff;
-            padding: 60px 5% 0;
-            color: var(--text-dark);
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        .grid-container {
-            margin: 0 auto;
-            width: 100%;
-            max-width: 1100px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 30px;
-            justify-content: center;
-            align-items: stretch;
-        }
-
-        .square-card {
-            background-color: var(--bg-blue);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: var(--text-white);
-            position: relative;
-            flex: 1 1 450px;
-            min-height: max-content;
-        }
-
-        .card-info-title {
-            font-size: 1.6rem;
-            font-weight: 800;
-            line-height: 1.25;
-            letter-spacing: -0.5px;
-            margin-bottom: 12px;
-            text-transform: uppercase;
-        }
-
-        .card-info-desc {
-            font-size: 0.95rem;
-            font-weight: 500;
+            color: var(--color-text-main);
+            background: var(--gradient-body);
+            background-color: var(--color-bg-body);
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 24px;
+            overflow-x: hidden;
+            font-weight: 400;
         }
 
-        .copy-text-group {
+        ul {
+            list-style: none;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 7, 18, 0.98);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: var(--space-sm) 5%;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 24px;
-            flex-wrap: wrap;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .copy-text-inline {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
+        .brand-logo {
             font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--color-text-main);
+            letter-spacing: -0.5px;
+            user-select: none;
         }
 
-        .copy-text-inline .copy-icon {
-            width: 18px;
-            height: 18px;
-            fill: var(--text-white);
-            cursor: pointer !important;
-            transition: transform 0.15s ease, opacity 0.15s ease;
+        .brand-logo:hover {
             opacity: 0.85;
         }
 
-        .copy-text-inline .copy-icon:hover {
-            transform: scale(1.2);
-            opacity: 1;
+        .nav-menu {
+            display: flex;
+            gap: var(--space-lg);
+            align-items: center;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
         }
 
-        .copy-toast {
-            position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #ffffff;
-            font-size: 0.75rem;
+        .nav-link {
+            color: var(--color-text-muted);
+            transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+            user-select: none;
+        }
+
+        .nav-link:hover {
+            color: var(--color-text-main);
+            opacity: 0.85;
+            transform: scale(0.97);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
             font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 4px;
-            opacity: 0;
-            transform: translateY(5px);
-            transition: opacity 0.2s ease, transform 0.2s ease;
             pointer-events: none;
         }
 
-        .copy-toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .footer {
-            margin-top: 60px;
-            padding: 60px 5% 40px;
-            background-color: var(--bg-blue);
-            color: var(--text-white);
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            margin-left: -50vw;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .footer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            gap: 40px;
-        }
-
-        .footer-brand {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-width: 450px;
-        }
-
-        .footer-logo {
+        .nav-actions {
             display: flex;
             align-items: center;
-            gap: 16px;
-            font-weight: 900;
-            font-size: clamp(2rem, 4vw, 3rem);
-            color: var(--text-white);
-            letter-spacing: -1px;
+            gap: var(--space-sm);
         }
 
-        .footer-logo-img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            border-radius: 50%;
+        .btn-outline,
+        .btn-solid,
+        .btn-primary,
+        .btn-secondary,
+        .btn-white {
+            transition: transform 0.2s ease, opacity 0.2s ease !important;
+            user-select: none;
         }
 
-        .footer-desc {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
-            font-weight: 500;
+        .btn-outline:hover,
+        .btn-solid:hover,
+        .btn-primary:hover,
+        .btn-secondary:hover,
+        .btn-white:hover {
+            transform: scale(0.97);
+            opacity: 0.85;
         }
 
-        .footer-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+        .btn-outline {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            color: var(--color-text-main);
+            background-color: var(--color-primary-light);
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
         }
 
-        .footer-nav-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+        .btn-solid {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: var(--radius-full);
+            color: #ffffff;
+            background-color: var(--color-primary-dark);
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
         }
 
-        .footer-nav-links {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            padding: var(--space-xs);
+            user-select: none;
         }
 
-        .footer-nav-links div {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: color 0.2s ease;
+        .menu-toggle svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--color-text-main);
+            transition: transform 0.3s ease;
+            display: block;
         }
 
-        .footer-nav-links div:hover {
-            color: var(--text-white);
-        }
-
-        .footer-bottom {
+        .mobile-drawer {
+            position: fixed;
+            top: 57px;
+            left: 0;
             width: 100%;
-            max-width: 1100px;
+            background: rgba(10, 7, 18, 0.98);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            padding: 0 5%;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
+            z-index: 999;
+        }
+
+        .mobile-drawer.active {
+            max-height: 400px;
+            padding: var(--space-md) 5% var(--space-lg) 5%;
+        }
+
+        .mobile-drawer .nav-link {
+            font-size: 1.05rem;
+            font-weight: 400;
+            color: var(--color-text-main);
+            padding: var(--space-sm) 0;
+        }
+
+        .mobile-drawer .nav-link.active {
+            color: var(--color-primary);
+            font-weight: 700;
+            pointer-events: none;
+        }
+
+        .mobile-actions {
+            display: flex;
+            flex-direction: row;
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .mobile-actions .btn-outline,
+        .mobile-actions .btn-solid {
+            flex: 1;
+            text-align: center;
+            padding: 12px 0;
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+        }
+
+        .mobile-actions .btn-solid {
+            color: #ffffff !important;
+            background-color: var(--color-primary-dark);
+        }
+
+        .hero-section {
+            padding: var(--space-xl) 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-lg);
+            background: transparent;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--space-md);
+            color: var(--color-text-main);
+        }
+
+        .hero-content h1 span {
+            color: var(--color-primary);
+        }
+
+        .hero-content p {
+            font-size: 1.05rem;
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-lg);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background-color: var(--color-primary-dark);
+            color: #ffffff;
+            padding: 14px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-primary-light);
+            color: var(--color-text-main);
+            padding: 14px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+        }
+
+        .hero-image-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            max-width: 520px;
+            height: auto;
+            display: block;
+            border-radius: 0;
+            background: transparent;
+        }
+
+        .services-section {
+            background-color: var(--color-primary-dark);
+            width: 100%;
+            padding: var(--space-xxl) 5%;
+            color: var(--color-text-footer);
+        }
+
+        .services-section .section-header h2 {
+            color: #ffffff;
+        }
+
+        .services-section .section-header p {
+            color: var(--color-text-footer);
+            opacity: 0.9;
+        }
+
+        .section-header {
+            text-align: center;
+            padding: 0 0 var(--space-lg) 0;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-text-main);
+            margin-bottom: var(--space-sm);
+        }
+
+        .section-header p {
+            color: var(--color-text-muted);
+            font-size: 1rem;
+            max-width: 600px;
             margin: 0 auto;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-sm);
+            padding: 0;
+        }
+
+        .content-card {
+            position: relative;
+            background: transparent;
+            padding: var(--space-lg) var(--space-md);
+            text-align: left;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .content-card::after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.2px, transparent 1.2px);
+            background-size: 8px 8px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .content-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+            color: #ffffff;
+            letter-spacing: -0.3px;
+        }
+
+        .content-card p {
+            color: var(--color-text-footer);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .cta-banner {
+            background: var(--gradient-cta);
+            border-radius: 0;
+            padding: var(--space-xxl) 5%;
+            text-align: center;
+            color: #ffffff;
+            width: 100%;
+            margin-top: 0;
+        }
+
+        .cta-banner h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-sm);
+        }
+
+        .cta-banner p {
+            font-size: 1rem;
+            max-width: 600px;
+            margin: 0 auto var(--space-lg) auto;
+            opacity: 0.95;
+        }
+
+        .btn-white {
+            background-color: #ffffff;
+            color: var(--color-primary-dark);
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        footer {
+            background-color: var(--color-primary-dark);
+            padding: var(--space-lg) 5%;
+            color: var(--color-text-footer);
+        }
+
+        .footer-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: var(--space-md);
         }
 
-        .footer-text {
+        .footer-inner .brand-logo {
+            color: #ffffff;
+            font-size: 1.4rem;
+        }
+
+        .footer-copyright {
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 600;
+            color: var(--color-text-footer);
+            opacity: 0.9;
         }
 
-        @media (max-width: 868px) {
-            .grid-container {
-                gap: 20px;
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
             }
+        }
 
-            .square-card {
-                flex: 1 1 100%;
-            }
-
-            .hero-wrapper {
-                height: 70vh;
-            }
-
-            .burger {
-                display: flex;
-            }
-
-            .navbar .nav-links {
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                width: 100vw !important;
-                height: 100vh !important;
-                background-color: #0236dd !important;
-                flex-direction: column !important;
-                justify-content: center !important;
-                align-items: center !important;
-                gap: 24px !important;
-                padding: 40px 20px !important;
-                border-radius: 0 !important;
-                border: none !important;
-                backdrop-filter: none !important;
-                z-index: 9999 !important;
-                opacity: 0;
-                visibility: hidden;
-                transition: opacity 0.3s ease, visibility 0.3s ease;
-            }
-
-            .navbar .nav-links.active {
-                opacity: 1 !important;
-                visibility: visible !important;
-            }
-
-            .close-btn.active {
-                display: flex !important;
-            }
-
-            .nav-links div {
-                color: var(--text-white) !important;
-                font-size: 1.6rem;
-                font-weight: 800;
-            }
-
-            .mobile-store-item {
-                display: list-item !important;
-            }
-
-            .btn-store {
+        @media (max-width: 768px) {
+            .nav-menu, .nav-actions {
                 display: none;
             }
-
-            .footer-top {
-                flex-direction: column;
-                gap: 30px;
+            .menu-toggle {
+                display: block;
             }
-
-            .footer-bottom {
+            .hero-section {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
+                text-align: left;
+                padding: var(--space-md) 5%;
+                gap: var(--space-sm);
+            }
+            .hero-image-wrapper {
+                order: 1;
+                margin-bottom: 2px;
+            }
+            .hero-content {
+                order: 2;
+            }
+            .hero-buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                gap: var(--space-xs);
+            }
+            .hero-buttons .btn-primary,
+            .hero-buttons .btn-secondary {
+                flex: 1;
+                padding: 12px 14px;
+                font-size: 0.85rem;
+                justify-content: center;
+                text-align: center;
+                white-space: nowrap;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-sm);
+            }
+            .hero-content h1 {
+                font-size: 2.1rem;
+            }
+            .section-header h2, .cta-banner h2 {
+                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
-        <div onclick="window.location.href='/'" class="logo">
-            <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" class="logo-img" onerror="this.src='https://via.placeholder.com/32'">
+    <header>
+        <div class="brand-logo" onclick="window.location.href='/'">
             Mineplix
         </div>
-
-        <ul class="nav-links" id="navLinks">
-            <li><div onclick="window.location.href='/'" class="active">Home</div></li>
-            <li><div onclick="window.location.href='/com'">Community</div></li>
-            <li><div onclick="window.location.href='/wiki'">Wiki</div></li>
-            <li class="mobile-store-item"><div onclick="window.open('https://store.mineplix.biz.id', '_blank')">Mineplix store</div></li>
-        </ul>
-
-        <div class="close-btn" id="closeBtn" aria-label="Close Menu">
-            <svg viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6l12 12"/>
+        <nav class="nav-menu">
+            <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='/layanan'">Layanan</div>
+            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        </nav>
+        <div class="nav-actions">
+            <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
+            <div class="btn-solid" onclick="window.location.href='/layanan'">Pesan Sekarang</div>
+        </div>
+        <div class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
             </svg>
         </div>
+    </header>
 
-        <div onclick="window.open('https://store.mineplix.biz.id', '_blank')" class="btn-store">Mineplix store</div>
-
-        <div class="burger" id="burgerToggle">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
+        <div class="nav-link" onclick="window.location.href='/layanan'">Layanan</div>
+        <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        <div class="mobile-actions">
+            <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
+            <div class="btn-solid" onclick="window.location.href='/layanan'">Pesan Sekarang</div>
         </div>
-    </nav>
-
-    <div class="hero-wrapper">
-        <section class="hero">
-            <h1 class="hero-title">
-                <span class="highlight">#</span>Let's For<br>Survive
-            </h1>
-        </section>
     </div>
 
-    <div class="bottom-container">
-        <div class="grid-container">
-            <div class="square-card">
-                <div>
-                    <h2 class="card-info-title">Server IP Java</h2>
-                    <p class="card-info-desc">
-                        Akses koneksi terbaik untuk pengguna PC & Laptop. Mendukung berbagai versi Minecraft Java dengan performa maksimal dan stabilitas tinggi.
-                    </p>
+    <section class="hero-section">
+        <div class="hero-image-wrapper">
+            <img src="hero.png" alt="Hero">
+        </div>
+        <div class="hero-content">
+            <h1>Solusi Kreatif <span>Web Design, Graphic & Minecraft Maps</span> Terbaik</h1>
+            <p>Tingkatkan kualitas server Minecraft dan kehadiran online project Anda dengan aset visual profesional, tampilan website modern, dan custom map buatan builder berpengalaman.</p>
+            <div class="hero-buttons">
+                <div class="btn-primary" onclick="window.location.href='/layanan'">
+                    Jelajahi Layanan 
+                    <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.71 12l-7.86-7.86-1.42 1.42L16.86 11H5v2z"/></svg>
                 </div>
-                <div class="copy-text-group">
-                    <div class="copy-text-inline">
-                        <span class="btn-label">play.mineplix.my.id</span>
-                        <svg class="copy-icon" data-copy="play.mineplix.my.id" viewBox="0 0 24 24">
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="copy-toast">Disalin!</div>
-            </div>
-
-            <div class="square-card">
-                <div>
-                    <h2 class="card-info-title">IP & Port Bedrock</h2>
-                    <p class="card-info-desc">
-                        Bermain kapan saja dari Android, iOS, Windows 10/11, atau Konsol! Terhubung langsung dengan pemain Java tanpa batasan platform.
-                    </p>
-                </div>
-                <div class="copy-text-group">
-                    <div class="copy-text-inline">
-                        <span class="btn-label">play.mineplix.my.id</span>
-                        <svg class="copy-icon" data-copy="play.mineplix.my.id" viewBox="0 0 24 24">
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                        </svg>
-                    </div>
-                    <div class="copy-text-inline">
-                        <span class="btn-label">Port: 25672</span>
-                        <svg class="copy-icon" data-copy="25672" viewBox="0 0 24 24">
-                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="copy-toast">Disalin!</div>
+                <div class="btn-secondary" onclick="window.location.href='/kontak'">Hubungi Kami</div>
             </div>
         </div>
+    </section>
 
-        <footer class="footer">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="https://mineplix.biz.id/publick/img/icon.png" alt="Mineplix Logo" class="footer-logo-img">
-                        Mineplix
-                    </div>
-                    <p class="footer-desc">
-                        Server Minecraft Survival Indonesia terbaik dengan mode Ecowar, Custom Economy, Land Claim, dan sistem Cross-Play Java & Bedrock.
-                    </p>
-                </div>
-
-                <div class="footer-nav">
-                    <h3 class="footer-nav-title">Navigation</h3>
-                    <ul class="footer-nav-links">
-                        <li><div onclick="window.location.href='/'">Home</div></li>
-                        <li><div onclick="window.location.href='/com'">Community</div></li>
-                        <li><div onclick="window.location.href='/wiki'">Wiki</div></li>
-                        <li><div onclick="window.open('https://store.mineplix.biz.id', '_blank')">Mineplix Store</div></li>
-                    </ul>
-                </div>
+    <section class="services-section" id="layanan">
+        <div class="section-header">
+            <h2>Layanan dasar kami</h2>
+            <p>Solusi lengkap mulai dari tampilan antarmuka web, branding grafis, hingga dunia virtual Minecraft.</p>
+        </div>
+        <div class="card-grid">
+            <div class="content-card">
+                <h3>Frontend Web Design</h3>
+                <p>Membuat tampilan website server, store, atau landing page yang responsif, interaktif, bersih, dan memukau.</p>
             </div>
-
-            <div class="footer-bottom">
-                <p class="footer-text">&copy; Mineplix 2k26. All rights reserved.</p>
-                <p class="footer-text">Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+            <div class="content-card">
+                <h3>Graphic Design</h3>
+                <p>Desain banner, logo server, icon rank, dan aset promosi visual berkualitas tinggi untuk menarik lebih banyak pemain.</p>
             </div>
-        </footer>
+            <div class="content-card">
+                <h3>Minecraft Maps Builder</h3>
+                <p>Membangun custom map (Spawn, Lobby, Survival, PvP Arena) dengan detail tinggi dan optimasi performa server.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="portofolio">
+        <div class="section-header" style="padding-top: var(--space-xxl);">
+            <h2>Mengapa Memilih Mineplix?</h2>
+            <p>Standar kualitas tinggi yang didedikasikan khusus untuk kebutuhan komunitas dan server game Anda.</p>
+        </div>
+        <div class="card-grid" style="padding: 0 5% var(--space-xxl) 5%;">
+            <div class="content-card" style="background: transparent;">
+                <h3 style="color: var(--color-text-main);">Kualitas Premium</h3>
+                <p style="color: var(--color-text-muted);">Setiap project dikerjakan secara teliti oleh profesional yang ahli di bidangnya.</p>
+            </div>
+            <div class="content-card" style="background: transparent;">
+                <h3 style="color: var(--color-text-main);">Pengerjaan Cepat</h3>
+                <p style="color: var(--color-text-muted);">Komitmen waktu pengiriman yang tepat waktu tanpa mengorbankan kualitas detail.</p>
+            </div>
+            <div class="content-card" style="background: transparent;">
+                <h3 style="color: var(--color-text-main);">Keamanan & Garansi</h3>
+                <p style="color: var(--color-text-muted);">Transaksi aman dengan layanan revisi untuk memastikan kepuasan hasil akhir.</p>
+            </div>
+            <div class="content-card" style="background: transparent;">
+                <h3 style="color: var(--color-text-main);">Dukungan Penuh</h3>
+                <p style="color: var(--color-text-muted);">Tim support siap membantu konsultasi dan kendala teknis kapan pun dibutuhkan.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="cta-banner" id="kontak">
+        <h2>Mulai Wujudkan Server Impianmu Hari Ini</h2>
+        <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
+        <div class="btn-white" onclick="window.location.href='/kontak'">
+            Hubungi Kami Sekarang 
+            <svg style="width:16px;height:16px;fill:var(--color-primary-dark);vertical-align:middle;" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.71 12l-7.86-7.86-1.42 1.42L16.86 11H5v2z"/></svg>
+        </div>
     </div>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="brand-logo" onclick="window.location.href='/'">
+                Mineplix
+            </div>
+            <div class="footer-copyright">
+                Mineplix 2k26 - All Reverse
+            </div>
+        </div>
+    </footer>
 
     <script>
-        const burger = document.getElementById('burgerToggle');
-        const navLinks = document.getElementById('navLinks');
-        const closeBtn = document.getElementById('closeBtn');
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileDrawer = document.getElementById('mobileDrawer');
 
-        function closeMenu() {
-            navLinks.classList.remove('active');
-            closeBtn.classList.remove('active');
-            document.body.style.overflow = 'auto';
+        function closeMobileMenu() {
+            if (mobileDrawer.classList.contains('active')) {
+                mobileDrawer.classList.remove('active');
+                menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>`;
+            }
         }
 
-        burger.addEventListener('click', () => {
-            navLinks.classList.add('active');
-            closeBtn.classList.add('active');
-            document.body.style.overflow = 'hidden';
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileDrawer.classList.toggle('active');
+            const isOpen = mobileDrawer.classList.contains('active');
+            menuToggle.innerHTML = isOpen 
+                ? `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`
+                : `<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>`;
         });
 
-        closeBtn.addEventListener('click', closeMenu);
-
-        const menuItems = navLinks.querySelectorAll('div');
-        menuItems.forEach(item => {
-            item.addEventListener('click', closeMenu);
+        window.addEventListener('scroll', () => {
+            closeMobileMenu();
         });
 
-        const copyIcons = document.querySelectorAll('.copy-icon');
-        copyIcons.forEach(icon => {
-            icon.addEventListener('click', () => {
-                const textToCopy = icon.getAttribute('data-copy');
-                const card = icon.closest('.square-card');
-                const toast = card.querySelector('.copy-toast');
-
-                navigator.clipboard.writeText(textToCopy);
-
-                toast.classList.add('show');
-
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 1800);
-            });
+        window.addEventListener('click', (e) => {
+            if (!mobileDrawer.contains(e.target) && !menuToggle.contains(e.target)) {
+                closeMobileMenu();
+            }
         });
     </script>
 </body>
