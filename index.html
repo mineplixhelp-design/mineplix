@@ -98,6 +98,16 @@
             color: var(--color-text-main);
             letter-spacing: -0.5px;
             user-select: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .brand-logo img {
+            height: 28px;
+            width: auto;
+            display: block;
         }
 
         .brand-logo:hover {
@@ -116,6 +126,7 @@
             color: var(--color-text-muted);
             transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
             user-select: none;
+            cursor: pointer;
         }
 
         .nav-link:hover {
@@ -143,6 +154,7 @@
         .btn-white {
             transition: transform 0.2s ease, opacity 0.2s ease !important;
             user-select: none;
+            cursor: pointer;
         }
 
         .btn-outline:hover,
@@ -179,6 +191,7 @@
             background: transparent;
             padding: var(--space-xs);
             user-select: none;
+            cursor: pointer;
         }
 
         .menu-toggle svg {
@@ -513,7 +526,7 @@
 
     <header>
         <div class="brand-logo" onclick="window.location.href='/'">
-            Mineplix
+            <img src="publick/img/icon.png" alt="Icon">ineplix
         </div>
         <nav class="nav-menu">
             <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
@@ -543,7 +556,7 @@
 
     <section class="hero-section">
         <div class="hero-image-wrapper">
-            <img src="hero.png" alt="Hero">
+            <img src="publick/img/hero.png" alt="Hero">
         </div>
         <div class="hero-content">
             <h1>Solusi Kreatif <span>Web Design, Graphic & Minecraft Maps</span> Terbaik</h1>
@@ -616,7 +629,7 @@
     <footer>
         <div class="footer-inner">
             <div class="brand-logo" onclick="window.location.href='/'">
-                Mineplix
+                <img src="publick/img/icon.png" alt="Icon">ineplix
             </div>
             <div class="footer-copyright">
                 Mineplix 2k26 - All Reverse
