@@ -87,8 +87,8 @@
             backdrop-filter: blur(12px);
             z-index: 1000;
             padding: var(--space-sm) 5%;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
             align-items: center;
         }
 
@@ -98,10 +98,10 @@
             color: var(--color-text-main);
             letter-spacing: -0.5px;
             user-select: none;
-            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 4px;
+            justify-self: start;
         }
 
         .brand-logo img {
@@ -118,15 +118,16 @@
             display: flex;
             gap: var(--space-lg);
             align-items: center;
+            justify-content: center;
             font-size: 0.95rem;
             color: var(--color-text-muted);
+            justify-self: center;
         }
 
         .nav-link {
             color: var(--color-text-muted);
             transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
             user-select: none;
-            cursor: pointer;
         }
 
         .nav-link:hover {
@@ -145,6 +146,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-sm);
+            justify-self: end;
         }
 
         .btn-outline,
@@ -154,7 +156,6 @@
         .btn-white {
             transition: transform 0.2s ease, opacity 0.2s ease !important;
             user-select: none;
-            cursor: pointer;
         }
 
         .btn-outline:hover,
@@ -170,16 +171,6 @@
             padding: var(--space-sm) var(--space-lg);
             border-radius: var(--radius-full);
             color: var(--color-text-main);
-            background-color: var(--color-primary-light);
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-block;
-        }
-
-        .btn-solid {
-            padding: var(--space-sm) var(--space-lg);
-            border-radius: var(--radius-full);
-            color: #ffffff;
             background-color: var(--color-primary-dark);
             font-weight: 700;
             font-size: 0.9rem;
@@ -191,7 +182,7 @@
             background: transparent;
             padding: var(--space-xs);
             user-select: none;
-            cursor: pointer;
+            justify-self: end;
         }
 
         .menu-toggle svg {
@@ -243,8 +234,7 @@
             margin-top: var(--space-md);
         }
 
-        .mobile-actions .btn-outline,
-        .mobile-actions .btn-solid {
+        .mobile-actions .btn-outline {
             flex: 1;
             text-align: center;
             padding: 12px 0;
@@ -252,24 +242,18 @@
             white-space: nowrap;
         }
 
-        .mobile-actions .btn-solid {
-            color: #ffffff !important;
-            background-color: var(--color-primary-dark);
-        }
-
         .hero-section {
             padding: var(--space-xl) 5%;
             display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
-            gap: var(--space-lg);
             background: transparent;
+            text-align: center;
         }
 
         .hero-content {
-            flex: 1;
-            max-width: 600px;
-            text-align: left;
+            max-width: 800px;
+            text-align: center;
         }
 
         .hero-content h1 {
@@ -294,6 +278,7 @@
             display: flex;
             gap: var(--space-sm);
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .btn-primary {
@@ -313,22 +298,6 @@
             padding: 14px 28px;
             border-radius: var(--radius-full);
             font-weight: 700;
-        }
-
-        .hero-image-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-        }
-
-        .hero-image-wrapper img {
-            width: 100%;
-            max-width: 520px;
-            height: auto;
-            display: block;
-            border-radius: 0;
-            background: transparent;
         }
 
         .services-section {
@@ -474,6 +443,9 @@
         }
 
         @media (max-width: 768px) {
+            header {
+                grid-template-columns: 1fr auto;
+            }
             .nav-menu, .nav-actions {
                 display: none;
             }
@@ -482,21 +454,14 @@
             }
             .hero-section {
                 flex-direction: column;
-                text-align: left;
+                text-align: center;
                 padding: var(--space-md) 5%;
                 gap: var(--space-sm);
-            }
-            .hero-image-wrapper {
-                order: 1;
-                margin-bottom: 2px;
-            }
-            .hero-content {
-                order: 2;
             }
             .hero-buttons {
                 display: flex;
                 flex-direction: row;
-                justify-content: flex-start;
+                justify-content: center;
                 gap: var(--space-xs);
             }
             .hero-buttons .btn-primary,
@@ -535,7 +500,6 @@
         </nav>
         <div class="nav-actions">
             <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
-            <div class="btn-solid" onclick="window.location.href='/layanan'">Pesan Sekarang</div>
         </div>
         <div class="menu-toggle" id="menuToggle" aria-label="Menu">
             <svg viewBox="0 0 24 24">
@@ -550,14 +514,10 @@
         <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         <div class="mobile-actions">
             <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
-            <div class="btn-solid" onclick="window.location.href='/layanan'">Pesan Sekarang</div>
         </div>
     </div>
 
     <section class="hero-section">
-        <div class="hero-image-wrapper">
-            <img src="publick/img/hero.png" alt="Hero">
-        </div>
         <div class="hero-content">
             <h1>Solusi Kreatif <span>Web Design, Graphic & Minecraft Maps</span> Terbaik</h1>
             <p>Tingkatkan kualitas server Minecraft dan kehadiran online project Anda dengan aset visual profesional, tampilan website modern, dan custom map buatan builder berpengalaman.</p>
