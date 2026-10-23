@@ -4,9 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="trustpilot-one-time-domain-verification-id" content="268b526c-f9d3-4fbe-9d41-5d337828c1e8"/>
-    <title>Mineplix</title>
+    <title>Mineplix - Solusi Kreatif Web Design, Graphic & Minecraft Maps</title>
+    <meta name="description" content="Tingkatkan kualitas server Minecraft dan kehadiran online project Anda dengan aset visual profesional, tampilan website modern, dan custom map buatan builder berpengalaman.">
+    
+    <meta property="og:title" content="Mineplix - Solusi Kreatif Web Design, Graphic & Minecraft Maps">
+    <meta property="og:description" content="Tingkatkan kualitas server Minecraft dan kehadiran online project Anda dengan aset visual profesional dan tampilan website modern.">
+    <meta property="og:image" content="../publick/img/banner.png">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mineplix - Solusi Kreatif Web Design, Graphic & Minecraft Maps">
+    <meta name="twitter:description" content="Tingkatkan kualitas server Minecraft dan kehadiran online project Anda dengan aset visual profesional.">
+    <meta name="twitter:image" content="../publick/img/banner.png">
+
+    <link rel="icon" href="../publick/img/icon.png" type="image/png">
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
+          authDomain: "mineplix-3d91c.firebaseapp.com",
+          databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "mineplix-3d91c",
+          storageBucket: "mineplix-3d91c.firebasestorage.app",
+          messagingSenderId: "932702850146",
+          appId: "1:932702850146:web:0933bde133e94b4254953b",
+          measurementId: "G-VTMMJV3HY7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        onAuthStateChanged(auth, (user) => {
+            const authActionContainers = document.querySelectorAll('.auth-action-container');
+            
+            authActionContainers.forEach(container => {
+                if (user) {
+                    const photoURL = user.photoURL || '../publick/img/icon.png';
+                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'Akun';
+                    container.innerHTML = `
+                        <div class="user-profile-btn" onclick="handleUserMenu(event)">
+                            <img src="${photoURL}" alt="Profile" class="user-avatar">
+                            <span>${displayName}</span>
+                        </div>
+                    `;
+                    if (window.Android && typeof window.Android.goToMain === 'function') {
+                        window.Android.goToMain();
+                    }
+                } else {
+                    container.innerHTML = `
+                        <div class="btn-outline" onclick="handleGoogleLogin()">
+                            <svg class="google-icon" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v2.39h3.88c2.27-2.09 3.66-5.17 3.66-8.82z"/>
+                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.02c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.13C3.18 21.36 7.23 24 12 24z"/>
+                                <path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.39-1.5-.39-2.28s.14-1.56.39-2.28V6.59H1.2C.44 8.13 0 9.87 0 12s.44 3.87 1.2 5.41l4.08-3.13z"/>
+                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.64 1.2 6.59l4.08 3.13c.95-2.84 3.6-4.97 6.72-4.97z"/>
+                            </svg>
+                            Masuk
+                        </div>
+                    `;
+                }
+            });
+        });
+
+        window.handleGoogleLogin = async function() {
+            try {
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        window.handleLogout = async function() {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        window.handleUserMenu = function(e) {
+            e.stopPropagation();
+            if(confirm("Apakah Anda ingin keluar (Logout)?")) {
+                window.handleLogout();
+            }
+        };
+    </script>
+
     <style>
         @font-face {
             font-family: 'DieGrotesk-C';
@@ -195,13 +284,15 @@
         }
 
         .btn-outline {
-            padding: 10px 24px;
+            padding: 8px 20px;
             border-radius: var(--radius-full);
             color: var(--primary-dark);
             background-color: #ffffff;
             font-weight: 700;
             font-size: 0.9rem;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
         }
@@ -209,6 +300,30 @@
         .btn-outline:active {
             transform: scale(0.96);
             opacity: 0.9;
+        }
+
+        .google-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .user-profile-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #ffffff;
+            color: var(--primary-dark);
+            padding: 4px 16px 4px 4px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .menu-btn {
@@ -304,10 +419,17 @@
             padding-top: 0;
         }
 
-        .drawer-actions .btn-outline {
+        .drawer-actions .auth-action-container .btn-outline {
             width: 100%;
-            text-align: center;
+            justify-content: center;
             padding: 14px 0;
+            font-size: 1rem;
+        }
+
+        .drawer-actions .auth-action-container .user-profile-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 10px 0;
             font-size: 1rem;
         }
 
@@ -803,7 +925,7 @@
 
     <header>
         <div class="logo" onclick="window.location.href='/'">
-            <img src="publick/img/icon.png" alt="Icon">ineplix
+            <img src="../publick/img/icon.png" alt="Icon">ineplix
         </div>
 
         <nav class="nav">
@@ -815,7 +937,7 @@
         </nav>
 
         <div class="actions">
-            <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
+            <div class="auth-action-container"></div>
         </div>
 
         <div class="menu-btn" id="menuToggle" aria-label="Menu">
@@ -841,7 +963,7 @@
         <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         
         <div class="drawer-actions">
-            <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
+            <div class="auth-action-container"></div>
         </div>
     </div>
 
