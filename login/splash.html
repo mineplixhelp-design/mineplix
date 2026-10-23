@@ -82,10 +82,9 @@
     </div>
   </div>
 
-  <!-- Firebase SDK untuk mendeteksi status login secara langsung di Splash -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
@@ -101,29 +100,30 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       const splashScreen = document.getElementById("splashScreen");
       const loadingDuration = 1500; // Durasi animasi splash 1.5 detik
 
-      // Deteksi status login Firebase secara real-time
-      onAuthStateChanged(auth, (user) => {
+      // 1. TUNGGU SESI FIREBASE SELESAI DIMUAT DARI STORAGE (Mencegah false null)
+      await auth.authStateReady();
+      const user = auth.currentUser;
+
+      setTimeout(() => {
+        splashScreen.classList.add("fade-out");
+
         setTimeout(() => {
-          splashScreen.classList.add("fade-out");
-
-          setTimeout(() => {
-            if (window.Android) {
-              if (user) {
-                // Jika SUDAH login -> Langsung meluncur ke MainActivity
-                window.Android.goToMain();
-              } else {
-                // Jika BELUM login -> Buka Chrome Custom Tab ke halaman login web
-                window.Android.openLoginTab("https://mineplix.biz.id/login/");
-              }
+          if (window.Android) {
+            if (user) {
+              // Jika SUDAH login -> Langsung meluncur ke MainActivity tanpa buka tab
+              window.Android.goToMain();
+            } else {
+              // Jika BENAR-BENAR BELUM login -> Buka Chrome Custom Tab
+              window.Android.openLoginTab("https://mineplix.biz.id/login/");
             }
-          }, 500);
+          }
+        }, 500);
 
-        }, loadingDuration);
-      });
+      }, loadingDuration);
     });
   </script>
 </body>
