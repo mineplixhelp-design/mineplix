@@ -1,90 +1,701 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mineplay - Autentikasi Google</title>
-  
-  <style>
-    :root {
-      --md-sys-color-background: #000000;
-      --md-sys-color-surface-variant: #131313;
-      --md-sys-color-on-background: #e3e3e3;
-      --md-sys-color-on-surface-variant: #9e9ea8;
-      --md-shape-full: 9999px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100vh; width: 100%; background-color: var(--md-sys-color-background); color: var(--md-sys-color-on-background); font-family: 'Segoe UI', Roboto, sans-serif; display: flex; justify-content: center; align-items: center; }
-    .auth-container { width: 100%; max-width: 440px; padding: 24px 20px; text-align: center; }
-    .auth-desc { font-size: 14px; color: var(--md-sys-color-on-surface-variant); margin-bottom: 28px; line-height: 1.6; }
-    .google-btn { width: 100%; height: 52px; background-color: #ffffff; color: #000000; font-size: 15px; font-weight: 700; border: none; border-radius: var(--md-shape-full); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1); }
-    .google-btn svg { width: 20px; height: 20px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="trustpilot-one-time-domain-verification-id" content="268b526c-f9d3-4fbe-9d41-5d337828c1e8"/>
+    <title>Masuk - Mineplix</title>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
+          authDomain: "mineplix-3d91c.firebaseapp.com",
+          databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "mineplix-3d91c",
+          storageBucket: "mineplix-3d91c.firebasestorage.app",
+          messagingSenderId: "932702850146",
+          appId: "1:932702850146:web:0933bde133e94b4254953b",
+          measurementId: "G-VTMMJV3HY7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('loadingSection').style.display = 'block';
+
+            setTimeout(() => {
+              if (window.Android && typeof window.Android.goToMain === 'function') {
+                window.Android.goToMain();
+              }
+            }, 800);
+          }
+        });
+
+        window.handleGoogleLogin = async function() {
+          const btn = document.getElementById('googleLoginBtn');
+          btn.disabled = true;
+          btn.innerText = 'Menghubungkan...';
+
+          try {
+            await signInWithPopup(auth, provider);
+          } catch (error) {
+            console.error(error);
+            btn.disabled = false;
+            btn.innerText = 'Masuk dengan Google';
+          }
+        };
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'DieGrotesk-C';
+            src: url('https://op.al/fonts/DieGrotesk-C-Regular.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'DieGrotesk-C';
+            src: url('https://op.al/fonts/DieGrotesk-C-Bold.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-light: #ffffff;
+            --card-bg: #f3f3f5;
+            --text-dark: #18181b;
+            --text-muted: #6b7280;
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+            --space-xxl: 96px;
+        }
+
+        ::selection {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'DieGrotesk-C', system-ui, -apple-system, sans-serif;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            text-decoration: none;
+        }
+
+        body {
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-weight: 400;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(45px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+            display: inline-block;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--primary-dark);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            padding: var(--space-sm) 5%;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .logo img {
+            height: 28px;
+            width: auto;
+            display: block;
+        }
+
+        .nav {
+            display: flex;
+            gap: var(--space-md);
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            justify-self: center;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            transition: opacity 0.15s ease;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link:active {
+            opacity: 0.85;
+            color: #ffffff;
+        }
+
+        .nav-link.active {
+            color: #ffffff !important;
+            font-weight: 500 !important;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            justify-self: end;
+        }
+
+        .btn-outline {
+            padding: 10px 24px;
+            border-radius: var(--radius-full);
+            color: var(--primary-dark);
+            background-color: #ffffff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: inline-block;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
+        }
+
+        .btn-outline:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .menu-btn {
+            display: none;
+            background: transparent;
+            padding: var(--space-xs);
+            justify-self: end;
+        }
+
+        .menu-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: #ffffff;
+            display: block;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            padding: 90px 8% 40px 8%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-15px);
+            transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .drawer.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .drawer .nav-link {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #ffffff;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            justify-content: space-between;
+        }
+
+        .dropdown-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dropdown-toggle.active svg {
+            transform: rotate(90deg);
+        }
+
+        .dropdown-menu {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
+        }
+
+        .dropdown-menu.show {
+            max-height: 200px;
+            opacity: 1;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            margin: 8px 0;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 12px 0;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .drawer-actions {
+            margin-top: 24px;
+            padding-top: 0;
+        }
+
+        .drawer-actions .btn-outline {
+            width: 100%;
+            text-align: center;
+            padding: 14px 0;
+            font-size: 1rem;
+        }
+
+        .login-section {
+            background-color: var(--bg-light);
+            background-image: 
+                linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: calc(var(--space-xxl) + 20px) 5% var(--space-xxl) 5%;
+            position: relative;
+        }
+
+        .login-content {
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-content h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--space-xs);
+        }
+
+        .login-content p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: var(--space-lg);
+        }
+
+        .btn-google {
+            background-color: var(--card-bg);
+            color: var(--text-dark);
+            border: none;
+            padding: 14px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
+        }
+
+        .btn-google:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .btn-google svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .loading-box {
+            display: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .highlight {
+            position: relative;
+            display: inline-block;
+            background-color: var(--primary-dark);
+            color: #ffffff !important;
+            padding: 2px 12px;
+            border-radius: 0px;
+            line-height: 1.2;
+            margin: 0 2px;
+            white-space: nowrap;
+        }
+
+        .highlight::before,
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            width: 14px;
+            height: 14px;
+            background-color: var(--primary-dark);
+        }
+
+        .highlight::before {
+            left: -12px;
+            border-radius: 50% 0 50% 50%;
+        }
+
+        .highlight::after {
+            right: -12px;
+            border-radius: 0 50% 50% 50%;
+        }
+
+        .footer .highlight {
+            background-color: #ffffff;
+            color: var(--primary-dark) !important;
+        }
+
+        .footer .highlight::before,
+        .footer .highlight::after {
+            background-color: #ffffff;
+        }
+
+        .footer {
+            background-color: var(--primary-dark);
+            padding: var(--space-xl) 5%;
+            text-align: center;
+            color: #ffffff;
+            margin-top: auto;
+        }
+
+        .footer h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+            color: #ffffff;
+            line-height: 1.4;
+        }
+
+        .footer p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto var(--space-md) auto;
+        }
+
+        .btn-white {
+            background-color: #ffffff;
+            color: var(--primary-dark);
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
+        }
+
+        .btn-white:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .btn-white svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        @media (max-width: 868px) {
+            header {
+                grid-template-columns: 1fr auto;
+            }
+            .nav, .actions {
+                display: none;
+            }
+            .menu-btn {
+                display: block;
+                z-index: 1001;
+            }
+            .login-content h1 {
+                font-size: 1.8rem;
+            }
+            .footer h2 {
+                font-size: 1.8rem;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <main class="auth-container">
-    <div id="loginSection">
-      <p class="auth-desc">Masuk menggunakan akun Google Anda untuk melanjutkan ke aplikasi Mineplay.</p>
-      <button type="button" class="google-btn" id="googleLoginBtn" onclick="handleGoogleLogin()">
-        <svg viewBox="0 0 24 24">
-          <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-          <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.15C3.16 21.32 7.23 24 12 24z"/>
-          <path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.2C.44 8.15 0 9.92 0 12s.44 3.85 1.2 5.4l4.08-3.15z"/>
-          <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.16 2.68 1.2 6.6l4.08 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/>
-        </svg>
-        Masuk dengan Google
-      </button>
+    <header>
+        <div class="logo" onclick="window.location.href='/'">
+            <img src="../publick/img/icon.png" alt="Icon">ineplix
+        </div>
+
+        <nav class="nav">
+            <div class="nav-link" onclick="window.location.href='/'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        </nav>
+
+        <div class="actions">
+            <div class="btn-outline active" onclick="window.location.href='/login'">Masuk</div>
+        </div>
+
+        <div class="menu-btn" id="menuToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
+            </svg>
+        </div>
+    </header>
+
+    <div class="drawer" id="mobileDrawer">
+        <div class="nav-link" onclick="window.location.href='/'">Beranda</div>
+        
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
+            <span>Layanan</span>
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div class="dropdown-menu" id="mobileLayananMenu">
+            <a href="/layanan/frontend">Frontend Web Design</a>
+            <a href="/layanan/graphic">Graphic Design</a>
+            <a href="/layanan/minecraft">Minecraft Maps Builder</a>
+        </div>
+
+        <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        
+        <div class="drawer-actions">
+            <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
+        </div>
     </div>
-    <div id="loadingSection" style="display: none; font-weight: 600;">Berhasil masuk, mengalihkan...</div>
-  </main>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+    <section class="login-section">
+        <div class="login-content fade-up">
+            <div id="loginSection">
+                <h1>Selamat Datang</h1>
+                <p>Masuk menggunakan akun Google Anda untuk melanjutkan ke aplikasi.</p>
+                <button id="googleLoginBtn" class="btn-google" onclick="handleGoogleLogin()">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v2.39h3.88c2.27-2.09 3.66-5.17 3.66-8.82z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.02c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.13C3.18 21.36 7.23 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.39-1.5-.39-2.28s.14-1.56.39-2.28V6.59H1.2C.44 8.13 0 9.87 0 12s.44 3.87 1.2 5.41l4.08-3.13z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.64 1.2 6.59l4.08 3.13c.95-2.84 3.6-4.97 6.72-4.97z"/>
+                    </svg>
+                    Masuk dengan Google
+                </button>
+            </div>
+            <div id="loadingSection" class="loading-box">
+                Autentikasi berhasil! Mengalihkan ke aplikasi...
+            </div>
+        </div>
+    </section>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
-      authDomain: "mineplix-3d91c.firebaseapp.com",
-      databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "mineplix-3d91c",
-      storageBucket: "mineplix-3d91c.firebasestorage.app",
-      messagingSenderId: "932702850146",
-      appId: "1:932702850146:web:0933bde133e94b4254953b",
-      measurementId: "G-VTMMJV3HY7"
-    };
+    <footer class="footer fade-in" id="kontak">
+        <h2>Mulai Wujudkan <span class="highlight">Server Impianmu</span> Hari Ini</h2>
+        <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
+        <div class="scale-in" style="transition-delay: 0.2s;">
+            <div class="btn-white" onclick="window.location.href='/kontak'">
+                Hubungi Kami Sekarang 
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </div>
+        <div class="footer-inner">
+            <div>
+                © 2026 Mineplix. All Rights Reserved.
+            </div>
+            <div class="footer-links">
+                <a href="/terms/privacy.html">Privasi</a>
+                <a href="/terms/">Syarat & Ketentuan</a>
+                <a href="/terms/help.html">Bantuan</a>
+            </div>
+        </div>
+    </footer>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileDrawer = document.getElementById('mobileDrawer');
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('loadingSection').style.display = 'block';
+        function toggleMobileMenu() {
+            const isOpen = mobileDrawer.classList.toggle('active');
+            if (isOpen) {
+                document.body.style.overflow = 'hidden';
+                menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+            } else {
+                document.body.style.overflow = '';
+                menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>`;
+            }
+        }
 
-        setTimeout(() => {
-          // Karena dibuka di dalam WebView aplikasi, fungsi Android langsung merespons!
-          if (window.Android && typeof window.Android.goToMain === 'function') {
-            window.Android.goToMain();
-          }
-        }, 800);
-      }
-    });
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMobileMenu();
+        });
 
-    window.handleGoogleLogin = async function() {
-      const btn = document.getElementById('googleLoginBtn');
-      btn.disabled = true;
-      btn.innerText = 'Menghubungkan...';
+        const mobileLayananToggle = document.getElementById('mobileLayananToggle');
+        const mobileLayananMenu = document.getElementById('mobileLayananMenu');
 
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (error) {
-        console.error(error);
-        btn.disabled = false;
-        btn.innerText = 'Masuk dengan Google';
-      }
-    };
-  </script>
+        mobileLayananToggle.addEventListener('click', () => {
+            mobileLayananMenu.classList.toggle('show');
+            mobileLayananToggle.classList.toggle('active');
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observerInstance) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observerInstance.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up, .fade-in, .scale-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
 </body>
 </html>
