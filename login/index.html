@@ -1,18 +1,200 @@
-<!-- Tombol Login di HTML kamu -->
-<button onclick="handleGoogleLogin()">Login dengan Google</button>
-
-<script>
-    function handleGoogleLogin() {
-        // URL tujuan login (bisa URL endpoint Google OAuth atau halaman login website kamu)
-        var targetUrl = "https://website-kamu.com/auth/google"; 
-
-        // Cek apakah bridge "Android" tersedia di aplikasi
-        if (window.Android && typeof window.Android.openCustomTab === 'function') {
-            // Panggil fungsi Java di Sketchware untuk membuka Chrome Custom Tabs
-            window.Android.openCustomTab(targetUrl);
-        } else {
-            // Fallback jika dibuka lewat browser biasa (bukan di dalam APK Sketchware)
-            window.location.href = targetUrl;
-        }
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mineplay - Autentikasi Google</title>
+  
+  <style>
+    @font-face {
+      font-family: 'Plus Jakarta Sans';
+      src: url('font/jakarta-sans.ttf') format('truetype');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
     }
-</script>
+    :root {
+      --md-sys-color-background: #000000;
+      --md-sys-color-surface: #1e1e24;
+      --md-sys-color-surface-variant: #131313;
+      --md-sys-color-surface-container-high: #222222;
+      
+      --md-sys-color-primary: #000000;
+      --md-sys-color-on-primary: #ffffff;
+      
+      --md-sys-color-secondary: #a1a1aa;
+      --md-sys-color-on-background: #e3e3e3;
+      --md-sys-color-on-surface: #fff;
+      --md-sys-color-on-surface-variant: #9e9ea8;
+
+      --md-shape-full: 9999px;
+      --font-family: 'Plus Jakarta Sans', sans-serif;
+
+      --app-active-scale: scale(0.96);
+      --app-active-transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100vh;
+      max-height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--md-sys-color-background);
+      color: var(--md-sys-color-on-background);
+      font-family: var(--font-family);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .auth-container {
+      width: 100%;
+      max-width: 440px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-card {
+      width: 100%;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .auth-desc {
+      font-size: 14px;
+      color: var(--md-sys-color-on-surface-variant);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .google-btn {
+      width: 100%;
+      height: 52px;
+      background-color: #ffffff;
+      color: #000000;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      outline: none;
+      border-radius: var(--md-shape-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: var(--app-active-transition), background-color 0.2s ease;
+      box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+    }
+
+    .google-btn:active {
+      transform: var(--app-active-scale);
+      background-color: #e0e0e0;
+    }
+
+    .google-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .loading-box {
+      display: none;
+      font-size: 14px;
+      color: var(--md-sys-color-on-background);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="auth-container">
+    <div class="auth-card">
+      <div id="loginSection">
+        <p class="auth-desc">Masuk menggunakan akun Google Anda untuk melanjutkan ke aplikasi Mineplay.</p>
+        <button type="button" class="google-btn" id="googleLoginBtn" onclick="handleGoogleLogin()">
+          <svg viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.15C3.16 21.32 7.23 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.2C.44 8.15 0 9.92 0 12s.44 3.85 1.2 5.4l4.08-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.16 2.68 1.2 6.6l4.08 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/>
+          </svg>
+          Masuk dengan Google
+        </button>
+      </div>
+      <div id="loadingSection" class="loading-box">
+        Memeriksa sesi...
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
+      authDomain: "mineplix-3d91c.firebaseapp.com",
+      databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "mineplix-3d91c",
+      storageBucket: "mineplix-3d91c.firebasestorage.app",
+      messagingSenderId: "932702850146",
+      appId: "1:932702850146:web:0933bde133e94b4254953b",
+      measurementId: "G-VTMMJV3HY7"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    onAuthStateChanged(auth, (user) => {
+      const loginSection = document.getElementById('loginSection');
+      const loadingSection = document.getElementById('loadingSection');
+
+      if (user) {
+        loginSection.style.display = 'none';
+        loadingSection.style.display = 'block';
+        loadingSection.innerText = 'Sudah masuk, mengalihkan...';
+        
+        setTimeout(() => {
+          if (window.Android && typeof window.Android.openBridge === 'function') {
+            window.Android.openBridge();
+          }
+        }, 500);
+      } else {
+        loginSection.style.display = 'block';
+        loadingSection.style.display = 'none';
+      }
+    });
+
+    window.handleGoogleLogin = async function() {
+      const btn = document.getElementById('googleLoginBtn');
+      btn.disabled = true;
+      btn.innerText = 'Menghubungkan...';
+
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (error) {
+        console.error(error);
+        btn.disabled = false;
+        btn.innerText = 'Masuk dengan Google';
+      }
+    };
+  </script>
+</body>
+</html>
