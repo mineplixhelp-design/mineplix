@@ -7,6 +7,10 @@
     <title>Mineplix</title>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    
+    <!-- Trustpilot script untuk widget dasar -->
+    <script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js" async></script>
+
     <style>
         @font-face {
             font-family: 'DieGrotesk-C';
@@ -300,8 +304,8 @@
         }
 
         .drawer-actions {
-            margin-top: auto;
-            padding-top: var(--space-md);
+            margin-top: 24px;
+            padding-top: 0;
         }
 
         .drawer-actions .btn-outline {
@@ -639,44 +643,6 @@
             text-align: center;
         }
 
-        .trusted-link {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-
-        .trusted-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            letter-spacing: -0.5px;
-        }
-
-        .trusted-stars {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-        }
-
-        .star-box {
-            background-color: var(--trustpilot);
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-        }
-
-        .star-box svg {
-            width: 18px;
-            height: 18px;
-            fill: #ffffff;
-        }
-
         .footer {
             background-color: var(--primary-dark);
             padding: var(--space-xl) 5%;
@@ -980,17 +946,11 @@
 
     </div>
 
+    <!-- Section Trustpilot Widget -->
     <div class="trusted">
-        <a href="https://www.trustpilot.com" target="_blank" rel="noopener noreferrer" class="trusted-link fade-up">
-            <span class="trusted-title">See trusted in Trustpilot</span>
-            <div class="trusted-stars">
-                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
-            </div>
-        </a>
+        <div class="trustpilot-widget fade-up" data-locale="en-US" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="6adb6fe991bd82e6106bf660" data-style-height="52px" data-style-width="100%">
+            <a href="https://www.trustpilot.com/review/mineplix.biz.id" target="_blank" rel="noopener">Trustpilot</a>
+        </div>
     </div>
 
     <footer class="footer fade-in" id="kontak">
