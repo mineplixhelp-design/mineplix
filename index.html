@@ -48,9 +48,10 @@
                     const photoURL = user.photoURL || '../publick/img/icon.png';
                     const displayName = user.displayName ? user.displayName.split(' ')[0] : 'Akun';
                     container.innerHTML = `
-                        <div class="user-profile-btn" onclick="handleUserMenu(event)">
+                        <div class="user-profile-btn" onclick="handleLogout()">
                             <img src="${photoURL}" alt="Profile" class="user-avatar">
                             <span>${displayName}</span>
+                            <span class="logout-text">Keluar</span>
                         </div>
                     `;
                     if (window.Android && typeof window.Android.goToMain === 'function') {
@@ -85,13 +86,6 @@
                 await signOut(auth);
             } catch (error) {
                 console.error(error);
-            }
-        };
-
-        window.handleUserMenu = function(e) {
-            e.stopPropagation();
-            if(confirm("Apakah Anda ingin keluar (Logout)?")) {
-                window.handleLogout();
             }
         };
     </script>
@@ -295,6 +289,7 @@
             gap: 8px;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
+            cursor: pointer;
         }
 
         .btn-outline:active {
@@ -317,6 +312,14 @@
             border-radius: var(--radius-full);
             font-weight: 700;
             font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
+        }
+
+        .user-profile-btn:active {
+            transform: scale(0.96);
+            opacity: 0.9;
         }
 
         .user-avatar {
@@ -324,6 +327,12 @@
             height: 32px;
             border-radius: 50%;
             object-fit: cover;
+        }
+
+        .logout-text {
+            color: #dc2626;
+            font-weight: 700;
+            margin-left: 4px;
         }
 
         .menu-btn {
@@ -540,6 +549,7 @@
             gap: var(--space-xs);
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
+            cursor: pointer;
         }
 
         .btn-secondary {
@@ -550,6 +560,7 @@
             font-weight: 700;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
+            cursor: pointer;
         }
 
         .btn-primary:active {
@@ -612,6 +623,7 @@
             overflow: hidden;
             text-align: left;
             transition: background-color 0.3s ease, color 0.3s ease;
+            cursor: pointer;
         }
 
         .ripple {
@@ -717,6 +729,7 @@
             color: var(--text-dark);
             text-align: left;
             transition: color 0.2s ease;
+            cursor: pointer;
         }
 
         .faq-q:hover {
@@ -832,6 +845,7 @@
             gap: 8px;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
+            cursor: pointer;
         }
 
         .btn-white:active {
@@ -924,16 +938,16 @@
 <body>
 
     <header>
-        <div class="logo" onclick="window.location.href='/'">
+        <div class="logo" onclick="window.location.href='/'" style="cursor: pointer;">
             <img src="../publick/img/icon.png" alt="Icon">ineplix
         </div>
 
         <nav class="nav">
-            <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
-            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+            <div class="nav-link active" onclick="window.location.href='/'" style="cursor: pointer;">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/frontend'" style="cursor: pointer;">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/graphic'" style="cursor: pointer;">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'" style="cursor: pointer;">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='/porto'" style="cursor: pointer;">Portofolio</div>
         </nav>
 
         <div class="actions">
@@ -948,9 +962,9 @@
     </header>
 
     <div class="drawer" id="mobileDrawer">
-        <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
+        <div class="nav-link active" onclick="window.location.href='/'" style="cursor: pointer;">Beranda</div>
         
-        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle" style="cursor: pointer;">
             <span>Layanan</span>
             <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
@@ -960,7 +974,7 @@
             <a href="/layanan/minecraft">Minecraft Maps Builder</a>
         </div>
 
-        <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        <div class="nav-link" onclick="window.location.href='/porto'" style="cursor: pointer;">Portofolio</div>
         
         <div class="drawer-actions">
             <div class="auth-action-container"></div>
