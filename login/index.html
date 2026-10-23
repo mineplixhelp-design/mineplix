@@ -1,0 +1,18 @@
+<!-- Tombol Login di HTML kamu -->
+<button onclick="handleGoogleLogin()">Login dengan Google</button>
+
+<script>
+    function handleGoogleLogin() {
+        // URL tujuan login (bisa URL endpoint Google OAuth atau halaman login website kamu)
+        var targetUrl = "https://website-kamu.com/auth/google"; 
+
+        // Cek apakah bridge "Android" tersedia di aplikasi
+        if (window.Android && typeof window.Android.openCustomTab === 'function') {
+            // Panggil fungsi Java di Sketchware untuk membuka Chrome Custom Tabs
+            window.Android.openCustomTab(targetUrl);
+        } else {
+            // Fallback jika dibuka lewat browser biasa (bukan di dalam APK Sketchware)
+            window.location.href = targetUrl;
+        }
+    }
+</script>
