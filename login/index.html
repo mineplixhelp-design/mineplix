@@ -172,10 +172,14 @@
         loadingSection.innerText = 'Sudah masuk, mengalihkan...';
         
         setTimeout(() => {
+          // Cek apakah dibuka di dalam WebView Sketchware langsung
           if (window.Android && typeof window.Android.openBridge === 'function') {
             window.Android.openBridge();
+          } else {
+            // Jika dibuka lewat Chrome Custom Tabs, lempar balik ke aplikasi pakai Deep Link
+            window.location.href = "minefun://success";
           }
-        }, 500);
+        }, 800);
       } else {
         loginSection.style.display = 'block';
         loadingSection.style.display = 'none';
