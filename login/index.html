@@ -83,7 +83,7 @@
       line-height: 1.6;
     }
 
-    .google-btn, .continue-btn {
+    .google-btn {
       width: 100%;
       height: 52px;
       background-color: #ffffff;
@@ -103,14 +103,9 @@
       box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
     }
 
-    .continue-btn {
-      background-color: #4285F4;
-      color: #ffffff;
-      margin-top: 15px;
-    }
-
-    .google-btn:active, .continue-btn:active {
+    .google-btn:active {
       transform: var(--app-active-scale);
+      background-color: #e0e0e0;
     }
 
     .google-btn svg {
@@ -143,13 +138,6 @@
         </button>
       </div>
 
-      <div id="successSection" style="display: none;">
-        <p class="auth-desc" style="color: #34A853; font-weight: 700;">✓ Berhasil Masuk!</p>
-        <button type="button" class="continue-btn" onclick="redirectToApp()">
-          Lanjutkan ke Aplikasi
-        </button>
-      </div>
-
       <div id="loadingSection" class="loading-box">
         Memeriksa sesi...
       </div>
@@ -175,29 +163,21 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Fungsi pemicu kembali ke aplikasi Sketchware
-    window.redirectToApp = function() {
-      // Mengirimkan instruksi ke Sketchware untuk menyimpan CACHE LOGIN
-      window.location.href = "minefun://login-success";
-    };
-
     onAuthStateChanged(auth, (user) => {
       const loginSection = document.getElementById('loginSection');
-      const successSection = document.getElementById('successSection');
       const loadingSection = document.getElementById('loadingSection');
 
       if (user) {
         loginSection.style.display = 'none';
-        loadingSection.style.display = 'none';
-        successSection.style.display = 'block';
+        loadingSection.style.display = 'block';
+        loadingSection.innerText = 'Sudah masuk, mengalihkan...';
 
-        // Mencoba redirect otomatis, jika diblokir browser user bisa tekan tombol "Lanjutkan ke Aplikasi"
         setTimeout(() => {
-          redirectToApp();
-        }, 1000);
+          // Langsung lempar kembali ke aplikasi lewat Deep Link tanpa target URL
+          window.location.href = "minefun://login-success";
+        }, 500);
       } else {
         loginSection.style.display = 'block';
-        successSection.style.display = 'none';
         loadingSection.style.display = 'none';
       }
     });
