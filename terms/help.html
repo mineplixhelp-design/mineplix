@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pusat Bantuan - Mineplix</title>
+    <meta name="description" content="Pusat bantuan dan FAQ layanan Mineplix.">
+    
+    <link rel="icon" href="../publick/img/icon.png" type="image/png">
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
+          authDomain: "mineplix-3d91c.firebaseapp.com",
+          databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
+          projectId: "mineplix-3d91c",
+          storageBucket: "mineplix-3d91c.firebasestorage.app",
+          messagingSenderId: "932702850146",
+          appId: "1:932702850146:web:0933bde133e94b4254953b",
+          measurementId: "G-VTMMJV3HY7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        onAuthStateChanged(auth, (user) => {
+            const authActionContainers = document.querySelectorAll('.auth-action-container');
+            authActionContainers.forEach(container => {
+                if (user) {
+                    const photoURL = user.photoURL || '../publick/img/icon.png';
+                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'Akun';
+                    container.innerHTML = `
+                        <div class="user-profile-btn" onclick="handleLogout()">
+                            <img src="${photoURL}" alt="Profile" class="user-avatar">
+                            <span>${displayName}</span>
+                            <span class="logout-text">Keluar</span>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="btn-outline" onclick="handleGoogleLogin()">
+                            <svg class="google-icon" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v2.39h3.88c2.27-2.09 3.66-5.17 3.66-8.82z"/>
+                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.02c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.13C3.18 21.36 7.23 24 12 24z"/>
+                                <path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.39-1.5-.39-2.28s.14-1.56.39-2.28V6.59H1.2C.44 8.13 0 9.87 0 12s.44 3.87 1.2 5.41l4.08-3.13z"/>
+                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.64 1.2 6.59l4.08 3.13c.95-2.84 3.6-4.97 6.72-4.97z"/>
+                            </svg>
+                            Masuk
+                        </div>
+                    `;
+                }
+            });
+        });
+
+        window.handleGoogleLogin = async function() {
+            try { await signInWithPopup(auth, provider); } catch (e) { console.error(e); }
+        };
+        window.handleLogout = async function() {
+            try { await signOut(auth); } catch (e) { console.error(e); }
+        };
+    </script>
+
+    <style>
+        @font-face {
+            font-family: 'DieGrotesk-C';
+            src: url('https://op.al/fonts/DieGrotesk-C-Regular.woff2') format('woff2');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'DieGrotesk-C';
+            src: url('https://op.al/fonts/DieGrotesk-C-Bold.woff2') format('woff2');
+            font-weight: 700;
+        }
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-light: #ffffff;
+            --card-bg: #f3f3f5;
+            --text-dark: #18181b;
+            --text-muted: #6b7280;
+            --radius-full: 9999px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+            --space-xxl: 96px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'DieGrotesk-C', sans-serif; text-decoration: none; }
+        body { color: var(--text-dark); background-color: var(--bg-light); line-height: 1.6; }
+        
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background: var(--primary-dark); z-index: 1000; padding: var(--space-sm) 5%;
+            display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .logo img { height: 28px; width: auto; }
+        .nav { display: flex; gap: var(--space-md); align-items: center; justify-self: center; font-size: 0.95rem; }
+        .nav-link { color: #ffffff; font-weight: 500; cursor: pointer; }
+        .actions { display: flex; align-items: center; justify-self: end; }
+        .btn-outline { padding: 8px 20px; border-radius: var(--radius-full); color: var(--primary-dark); background-color: #ffffff; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+        .google-icon { width: 18px; height: 18px; }
+        .user-profile-btn { display: inline-flex; align-items: center; gap: 8px; background-color: #ffffff; color: var(--primary-dark); padding: 4px 16px 4px 4px; border-radius: var(--radius-full); font-weight: 700; cursor: pointer; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+        .logout-text { color: #dc2626; font-weight: 700; margin-left: 4px; }
+
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: calc(var(--space-xxl) + 20px) 5% var(--space-xl) 5%;
+        }
+        .content-section h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: var(--space-sm); color: var(--text-dark); }
+        .content-section p.subtitle { color: var(--text-muted); font-size: 1rem; margin-bottom: var(--space-lg); }
+        
+        .help-box {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: var(--space-md);
+            margin-bottom: var(--space-sm);
+        }
+        .help-box h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--text-dark); }
+        .help-box p { color: var(--text-muted); font-size: 0.95srem; }
+
+        .footer { background-color: var(--primary-dark); padding: var(--space-xl) 5%; text-align: center; color: #ffffff; }
+        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: var(--space-md); border-top: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.85rem; color: rgba(255, 255, 255, 0.8); }
+        .footer-links { display: flex; gap: 16px; }
+        .footer-links a { color: rgba(255, 255, 255, 0.8); }
+        .footer-links a:hover { color: #ffffff; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="window.location.href='/'">
+            <img src="../publick/img/icon.png" alt="Icon">ineplix
+        </div>
+        <nav class="nav">
+            <div class="nav-link" onclick="window.location.href='/'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        </nav>
+        <div class="actions">
+            <div class="auth-action-container"></div>
+        </div>
+    </header>
+
+    <main class="content-section">
+        <h1>Pusat Bantuan</h1>
+        <p class="subtitle">Butuh bantuan atau panduan terkait layanan Mineplix? Temukan jawabannya di sini.</p>
+
+        <div class="help-box">
+            <h3>Bagaimana cara memesan layanan?</h3>
+            <p>Anda dapat langsung memilih layanan yang diinginkan pada halaman utama, lalu menghubungi tim kami melalui tombol kontak atau melalui akun yang terhubung.</p>
+        </div>
+
+        <div class="help-box">
+            <h3>Bagaimana cara melakukan login?</h3>
+            <p>Klik tombol "Masuk" di bagian kanan atas header website menggunakan akun Google Anda untuk mengakses fitur interaktif dan profil.</p>
+        </div>
+
+        <div class="help-box">
+            <h3>Bagaimana cara menghubungi tim support?</h3>
+            <p>Anda bisa langsung menuju halaman kontak atau mengirimkan pesan melalui media komunikasi resmi yang tertera pada footer website kami.</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div>© 2026 Mineplix. All Rights Reserved.</div>
+            <div class="footer-links">
+                <a href="/terms/privacy.html">Privasi</a>
+                <a href="/terms/">Syarat & Ketentuan</a>
+                <a href="/terms/help.html">Bantuan</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
