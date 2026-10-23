@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kebijakan Privasi - Mineplix</title>
-    <meta name="description" content="Kebijakan privasi dan perlindungan data pengguna Mineplix.">
+    <title>Mineplix - Kebijakan Privasi</title>
+    <meta name="description" content="Kebijakan privasi dan perlindungan data pengguna di layanan Mineplix.">
     
+    <meta property="og:title" content="Mineplix - Kebijakan Privasi">
+    <meta property="og:description" content="Kebijakan privasi dan perlindungan data pengguna di layanan Mineplix.">
+    <meta property="og:image" content="../publick/img/banner.png">
+    <meta property="og:type" content="website">
+
     <link rel="icon" href="../publick/img/icon.png" type="image/png">
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
@@ -42,6 +47,9 @@
                             <span class="logout-text">Keluar</span>
                         </div>
                     `;
+                    if (window.Android && typeof window.Android.goToMain === 'function') {
+                        window.Android.goToMain();
+                    }
                 } else {
                     container.innerHTML = `
                         <div class="btn-outline" onclick="handleGoogleLogin()">
@@ -59,10 +67,11 @@
         });
 
         window.handleGoogleLogin = async function() {
-            try { await signInWithPopup(auth, provider); } catch (e) { console.error(e); }
+            try { await signInWithPopup(auth, provider); } catch (error) { console.error(error); }
         };
+
         window.handleLogout = async function() {
-            try { await signOut(auth); } catch (e) { console.error(e); }
+            try { await signOut(auth); } catch (error) { console.error(error); }
         };
     </script>
 
@@ -71,11 +80,15 @@
             font-family: 'DieGrotesk-C';
             src: url('https://op.al/fonts/DieGrotesk-C-Regular.woff2') format('woff2');
             font-weight: 400;
+            font-style: normal;
+            font-display: swap;
         }
         @font-face {
             font-family: 'DieGrotesk-C';
             src: url('https://op.al/fonts/DieGrotesk-C-Bold.woff2') format('woff2');
             font-weight: 700;
+            font-style: normal;
+            font-display: swap;
         }
         :root {
             --primary: #7c3aed;
@@ -84,104 +97,182 @@
             --card-bg: #f3f3f5;
             --text-dark: #18181b;
             --text-muted: #6b7280;
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 24px;
             --radius-full: 9999px;
+            --space-xs: 8px;
             --space-sm: 16px;
             --space-md: 24px;
             --space-lg: 32px;
             --space-xl: 64px;
             --space-xxl: 96px;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'DieGrotesk-C', sans-serif; text-decoration: none; }
-        body { color: var(--text-dark); background-color: var(--bg-light); line-height: 1.6; }
+        ::selection { background-color: var(--primary-dark); color: #ffffff; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'DieGrotesk-C', system-ui, -apple-system, sans-serif; border: none; outline: none; box-shadow: none; text-decoration: none; }
+        body { color: var(--text-dark); background-color: var(--bg-light); line-height: 1.6; overflow-x: hidden; font-weight: 400; }
+        ul { list-style: none; }
+        .fade-up { opacity: 0; transform: translateY(45px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .fade-in { opacity: 0; transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity; }
+        .fade-in.visible { opacity: 1; }
         
-        header {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: var(--primary-dark); z-index: 1000; padding: var(--space-sm) 5%;
-            display: grid; grid-template-columns: auto 1fr auto; align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; display: flex; align-items: center; gap: 4px; cursor: pointer; }
-        .logo img { height: 28px; width: auto; }
-        .nav { display: flex; gap: var(--space-md); align-items: center; justify-self: center; font-size: 0.95rem; }
-        .nav-link { color: #ffffff; font-weight: 500; cursor: pointer; }
-        .actions { display: flex; align-items: center; justify-self: end; }
+        header { position: fixed; top: 0; left: 0; width: 100%; background: var(--primary-dark); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; padding: var(--space-sm) 5%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
+        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; letter-spacing: -0.5px; user-select: none; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .logo img { height: 28px; width: auto; display: block; }
+        .nav { display: flex; gap: var(--space-md); align-items: center; justify-content: center; font-size: 0.95rem; justify-self: center; }
+        .nav-link { color: #ffffff; transition: opacity 0.15s ease; user-select: none; display: flex; align-items: center; gap: 6px; position: relative; white-space: nowrap; font-weight: 500; cursor: pointer; }
+        .nav-link:hover, .nav-link:active { opacity: 0.85; color: #ffffff; }
+        .actions { display: flex; align-items: center; gap: var(--space-sm); justify-self: end; }
         .btn-outline { padding: 8px 20px; border-radius: var(--radius-full); color: var(--primary-dark); background-color: #ffffff; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
-        .google-icon { width: 18px; height: 18px; }
-        .user-profile-btn { display: inline-flex; align-items: center; gap: 8px; background-color: #ffffff; color: var(--primary-dark); padding: 4px 16px 4px 4px; border-radius: var(--radius-full); font-weight: 700; cursor: pointer; }
+        .user-profile-btn { display: inline-flex; align-items: center; gap: 8px; background-color: #ffffff; color: var(--primary-dark); padding: 4px 16px 4px 4px; border-radius: var(--radius-full); font-weight: 700; font-size: 0.9rem; cursor: pointer; }
         .user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
         .logout-text { color: #dc2626; font-weight: 700; margin-left: 4px; }
+        .menu-btn { display: none; background: transparent; padding: var(--space-xs); justify-self: end; cursor: pointer; }
+        .menu-btn svg { width: 28px; height: 28px; fill: #ffffff; display: block; }
 
-        .content-section {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: calc(var(--space-xxl) + 20px) 5% var(--space-xl) 5%;
-        }
-        .content-section h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: var(--space-sm); color: var(--text-dark); }
-        .content-section p.update-date { color: var(--text-muted); font-size: 0.9rem; margin-bottom: var(--space-lg); }
-        .content-section h2 { font-size: 1.4rem; font-weight: 700; margin-top: var(--space-md); margin-bottom: 8px; color: var(--text-dark); }
-        .content-section p, .content-section li { color: var(--text-muted); font-size: 1rem; margin-bottom: var(--space-sm); }
-        .content-section ul { padding-left: 20px; margin-bottom: var(--space-md); }
+        .drawer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--primary-dark); display: flex; flex-direction: column; padding: 90px 8% 40px 8%; opacity: 0; visibility: hidden; transform: translateY(-15px); transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease; z-index: 999; overflow-y: auto; }
+        .drawer.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .drawer .nav-link { font-size: 1.25rem; font-weight: 500; color: #ffffff; padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.15); justify-content: space-between; }
+        .dropdown-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s ease; }
+        .dropdown-toggle.active svg { transform: rotate(90deg); }
+        .dropdown-menu { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease; padding-left: 16px; background: rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); }
+        .dropdown-menu.show { max-height: 200px; opacity: 1; padding-top: 8px; padding-bottom: 8px; margin: 8px 0; }
+        .dropdown-menu a { display: block; padding: 12px 0; color: #ffffff; font-size: 1rem; font-weight: 500; }
+        .drawer-actions { margin-top: 24px; }
+        .drawer-actions .auth-action-container .btn-outline, .drawer-actions .auth-action-container .user-profile-btn { width: 100%; justify-content: center; padding: 14px 0; font-size: 1rem; }
+
+        .page-hero { background-color: var(--bg-light); background-image: linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px); background-size: 40px 40px; padding: calc(var(--space-xxl) + 20px) 5% var(--space-lg) 5%; text-align: center; }
+        .page-hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-xs); }
+        .page-hero p { color: var(--text-muted); font-size: 1.05rem; }
+
+        .content-section { max-width: 900px; margin: 0 auto; padding: var(--space-md) 5% var(--space-xxl) 5%; }
+        .content-card { background-color: var(--card-bg); border-radius: var(--radius-lg); padding: var(--space-lg); margin-bottom: var(--space-md); }
+        .content-card h3 { font-size: 1.35rem; font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-xs); }
+        .content-card p, .content-card li { font-size: 0.98rem; color: var(--text-muted); line-height: 1.6; margin-bottom: var(--space-xs); }
+        .content-card ul { padding-left: 20px; list-style: disc; margin-top: 8px; }
 
         .footer { background-color: var(--primary-dark); padding: var(--space-xl) 5%; text-align: center; color: #ffffff; }
+        .footer h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: var(--space-xs); color: #ffffff; }
+        .footer p { font-size: 1rem; color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto var(--space-md) auto; }
+        .btn-white { background-color: #ffffff; color: var(--primary-dark); padding: 14px 32px; border-radius: var(--radius-full); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
         .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: var(--space-md); border-top: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.85rem; color: rgba(255, 255, 255, 0.8); }
         .footer-links { display: flex; gap: 16px; }
         .footer-links a { color: rgba(255, 255, 255, 0.8); }
         .footer-links a:hover { color: #ffffff; }
+
+        @media (max-width: 868px) {
+            header { grid-template-columns: 1fr auto; }
+            .nav, .actions { display: none; }
+            .menu-btn { display: block; z-index: 1001; }
+            .page-hero h1 { font-size: 2.1rem; }
+            .footer-inner { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo" onclick="window.location.href='/'">
+        <div class="logo" onclick="window.location.href='../'">
             <img src="../publick/img/icon.png" alt="Icon">ineplix
         </div>
         <nav class="nav">
-            <div class="nav-link" onclick="window.location.href='/'">Beranda</div>
-            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+            <div class="nav-link" onclick="window.location.href='../'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='../layanan/frontend'">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='../layanan/graphic'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='../layanan/minecraft'">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='../porto'">Portofolio</div>
         </nav>
-        <div class="actions">
-            <div class="auth-action-container"></div>
+        <div class="actions"><div class="auth-action-container"></div></div>
+        <div class="menu-btn" id="menuToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
         </div>
     </header>
 
-    <main class="content-section">
-        <h1>Kebijakan Privasi</h1>
-        <p class="update-date">Terakhir diperbarui: 23 Oktober 2026</p>
+    <div class="drawer" id="mobileDrawer">
+        <div class="nav-link" onclick="window.location.href='../'">Beranda</div>
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
+            <span>Layanan</span>
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div class="dropdown-menu" id="mobileLayananMenu">
+            <a href="../layanan/frontend">Frontend Web Design</a>
+            <a href="../layanan/graphic">Graphic Design</a>
+            <a href="../layanan/minecraft">Minecraft Maps Builder</a>
+        </div>
+        <div class="nav-link" onclick="window.location.href='../porto'">Portofolio</div>
+        <div class="drawer-actions"><div class="auth-action-container"></div></div>
+    </div>
 
-        <p>Di Mineplix, privasi Anda adalah prioritas utama kami. Dokumen Kebijakan Privasi ini menjelaskan jenis informasi apa saja yang dikumpulkan dan dicatat oleh Mineplix serta bagaimana kami menggunakannya.</p>
+    <section class="page-hero">
+        <div class="fade-up">
+            <h1>Kebijakan Privasi</h1>
+            <p>Komitmen kami dalam menjaga keamanan dan kerahasiaan data pribadi Anda.</p>
+        </div>
+    </section>
 
-        <h2>1. Informasi yang Kami Kumpulkan</h2>
-        <p>Kami mengumpulkan informasi ketika Anda masuk (login) menggunakan akun Google, meliputi:</p>
-        <ul>
-            <li>Nama lengkap dan nama panggilan.</li>
-            <li>Alamat email yang terdaftar.</li>
-            <li>Foto profil akun Google Anda.</li>
-        </ul>
+    <div class="content-section">
+        <div class="content-card fade-up">
+            <h3>1. Informasi yang Kami Kumpulkan</h3>
+            <p>Kami mengumpulkan informasi yang Anda berikan secara langsung saat menggunakan layanan Mineplix, seperti saat melakukan login menggunakan akun Google, mengisi formulir pemesanan, atau menghubungi tim support kami. Informasi tersebut dapat mencakup nama, alamat email, foto profil, dan detail spesifikasi project Anda.</p>
+        </div>
 
-        <h2>2. Penggunaan Informasi</h2>
-        <p>Informasi yang kami kumpulkan semata-mata digunakan untuk:</p>
-        <ul>
-            <li>Mengelola sesi akun dan profil Anda di platform Mineplix.</li>
-            <li>Memberikan dukungan teknis dan layanan konsultasi project.</li>
-            <li>Meningkatkan kualitas layanan, website, dan pengalaman pengguna.</li>
-        </ul>
+        <div class="content-card fade-up">
+            <h3>2. Penggunaan Informasi</h3>
+            <p>Informasi yang kami kumpulkan digunakan secara eksklusif untuk:</p>
+            <ul>
+                <li>Memproses dan menyelesaikan pesanan layanan web design, graphic design, atau custom map Minecraft.</li>
+                <li>Melakukan autentikasi akun dan mempersonalisasi pengalaman Anda di platform kami.</li>
+                <li>Mengirimkan pembaruan status pengerjaan, faktur, atau informasi penting terkait layanan.</li>
+                <li>Meningkatkan kualitas fitur dan performa layanan Mineplix secara keseluruhan.</li>
+            </ul>
+        </div>
 
-        <h2>3. Keamanan Data</h2>
-        <p>Kami menggunakan infrastruktur keamanan terstandarisasi industri melalui Firebase Google untuk memastikan autentikasi dan penyimpanan data Anda terlindungi dengan aman dari akses yang tidak sah.</p>
+        <div class="content-card fade-up">
+            <h3>3. Keamanan Data</h3>
+            <p>Mineplix berkomitmen untuk melindungi keamanan data pribadi Anda dengan menerapkan standar protokol keamanan dan enkripsi modern melalui layanan infrastruktur terpercaya seperti Firebase. Kami tidak pernah memperjualbelikan atau menyebarkan data pribadi Anda kepada pihak ketiga tanpa izin.</p>
+        </div>
 
-        <h2>4. Hubungi Kami</h2>
-        <p>Jika Anda memiliki pertanyaan lebih lanjut mengenai Kebijakan Privasi ini, Anda dapat menghubungi kami melalui halaman bantuan atau kontak resmi kami.</p>
-    </main>
+        <div class="content-card fade-up">
+            <h3>4. Perubahan Kebijakan</h3>
+            <p>Kebijakan Privasi ini dapat diperbarui dari waktu ke waktu sesuai dengan perkembangan layanan atau regulasi yang berlaku. Setiap perubahan signifikan akan diumumkan melalui halaman ini.</p>
+        </div>
+    </div>
 
-    <footer class="footer">
+    <footer class="footer fade-in">
+        <h2>Punya Pertanyaan Lain?</h2>
+        <p>Tim support kami siap membantu Anda seputar kebijakan privasi dan keamanan data.</p>
+        <div class="btn-white" onclick="window.location.href='help.html'">
+            Kunjungi Pusat Bantuan 
+            <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
         <div class="footer-inner">
             <div>© 2026 Mineplix. All Rights Reserved.</div>
             <div class="footer-links">
-                <a href="/terms/privacy.html">Privasi</a>
-                <a href="/terms/">Syarat & Ketentuan</a>
-                <a href="/terms/help.html">Bantuan</a>
+                <a href="privacy.html">Privasi</a>
+                <a href="./">Syarat & Ketentuan</a>
+                <a href="help.html">Bantuan</a>
             </div>
         </div>
     </footer>
+
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileDrawer.classList.toggle('active');
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        const mobileLayananToggle = document.getElementById('mobileLayananToggle');
+        const mobileLayananMenu = document.getElementById('mobileLayananMenu');
+        mobileLayananToggle.addEventListener('click', () => {
+            mobileLayananMenu.classList.toggle('show');
+            mobileLayananToggle.classList.toggle('active');
+        });
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
+    </script>
 </body>
 </html>
