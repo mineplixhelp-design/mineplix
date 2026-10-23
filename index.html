@@ -289,7 +289,6 @@
             gap: 8px;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
-            cursor: pointer;
         }
 
         .btn-outline:active {
@@ -312,7 +311,6 @@
             border-radius: var(--radius-full);
             font-weight: 700;
             font-size: 0.9rem;
-            cursor: pointer;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
         }
@@ -549,7 +547,6 @@
             gap: var(--space-xs);
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
-            cursor: pointer;
         }
 
         .btn-secondary {
@@ -560,7 +557,6 @@
             font-weight: 700;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
-            cursor: pointer;
         }
 
         .btn-primary:active {
@@ -623,7 +619,6 @@
             overflow: hidden;
             text-align: left;
             transition: background-color 0.3s ease, color 0.3s ease;
-            cursor: pointer;
         }
 
         .ripple {
@@ -729,7 +724,6 @@
             color: var(--text-dark);
             text-align: left;
             transition: color 0.2s ease;
-            cursor: pointer;
         }
 
         .faq-q:hover {
@@ -845,7 +839,6 @@
             gap: 8px;
             transition: transform 0.12s ease, opacity 0.12s ease;
             will-change: transform, opacity;
-            cursor: pointer;
         }
 
         .btn-white:active {
@@ -938,16 +931,16 @@
 <body>
 
     <header>
-        <div class="logo" onclick="window.location.href='/'" style="cursor: pointer;">
+        <div class="logo" onclick="window.location.href='/'">
             <img src="../publick/img/icon.png" alt="Icon">ineplix
         </div>
 
         <nav class="nav">
-            <div class="nav-link active" onclick="window.location.href='/'" style="cursor: pointer;">Beranda</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/frontend'" style="cursor: pointer;">Frontend Web Design</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/graphic'" style="cursor: pointer;">Graphic Design</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'" style="cursor: pointer;">Minecraft Maps Builder</div>
-            <div class="nav-link" onclick="window.location.href='/porto'" style="cursor: pointer;">Portofolio</div>
+            <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         </nav>
 
         <div class="actions">
@@ -962,9 +955,9 @@
     </header>
 
     <div class="drawer" id="mobileDrawer">
-        <div class="nav-link active" onclick="window.location.href='/'" style="cursor: pointer;">Beranda</div>
+        <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
         
-        <div class="dropdown-toggle nav-link" id="mobileLayananToggle" style="cursor: pointer;">
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
             <span>Layanan</span>
             <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
@@ -974,7 +967,7 @@
             <a href="/layanan/minecraft">Minecraft Maps Builder</a>
         </div>
 
-        <div class="nav-link" onclick="window.location.href='/porto'" style="cursor: pointer;">Portofolio</div>
+        <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         
         <div class="drawer-actions">
             <div class="auth-action-container"></div>
