@@ -24,36 +24,30 @@
         }
 
         :root {
-            --color-primary: #a78bfa;
-            --color-primary-light: rgba(167, 139, 250, 0.15);
-            --color-primary-dark: #7c3aed;
-            --color-primary-deep: #4c1d95;
-            --color-bg-body: #0a0712;
-            --color-surface: #141022;
-            --color-text-main: #ffffff;
-            --color-text-muted: #9ca3af;
-            --color-text-light: #6b7280;
-            --color-text-footer: #e9d5ff;
-            
-            --gradient-body: #0a0712;
-            --gradient-cta: linear-gradient(180deg, #0a0712 0%, #7c3aed 100%);
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-light: #ffffff;
+            --card-bg: #f3f3f5;
+            --text-dark: #18181b;
+            --text-muted: #6b7280;
+            --trustpilot: #00b67a;
 
             --radius-sm: 12px;
             --radius-md: 20px;
-            --radius-lg: 32px;
+            --radius-lg: 24px;
             --radius-full: 9999px;
 
-            --space-xs: 6px;
-            --space-sm: 12px;
-            --space-md: 20px;
-            --space-lg: 30px;
-            --space-xl: 60px;
-            --space-xxl: 80px;
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 24px;
+            --space-lg: 32px;
+            --space-xl: 64px;
+            --space-xxl: 96px;
         }
 
         ::selection {
-            background-color: #ffffff;
-            color: var(--color-primary-dark);
+            background-color: var(--primary-dark);
+            color: #ffffff;
         }
 
         * {
@@ -68,9 +62,8 @@
         }
 
         body {
-            color: var(--color-text-main);
-            background: var(--gradient-body);
-            background-color: var(--color-bg-body);
+            color: var(--text-dark);
+            background-color: var(--bg-light);
             line-height: 1.6;
             overflow-x: hidden;
             font-weight: 400;
@@ -80,201 +73,333 @@
             list-style: none;
         }
 
+        .fade-up {
+            opacity: 0;
+            transform: translateY(45px);
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+        }
+
+        .scale-in {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+            display: inline-block;
+        }
+
+        .scale-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-line {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .slide-line.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
-            background: rgba(10, 7, 18, 0.98);
+            left: 0;
+            width: 100%;
+            background: var(--primary-dark);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
             padding: var(--space-sm) 5%;
             display: grid;
             grid-template-columns: auto 1fr auto;
             align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
         }
 
-        .brand-logo {
+        .logo {
             font-weight: 700;
             font-size: 1.6rem;
-            color: var(--color-text-main);
+            color: #ffffff;
             letter-spacing: -0.5px;
             user-select: none;
             display: flex;
             align-items: center;
             gap: 4px;
-            justify-self: start;
         }
 
-        .brand-logo img {
+        .logo img {
             height: 28px;
             width: auto;
             display: block;
         }
 
-        .brand-logo:hover {
-            opacity: 0.85;
-        }
-
-        .nav-menu {
+        .nav {
             display: flex;
-            gap: var(--space-lg);
+            gap: var(--space-md);
             align-items: center;
             justify-content: center;
             font-size: 0.95rem;
-            color: var(--color-text-muted);
             justify-self: center;
         }
 
         .nav-link {
-            color: var(--color-text-muted);
-            transition: color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+            color: #ffffff;
+            transition: opacity 0.15s ease;
             user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            white-space: nowrap;
+            font-weight: 500;
         }
 
-        .nav-link:hover {
-            color: var(--color-text-main);
+        .nav-link:hover,
+        .nav-link:active {
             opacity: 0.85;
-            transform: scale(0.97);
+            color: #ffffff;
         }
 
         .nav-link.active {
-            color: var(--color-primary);
-            font-weight: 700;
-            pointer-events: none;
+            color: #ffffff !important;
+            font-weight: 500 !important;
         }
 
-        .nav-actions {
+        .actions {
             display: flex;
             align-items: center;
             gap: var(--space-sm);
             justify-self: end;
-        }
-
-        .btn-outline,
-        .btn-solid,
-        .btn-primary,
-        .btn-secondary,
-        .btn-white {
-            transition: transform 0.2s ease, opacity 0.2s ease !important;
-            user-select: none;
-        }
-
-        .btn-outline:hover,
-        .btn-solid:hover,
-        .btn-primary:hover,
-        .btn-secondary:hover,
-        .btn-white:hover {
-            transform: scale(0.97);
-            opacity: 0.85;
         }
 
         .btn-outline {
-            padding: var(--space-sm) var(--space-lg);
+            padding: 10px 24px;
             border-radius: var(--radius-full);
-            color: var(--color-text-main);
-            background-color: var(--color-primary-dark);
+            color: var(--primary-dark);
+            background-color: #ffffff;
             font-weight: 700;
             font-size: 0.9rem;
             display: inline-block;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
         }
 
-        .menu-toggle {
+        .btn-outline:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .menu-btn {
             display: none;
             background: transparent;
             padding: var(--space-xs);
-            user-select: none;
             justify-self: end;
         }
 
-        .menu-toggle svg {
+        .menu-btn svg {
             width: 28px;
             height: 28px;
-            fill: var(--color-text-main);
-            transition: transform 0.3s ease;
+            fill: #ffffff;
             display: block;
         }
 
-        .mobile-drawer {
+        .drawer {
             position: fixed;
-            top: 57px;
+            top: 0;
             left: 0;
-            width: 100%;
-            background: rgba(10, 7, 18, 0.98);
-            backdrop-filter: blur(12px);
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-dark);
             display: flex;
             flex-direction: column;
-            padding: 0 5%;
+            padding: 90px 8% 40px 8%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-15px);
+            transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .drawer.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .drawer .nav-link {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: #ffffff;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            justify-content: space-between;
+        }
+
+        .dropdown-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dropdown-toggle.active svg {
+            transform: rotate(90deg);
+        }
+
+        .dropdown-menu {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s ease;
-            z-index: 999;
+            opacity: 0;
+            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            padding-left: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-sm);
         }
 
-        .mobile-drawer.active {
-            max-height: 400px;
-            padding: var(--space-md) 5% var(--space-lg) 5%;
+        .dropdown-menu.show {
+            max-height: 200px;
+            opacity: 1;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            margin: 8px 0;
         }
 
-        .mobile-drawer .nav-link {
-            font-size: 1.05rem;
-            font-weight: 400;
-            color: var(--color-text-main);
-            padding: var(--space-sm) 0;
-        }
-
-        .mobile-drawer .nav-link.active {
-            color: var(--color-primary);
-            font-weight: 700;
-            pointer-events: none;
-        }
-
-        .mobile-actions {
-            display: flex;
-            flex-direction: row;
-            gap: var(--space-sm);
-            margin-top: var(--space-md);
-        }
-
-        .mobile-actions .btn-outline {
-            flex: 1;
-            text-align: center;
+        .dropdown-menu a {
+            display: block;
             padding: 12px 0;
-            border-radius: var(--radius-full);
-            white-space: nowrap;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
-        .hero-section {
-            padding: var(--space-xl) 5%;
+        .drawer-actions {
+            margin-top: auto;
+            padding-top: var(--space-md);
+        }
+
+        .drawer-actions .btn-outline {
+            width: 100%;
+            text-align: center;
+            padding: 14px 0;
+            font-size: 1rem;
+        }
+
+        .hero {
+            background-color: var(--bg-light);
+            background-image: 
+                linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            padding: calc(var(--space-xxl) + 40px) 5% var(--space-xxl) 5%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: transparent;
             text-align: center;
+            position: relative;
         }
 
         .hero-content {
             max-width: 800px;
-            text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .hero-content h1 {
             font-size: 3rem;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.3;
             margin-bottom: var(--space-md);
-            color: var(--color-text-main);
+            color: var(--text-dark);
         }
 
-        .hero-content h1 span {
-            color: var(--color-primary);
+        .highlight {
+            position: relative;
+            display: inline-block;
+            background-color: var(--primary-dark);
+            color: #ffffff !important;
+            padding: 2px 12px;
+            border-radius: 0px;
+            line-height: 1.2;
+            margin: 0 2px;
+            white-space: nowrap;
+        }
+
+        .highlight::before,
+        .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            width: 14px;
+            height: 14px;
+            background-color: var(--primary-dark);
+        }
+
+        .highlight::before {
+            left: -12px;
+            border-radius: 50% 0 50% 50%;
+        }
+
+        .highlight::after {
+            right: -12px;
+            border-radius: 0 50% 50% 50%;
+        }
+
+        .footer .highlight {
+            background-color: #ffffff;
+            color: var(--primary-dark) !important;
+        }
+
+        .footer .highlight::before,
+        .footer .highlight::after {
+            background-color: #ffffff;
+        }
+
+        .cursor-icon {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            vertical-align: middle;
+            margin-left: 4px;
+            display: inline-block;
         }
 
         .hero-content p {
             font-size: 1.05rem;
-            color: var(--color-text-muted);
+            color: var(--text-muted);
             margin-bottom: var(--space-lg);
         }
 
-        .hero-buttons {
+        .hero-btns {
             display: flex;
             gap: var(--space-sm);
             flex-wrap: wrap;
@@ -282,7 +407,7 @@
         }
 
         .btn-primary {
-            background-color: var(--color-primary-dark);
+            background-color: var(--primary-dark);
             color: #ffffff;
             padding: 14px 28px;
             border-radius: var(--radius-full);
@@ -290,199 +415,385 @@
             display: inline-flex;
             align-items: center;
             gap: var(--space-xs);
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
         }
 
         .btn-secondary {
-            background-color: var(--color-primary-light);
-            color: var(--color-text-main);
+            background-color: var(--card-bg);
+            color: var(--primary-dark);
             padding: 14px 28px;
             border-radius: var(--radius-full);
             font-weight: 700;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
         }
 
-        .services-section {
-            background-color: var(--color-primary-dark);
-            width: 100%;
-            padding: var(--space-xxl) 5%;
-            color: var(--color-text-footer);
-        }
-
-        .services-section .section-header h2 {
-            color: #ffffff;
-        }
-
-        .services-section .section-header p {
-            color: var(--color-text-footer);
+        .btn-primary:active {
+            transform: scale(0.96);
             opacity: 0.9;
+        }
+
+        .btn-secondary:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .wrapper {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
         }
 
         .section-header {
             text-align: center;
-            padding: 0 0 var(--space-lg) 0;
+            padding: var(--space-xl) 5% var(--space-sm) 5%;
         }
 
         .section-header h2 {
             font-size: 2.2rem;
             font-weight: 700;
-            color: var(--color-text-main);
-            margin-bottom: var(--space-sm);
+            color: var(--text-dark);
+            margin-bottom: var(--space-xs);
+            line-height: 1.4;
         }
 
         .section-header p {
-            color: var(--color-text-muted);
-            font-size: 1rem;
+            color: var(--text-muted);
+            font-size: 1.05rem;
             max-width: 600px;
             margin: 0 auto;
         }
 
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: var(--space-sm);
-            padding: 0;
+        .services {
+            padding: 0 5% var(--space-lg) 5%;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .content-card {
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
             position: relative;
-            background: transparent;
-            padding: var(--space-lg) var(--space-md);
-            text-align: left;
             overflow: hidden;
+            text-align: left;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-dark);
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 0;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        .card.active-ripple .ripple {
+            transform: translate(-50%, -50%) scale(50);
+        }
+
+        .card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .card.active-ripple h3,
+        .card.active-ripple .card-arrow {
+            color: #ffffff;
+        }
+
+        .card.active-ripple .card-body p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-md);
+        }
+
+        .card-header h3 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .card-arrow {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-dark);
+            transition: color 0.3s ease;
+        }
+
+        .card-arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .card-body p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            transition: color 0.3s ease;
+        }
+
+        .faq {
+            padding: 0 5% var(--space-xl) 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            margin-top: var(--space-sm);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+        }
+
+        .faq-q {
+            width: 100%;
+            padding: 20px 0;
+            background: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: left;
+            transition: color 0.2s ease;
+        }
+
+        .faq-q:hover {
+            color: var(--primary-dark);
+        }
+
+        .faq-icon {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: var(--primary-dark);
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
             transition: transform 0.3s ease;
         }
 
-        .content-card::after {
-            content: "";
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 45px;
-            height: 45px;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.2px, transparent 1.2px);
-            background-size: 8px 8px;
-            opacity: 0.5;
-            pointer-events: none;
-        }
-
-        .content-card h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: var(--space-sm);
-            color: #ffffff;
-            letter-spacing: -0.3px;
-        }
-
-        .content-card p {
-            color: var(--color-text-footer);
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-muted);
             font-size: 0.95rem;
             line-height: 1.6;
-            opacity: 0.9;
         }
 
-        .cta-banner {
-            background: var(--gradient-cta);
-            border-radius: 0;
-            padding: var(--space-xxl) 5%;
+        .faq-item.active .faq-a {
+            max-height: 200px;
+            padding-bottom: 20px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .trusted {
+            background-color: var(--bg-light);
+            padding: var(--space-xl) 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .trusted-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .trusted-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .trusted-stars {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .star-box {
+            background-color: var(--trustpilot);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .star-box svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        .footer {
+            background-color: var(--primary-dark);
+            padding: var(--space-xl) 5%;
             text-align: center;
             color: #ffffff;
-            width: 100%;
-            margin-top: 0;
         }
 
-        .cta-banner h2 {
+        .footer h2 {
             font-size: 2.2rem;
             font-weight: 700;
-            margin-bottom: var(--space-sm);
+            margin-bottom: var(--space-xs);
+            color: #ffffff;
+            line-height: 1.4;
         }
 
-        .cta-banner p {
+        .footer p {
             font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
             max-width: 600px;
-            margin: 0 auto var(--space-lg) auto;
-            opacity: 0.95;
+            margin: 0 auto var(--space-md) auto;
         }
 
         .btn-white {
             background-color: #ffffff;
-            color: var(--color-primary-dark);
+            color: var(--primary-dark);
             padding: 14px 32px;
             border-radius: var(--radius-full);
             font-weight: 700;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.12s ease, opacity 0.12s ease;
+            will-change: transform, opacity;
         }
 
-        footer {
-            background-color: var(--color-primary-dark);
-            padding: var(--space-lg) 5%;
-            color: var(--color-text-footer);
+        .btn-white:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .btn-white svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: var(--space-md);
+            gap: 12px;
+            padding-top: var(--space-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .footer-inner .brand-logo {
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
             color: #ffffff;
-            font-size: 1.4rem;
-        }
-
-        .footer-copyright {
-            font-size: 0.9rem;
-            color: var(--color-text-footer);
-            opacity: 0.9;
         }
 
         @media (max-width: 1024px) {
             .hero-content h1 {
                 font-size: 2.5rem;
             }
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-sm);
+            }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 868px) {
             header {
                 grid-template-columns: 1fr auto;
             }
-            .nav-menu, .nav-actions {
+            .nav, .actions {
                 display: none;
             }
-            .menu-toggle {
+            .menu-btn {
                 display: block;
-            }
-            .hero-section {
-                flex-direction: column;
-                text-align: center;
-                padding: var(--space-md) 5%;
-                gap: var(--space-sm);
-            }
-            .hero-buttons {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                gap: var(--space-xs);
-            }
-            .hero-buttons .btn-primary,
-            .hero-buttons .btn-secondary {
-                flex: 1;
-                padding: 12px 14px;
-                font-size: 0.85rem;
-                justify-content: center;
-                text-align: center;
-                white-space: nowrap;
-            }
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
-                gap: var(--space-sm);
+                z-index: 1001;
             }
             .hero-content h1 {
                 font-size: 2.1rem;
             }
-            .section-header h2, .cta-banner h2 {
+            .hero-btns {
+                flex-direction: column;
+            }
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+            .section-header h2, .footer h2 {
                 font-size: 1.8rem;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
@@ -490,109 +801,214 @@
 <body>
 
     <header>
-        <div class="brand-logo" onclick="window.location.href='/'">
+        <div class="logo" onclick="window.location.href='/'">
             <img src="publick/img/icon.png" alt="Icon">ineplix
         </div>
-        <nav class="nav-menu">
+
+        <nav class="nav">
             <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
-            <div class="nav-link" onclick="window.location.href='/layanan'">Layanan</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
             <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         </nav>
-        <div class="nav-actions">
+
+        <div class="actions">
             <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
         </div>
-        <div class="menu-toggle" id="menuToggle" aria-label="Menu">
+
+        <div class="menu-btn" id="menuToggle" aria-label="Menu">
             <svg viewBox="0 0 24 24">
                 <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
             </svg>
         </div>
     </header>
 
-    <div class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer" id="mobileDrawer">
         <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
-        <div class="nav-link" onclick="window.location.href='/layanan'">Layanan</div>
+        
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
+            <span>Layanan</span>
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div class="dropdown-menu" id="mobileLayananMenu">
+            <a href="/layanan/frontend">Frontend Web Design</a>
+            <a href="/layanan/graphic">Graphic Design</a>
+            <a href="/layanan/minecraft">Minecraft Maps Builder</a>
+        </div>
+
         <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
-        <div class="mobile-actions">
+        
+        <div class="drawer-actions">
             <div class="btn-outline" onclick="window.location.href='/login'">Masuk</div>
         </div>
     </div>
 
-    <section class="hero-section">
-        <div class="hero-content">
-            <h1>Solusi Kreatif <span>Web Design, Graphic & Minecraft Maps</span> Terbaik</h1>
-            <p>Tingkatkan kualitas server Minecraft dan kehadiran online project Anda dengan aset visual profesional, tampilan website modern, dan custom map buatan builder berpengalaman.</p>
-            <div class="hero-buttons">
-                <div class="btn-primary" onclick="window.location.href='/layanan'">
-                    Jelajahi Layanan 
-                    <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.71 12l-7.86-7.86-1.42 1.42L16.86 11H5v2z"/></svg>
+    <section class="hero">
+        <div class="hero-content fade-up">
+            <h1>
+                Solusi Kreatif 
+                <span class="highlight">
+                    Web Design 
+                    <svg class="cursor-icon" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </span>, Graphic & Minecraft Maps Terbaik
+            </h1>
+            <p>
+                <span class="slide-line" style="transition-delay: 0.1s;">Tingkatkan kualitas server Minecraft</span>
+                <span class="slide-line" style="transition-delay: 0.2s;">dan kehadiran online project Anda</span>
+                <span class="slide-line" style="transition-delay: 0.3s;">dengan aset visual profesional,</span>
+                <span class="slide-line" style="transition-delay: 0.4s;">tampilan website modern,</span>
+                <span class="slide-line" style="transition-delay: 0.5s;">dan custom map buatan builder berpengalaman.</span>
+            </p>
+            <div class="hero-btns">
+                <div class="scale-in" style="transition-delay: 0.6s;">
+                    <div class="btn-primary" onclick="window.location.href='/layanan'">
+                        Jelajahi Layanan 
+                        <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </div>
                 </div>
-                <div class="btn-secondary" onclick="window.location.href='/kontak'">Hubungi Kami</div>
+                <div class="scale-in" style="transition-delay: 0.7s;">
+                    <div class="btn-secondary" onclick="window.location.href='/kontak'">Hubungi Kami</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="services-section" id="layanan">
-        <div class="section-header">
+    <div class="wrapper">
+        
+        <div class="section-header fade-up" id="layanan">
             <h2>Layanan dasar kami</h2>
             <p>Solusi lengkap mulai dari tampilan antarmuka web, branding grafis, hingga dunia virtual Minecraft.</p>
         </div>
-        <div class="card-grid">
-            <div class="content-card">
-                <h3>Frontend Web Design</h3>
-                <p>Membuat tampilan website server, store, atau landing page yang responsif, interaktif, bersih, dan memukau.</p>
-            </div>
-            <div class="content-card">
-                <h3>Graphic Design</h3>
-                <p>Desain banner, logo server, icon rank, dan aset promosi visual berkualitas tinggi untuk menarik lebih banyak pemain.</p>
-            </div>
-            <div class="content-card">
-                <h3>Minecraft Maps Builder</h3>
-                <p>Membangun custom map (Spawn, Lobby, Survival, PvP Arena) dengan detail tinggi dan optimasi performa server.</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="portofolio">
-        <div class="section-header" style="padding-top: var(--space-xxl);">
+        <section class="services">
+            <div class="grid">
+                
+                <div class="card fade-up" style="transition-delay: 0.1s;" onclick="window.location.href='/layanan/frontend'">
+                    <div class="ripple"></div>
+                    <div class="card-header">
+                        <h3>Frontend Web Design</h3>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Membuat tampilan website server, store, atau landing page yang responsif, interaktif, bersih, dan memukau.</p>
+                    </div>
+                </div>
+
+                <div class="card fade-up" style="transition-delay: 0.25s;" onclick="window.location.href='/layanan/graphic'">
+                    <div class="ripple"></div>
+                    <div class="card-header">
+                        <h3>Graphic Design</h3>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Desain banner, logo server, icon rank, dan aset promosi visual berkualitas tinggi untuk menarik lebih banyak pemain.</p>
+                    </div>
+                </div>
+
+                <div class="card fade-up" style="transition-delay: 0.4s;" onclick="window.location.href='/layanan/minecraft'">
+                    <div class="ripple"></div>
+                    <div class="card-header">
+                        <h3>Minecraft Maps Builder</h3>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Membangun custom map (Spawn, Lobby, Survival, PvP Arena) dengan detail tinggi dan optimasi performa server.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <div class="section-header fade-up" id="portofolio">
             <h2>Mengapa Memilih Mineplix?</h2>
             <p>Standar kualitas tinggi yang didedikasikan khusus untuk kebutuhan komunitas dan server game Anda.</p>
         </div>
-        <div class="card-grid" style="padding: 0 5% var(--space-xxl) 5%;">
-            <div class="content-card" style="background: transparent;">
-                <h3 style="color: var(--color-text-main);">Kualitas Premium</h3>
-                <p style="color: var(--color-text-muted);">Setiap project dikerjakan secara teliti oleh profesional yang ahli di bidangnya.</p>
-            </div>
-            <div class="content-card" style="background: transparent;">
-                <h3 style="color: var(--color-text-main);">Pengerjaan Cepat</h3>
-                <p style="color: var(--color-text-muted);">Komitmen waktu pengiriman yang tepat waktu tanpa mengorbankan kualitas detail.</p>
-            </div>
-            <div class="content-card" style="background: transparent;">
-                <h3 style="color: var(--color-text-main);">Keamanan & Garansi</h3>
-                <p style="color: var(--color-text-muted);">Transaksi aman dengan layanan revisi untuk memastikan kepuasan hasil akhir.</p>
-            </div>
-            <div class="content-card" style="background: transparent;">
-                <h3 style="color: var(--color-text-main);">Dukungan Penuh</h3>
-                <p style="color: var(--color-text-muted);">Tim support siap membantu konsultasi dan kendala teknis kapan pun dibutuhkan.</p>
-            </div>
-        </div>
-    </section>
 
-    <div class="cta-banner" id="kontak">
-        <h2>Mulai Wujudkan Server Impianmu Hari Ini</h2>
-        <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
-        <div class="btn-white" onclick="window.location.href='/kontak'">
-            Hubungi Kami Sekarang 
-            <svg style="width:16px;height:16px;fill:var(--color-primary-dark);vertical-align:middle;" viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.71 12l-7.86-7.86-1.42 1.42L16.86 11H5v2z"/></svg>
-        </div>
+        <section class="faq">
+            <div class="faq-list">
+                
+                <div class="faq-item fade-up" style="transition-delay: 0.1s;">
+                    <button class="faq-q">
+                        <span>Apakah hasil pengerjaan dijamin berkualitas premium?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <div class="faq-a">
+                        Setiap project dikerjakan secara teliti oleh profesional yang ahli di bidang web frontend, desain grafis, dan Minecraft building untuk memastikan hasil akhir yang sempurna.
+                    </div>
+                </div>
+
+                <div class="faq-item fade-up" style="transition-delay: 0.2s;">
+                    <button class="faq-q">
+                        <span>Berapa lama estimasi pengerjaan project?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <div class="faq-a">
+                        Waktu pengerjaan disesuaikan dengan skala project, tetapi kami selalu berkomitmen pada ketepatan waktu pengiriman tanpa mengorbankan kualitas detail.
+                    </div>
+                </div>
+
+                <div class="faq-item fade-up" style="transition-delay: 0.3s;">
+                    <button class="faq-q">
+                        <span>Apakah tersedia garansi dan revisi?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <div class="faq-a">
+                        Ya, transaksi aman dengan layanan garansi revisi untuk memastikan hasil akhir sepenuhnya sesuai dengan kebutuhan dan kepuasan Anda.
+                    </div>
+                </div>
+
+                <div class="faq-item fade-up" style="transition-delay: 0.4s;">
+                    <button class="faq-q">
+                        <span>Bagaimana cara berkonsultasi mengenai teknis project?</span>
+                        <svg class="faq-icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    </button>
+                    <div class="faq-a">
+                        Tim support kami siap membantu konsultasi ide, spesifikasi teknis, hingga penanganan kendala kapan pun Anda butuhkan melalui layanan kontak kami.
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
     </div>
 
-    <footer>
-        <div class="footer-inner">
-            <div class="brand-logo" onclick="window.location.href='/'">
-                <img src="publick/img/icon.png" alt="Icon">ineplix
+    <div class="trusted">
+        <a href="https://www.trustpilot.com" target="_blank" rel="noopener noreferrer" class="trusted-link fade-up">
+            <span class="trusted-title">See trusted in Trustpilot</span>
+            <div class="trusted-stars">
+                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
+                <div class="star-box"><svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg></div>
             </div>
-            <div class="footer-copyright">
-                Mineplix 2k26 - All Reverse
+        </a>
+    </div>
+
+    <footer class="footer fade-in" id="kontak">
+        <h2>Mulai Wujudkan <span class="highlight">Server Impianmu</span> Hari Ini</h2>
+        <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
+        <div class="scale-in" style="transition-delay: 0.2s;">
+            <div class="btn-white" onclick="window.location.href='/kontak'">
+                Hubungi Kami Sekarang 
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </div>
+        <div class="footer-inner">
+            <div>
+                © 2026 Mineplix. All Rights Reserved.
+            </div>
+            <div class="footer-links">
+                <a href="/terms/privacy.html">Privasi</a>
+                <a href="/terms/">Syarat & Ketentuan</a>
+                <a href="/terms/help.html">Bantuan</a>
             </div>
         </div>
     </footer>
@@ -601,30 +1017,91 @@
         const menuToggle = document.getElementById('menuToggle');
         const mobileDrawer = document.getElementById('mobileDrawer');
 
-        function closeMobileMenu() {
-            if (mobileDrawer.classList.contains('active')) {
-                mobileDrawer.classList.remove('active');
+        function toggleMobileMenu() {
+            const isOpen = mobileDrawer.classList.toggle('active');
+            if (isOpen) {
+                document.body.style.overflow = 'hidden';
+                menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+            } else {
+                document.body.style.overflow = '';
                 menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>`;
             }
         }
 
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            mobileDrawer.classList.toggle('active');
-            const isOpen = mobileDrawer.classList.contains('active');
-            menuToggle.innerHTML = isOpen 
-                ? `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`
-                : `<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>`;
+            toggleMobileMenu();
         });
 
-        window.addEventListener('scroll', () => {
-            closeMobileMenu();
+        const mobileLayananToggle = document.getElementById('mobileLayananToggle');
+        const mobileLayananMenu = document.getElementById('mobileLayananMenu');
+
+        mobileLayananToggle.addEventListener('click', () => {
+            mobileLayananMenu.classList.toggle('show');
+            mobileLayananToggle.classList.toggle('active');
         });
 
-        window.addEventListener('click', (e) => {
-            if (!mobileDrawer.contains(e.target) && !menuToggle.contains(e.target)) {
-                closeMobileMenu();
+        const faqQuestions = document.querySelectorAll('.faq-q');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem) {
+                        item.classList.remove('active');
+                    }
+                });
+
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        const serviceCards = document.querySelectorAll('.card');
+
+        serviceCards.forEach(card => {
+            const ripple = card.querySelector('.ripple');
+
+            const setRipplePos = (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.width / 2)) - rect.left;
+                const y = (e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.height / 2)) - rect.top;
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+            };
+
+            card.addEventListener('pointerdown', (e) => {
+                serviceCards.forEach(c => {
+                    if (c !== card) c.classList.remove('active-ripple');
+                });
+                setRipplePos(e);
+                card.classList.add('active-ripple');
+            });
+        });
+
+        document.addEventListener('pointerdown', (e) => {
+            if (!e.target.closest('.card')) {
+                serviceCards.forEach(c => c.classList.remove('active-ripple'));
             }
+        });
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observerInstance) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observerInstance.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-up, .fade-in, .scale-in, .slide-line').forEach(element => {
+            observer.observe(element);
         });
     </script>
 </body>
