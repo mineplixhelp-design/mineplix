@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mineplix - Hubungi Kami</title>
+    <meta name="description" content="Hubungi tim Mineplix untuk konsultasi project web design, desain grafis, dan custom map Minecraft.">
+    
+    <meta property="og:title" content="Mineplix - Hubungi Kami">
+    <meta property="og:description" content="Hubungi tim Mineplix untuk konsultasi project web design, desain grafis, dan custom map Minecraft.">
+    <meta property="og:image" content="../publick/img/banner.png">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="../publick/img/icon.png" type="image/png">
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- CSS External dengan Cache Busting -->
+    <link rel="stylesheet" href="../publick/css/style.css?v=1.0">
+
+    <style>
+        .page-hero {
+            background-color: var(--bg-light);
+            background-image: 
+                linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            padding: calc(var(--space-xxl) + 20px) 5% var(--space-lg) 5%;
+            text-align: center;
+        }
+        .page-hero h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--space-xs);
+        }
+        .page-hero p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-md) 5% var(--space-xxl) 5%;
+        }
+        .contact-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+        .contact-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+        .contact-card p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            margin-bottom: var(--space-md);
+        }
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+        .contact-email:hover {
+            opacity: 0.9;
+        }
+        @media (max-width: 868px) {
+            .page-hero h1 {
+                font-size: 2.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="window.location.href='/'">
+            <img src="../publick/img/icon.png" alt="Icon">ineplix
+        </div>
+
+        <nav class="nav">
+            <div class="nav-link" onclick="window.location.href='/'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        </nav>
+
+        <div class="actions">
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='/login/'">
+                    Masuk
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-btn" id="menuToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+        </div>
+    </header>
+
+    <div class="drawer" id="mobileDrawer">
+        <div class="nav-link" onclick="window.location.href='/'">Beranda</div>
+        
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
+            <span>Layanan</span>
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div class="dropdown-menu" id="mobileLayananMenu">
+            <a href="/layanan/frontend">Frontend Web Design</a>
+            <a href="/layanan/graphic">Graphic Design</a>
+            <a href="/layanan/minecraft">Minecraft Maps Builder</a>
+        </div>
+
+        <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        
+        <div class="drawer-actions">
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='/login/'" style="width: 100%; justify-content: center;">
+                    Masuk
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="page-hero">
+        <div class="fade-up">
+            <h1>Hubungi Kami</h1>
+            <p>Punya pertanyaan, ide custom map, atau ingin memesan project web? Silakan hubungi tim kami.</p>
+        </div>
+    </section>
+
+    <div class="contact-section">
+        <div class="contact-card fade-up">
+            <h3>Saluran Komunikasi Resmi</h3>
+            <p>Untuk pemesanan, konsultasi teknis, maupun diskusi detail project, Anda dapat langsung mengirimkan email ke alamat resmi kami:</p>
+            <a href="mailto:mineplixhelp@gmail.com" class="contact-email">mineplixhelp@gmail.com
+            </a>
+        </div>
+    </div>
+
+    <footer class="footer fade-in">
+        <h2>Mulai Wujudkan <span class="highlight">Server Impianmu</span> Hari Ini</h2>
+        <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
+        <div class="scale-in" style="transition-delay: 0.2s;">
+            <div class="btn-white" onclick="window.location.href='/kontak'">
+                Hubungi Kami Sekarang 
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </div>
+        <div class="footer-inner">
+            <div>© 2026 Mineplix. All Rights Reserved.</div>
+            <div class="footer-links">
+                <a href="/terms/privacy.html">Privasi</a>
+                <a href="/terms/">Syarat & Ketentuan</a>
+                <a href="/terms/help.html">Bantuan</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS External dengan Cache Busting -->
+    <script src="../publick/js/script.js?v=1.0"></script>
+</body>
+</html>
