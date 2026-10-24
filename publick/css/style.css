@@ -52,6 +52,10 @@
     text-decoration: none;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     color: var(--text-dark);
     background-color: var(--bg-light);
@@ -247,7 +251,7 @@ header {
     color: #ffffff;
     padding: 16px 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    justify-between: space-between;
+    justify-content: space-between;
 }
 
 .dropdown-toggle svg {
@@ -413,6 +417,19 @@ header {
     font-weight: 700;
     transition: transform 0.12s ease, opacity 0.12s ease;
     will-change: transform, opacity;
+}
+
+.btn-discord {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.discord-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    display: inline-block;
 }
 
 .btn-primary:active, .btn-secondary:active {
