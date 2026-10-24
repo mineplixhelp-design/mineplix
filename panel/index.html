@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Kontrol - Mineplix</title>
-    <meta name="description" content="Panel manajemen akun dan layanan server Mineplix.">
+    <title>Panel Admin - Mineplix</title>
+    <meta name="description" content="Panel Admin Manajemen Produk dan Pesanan Mineplix.">
     
     <link rel="icon" href="../publick/img/icon.png" type="image/png">
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="../publick/css/panel.css?v=3.0">
+    <link rel="stylesheet" href="../publick/css/panel.css?v=7.0">
 </head>
 <body>
 
@@ -38,47 +38,19 @@
 
         <div class="header-right">
             <div class="header-action-item">
-                <button class="icon-action-btn" id="notifBtn" aria-label="Notifikasi">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
-                    </svg>
-                    <span class="notif-badge"></span>
-                </button>
-
-                <div class="dropdown-popover notif-popover" id="notifPopover">
-                    <div class="popover-header">
-                        <span>Notifikasi</span>
-                        <span class="mark-read" id="markReadBtn">Tandai dibaca</span>
-                    </div>
-                    <div class="popover-body" id="notifBody">
-                        <div class="notif-item">
-                            <div class="notif-desc">Memuat notifikasi...</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="header-action-item">
                 <button class="icon-action-btn" id="settingBtn" aria-label="Pengaturan Profile">
                     <svg viewBox="0 0 24 24">
-                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                     </svg>
                 </button>
 
                 <div class="dropdown-popover profile-popover" id="profilePopover">
                     <div class="user-info-header">
-                        <div class="user-display-name" id="userName">User Mineplix</div>
+                        <div class="user-display-name" id="userName">Admin Mineplix</div>
                         <div class="user-email" id="userEmail">loading...</div>
                     </div>
 
                     <div class="popover-body-list">
-                        <div onclick="window.location.href='mailto:mineplixhelp@gmail.com'" class="dropdown-item">
-                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                            <span>Bantuan (Email)</span>
-                        </div>
-
-                        <div class="dropdown-divider"></div>
-
                         <button class="dropdown-item logout-btn" id="logoutBtn">
                             <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
                             <span>Keluar</span>
@@ -93,16 +65,12 @@
         <aside class="panel-sidebar" id="panelSidebar">
             <nav class="sidebar-nav">
                 <div class="nav-item active" id="menuDashboard" onclick="switchTab('dashboard')">
-                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                    <span>Dashboard</span>
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <span>Katalog Produk</span>
                 </div>
                 <div class="nav-item" id="menuOrder" onclick="switchTab('order')">
                     <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                    <span id="menuOrderText">Orderan</span>
-                </div>
-                <div class="nav-item" id="menuBroadcast" onclick="switchTab('broadcast')" style="display: none;">
-                    <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                    <span>Kirim Notifikasi</span>
+                    <span>Kelola Pesanan</span>
                 </div>
             </nav>
             
@@ -116,127 +84,118 @@
 
         <main class="panel-main">
             <div id="contentDashboard" class="tab-content active">
-                <div class="welcome-banner fade-up visible">
-                    <h2>Hai, <span id="welcomeUserName">Pencinta Mineplix</span> 👋</h2>
-                    <p>Selamat datang di panel kontrol Mineplix. Akses layanan dan orderan Anda dengan cepat melalui menu di bawah.</p>
+                <div class="page-header-title">
+                    <h2>Manajemen Katalog Produk</h2>
+                    <p>Kelola daftar layanan digital dan penambahan produk storefront.</p>
                 </div>
 
-                <div class="shortcuts-grid fade-up visible">
-                    <div class="order-shortcut-card" onclick="switchTab('order')">
-                        <div class="shortcut-info">
-                            <h3>Status Orderan & Riwayat</h3>
-                            <p>Pantau proses pengerjaan project Anda.</p>
-                        </div>
-                        <div class="shortcut-arrow">
-                            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </div>
-                    </div>
-
-                    <div class="discord-card" onclick="window.open('https://discord.gg/bJNR4cPhYh', '_blank')">
-                        <div class="discord-info">
-                            <h3>Komunitas Discord</h3>
-                            <p>Dapatkan update terbaru dan bantuan.</p>
-                        </div>
-                        <div class="discord-arrow">
-                            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </div>
-                    </div>
+                <div class="order-subtabs">
+                    <div class="subtab-btn active" id="subtabAddProd" onclick="switchProdSubtab('add')">Tambah Produk</div>
+                    <div class="subtab-btn" id="subtabListProd" onclick="switchProdSubtab('list')">Daftar Produk</div>
                 </div>
 
-                <div class="section-title fade-up visible">
-                    <h3>Layanan Dasar Kami</h3>
-                </div>
+                <div class="prod-subcontent-container">
+                    <div id="prodContentAdd" class="prod-subcontent active">
+                        <div class="admin-form-card fade-up visible">
+                            <h3 id="formTitle">Tambah Produk Baru</h3>
+                            <form id="productForm">
+                                <input type="hidden" id="editCategory">
+                                <input type="hidden" id="editProductId">
 
-                <div class="services-grid">
-                    <div class="service-card fade-up visible" style="transition-delay: 0.1s;" onclick="window.location.href='/produk#id=frontend'">
-                        <div class="ripple"></div>
-                        <div class="card-header">
-                            <h3>Frontend Web Design</h3>
-                            <div class="card-arrow">
-                                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p>Membuat tampilan website server, store, atau landing page yang responsif, interaktif, bersih, dan memukau.</p>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Kategori Produk</label>
+                                        <div class="custom-dropdown form-cat-dropdown" id="formCatDropdown" data-value="frontend">
+                                            <div class="custom-dropdown-toggle">
+                                                <span id="formCatLabel">Frontend Web Design</span>
+                                                <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                            </div>
+                                            <div class="custom-dropdown-menu">
+                                                <div class="custom-dropdown-item" data-value="frontend" data-label="Frontend Web Design">Frontend Web Design</div>
+                                                <div class="custom-dropdown-item" data-value="graphic" data-label="Graphic Design">Graphic Design</div>
+                                                <div class="custom-dropdown-item" data-value="mapminecraft" data-label="Minecraft Maps Builder">Minecraft Maps Builder</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="prodTitle">Judul Produk</label>
+                                        <input type="text" id="prodTitle" placeholder="Contoh: Modern Storefront UI" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="prodPrice">Harga</label>
+                                        <input type="text" id="prodPrice" placeholder="Contoh: 150000 / 150k" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="prodLogo">URL Banner / Gambar</label>
+                                        <input type="url" id="prodLogo" placeholder="https://domain.com/image.png" required>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label for="prodDesc">Deskripsi Ringkas</label>
+                                        <textarea id="prodDesc" rows="3" placeholder="Deskripsikan fitur atau cakupan produk..." required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-submit-prod" id="submitBtn">Simpan Produk</button>
+                                    <button type="button" class="btn-cancel-prod" id="cancelEditBtn" style="display: none;">Batal Edit</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
 
-                    <div class="service-card fade-up visible" style="transition-delay: 0.2s;" onclick="window.location.href='/produk#id=graphic'">
-                        <div class="ripple"></div>
-                        <div class="card-header">
-                            <h3>Graphic Design</h3>
-                            <div class="card-arrow">
-                                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                            </div>
+                    <div id="prodContentList" class="prod-subcontent">
+                        <div class="category-filter-tabs">
+                            <button class="cat-tab-btn active" data-cat="frontend">Frontend Web Design</button>
+                            <button class="cat-tab-btn" data-cat="graphic">Graphic Design</button>
+                            <button class="cat-tab-btn" data-cat="mapminecraft">Minecraft Maps Builder</button>
                         </div>
-                        <div class="card-body">
-                            <p>Desain banner, logo server, icon rank, dan aset promosi visual berkualitas tinggi untuk menarik lebih banyak pemain.</p>
-                        </div>
-                    </div>
 
-                    <div class="service-card fade-up visible" style="transition-delay: 0.3s;" onclick="window.location.href='/produk#id=mapminecraft'">
-                        <div class="ripple"></div>
-                        <div class="card-header">
-                            <h3>Minecraft Maps Builder</h3>
-                            <div class="card-arrow">
-                                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p>Membangun custom map (Spawn, Lobby, Survival, PvP Arena) dengan detail tinggi dan optimasi performa server.</p>
+                        <div id="adminProductGrid" class="admin-products-grid">
+                            <div class="empty-state-card">Memuat katalog produk...</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="contentOrder" class="tab-content">
-                <div class="welcome-banner fade-up visible">
-                    <h2 id="orderHeaderTitle">Daftar Orderan Saya</h2>
-                    <p id="orderHeaderDesc">Kelola dan pantau seluruh status pemesanan serta riwayat transaksi project Anda di Mineplix.</p>
+                <div class="page-header-title">
+                    <h2>Kelola Pesanan Masuk</h2>
+                    <p>Atur alur pemrosesan pesanan pelanggan dari konfirmasi hingga selesai.</p>
                 </div>
 
-                <div class="order-cards-container" id="orderCardsContainer">
-                    <div class="empty-state-card">
-                        <h3>Memuat Orderan...</h3>
-                        <p>Mohon tunggu sebentar.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="contentBroadcast" class="tab-content">
-                <div class="welcome-banner fade-up visible">
-                    <h2>Kirim Notifikasi ke Semua User</h2>
-                    <p>Buat pengumuman atau pesan broadcast yang akan masuk ke notifikasi seluruh pengguna terdaftar.</p>
+                <div class="order-subtabs">
+                    <div class="subtab-btn active" id="subtabActive" onclick="switchOrderSubtab('active')">Pesanan Aktif</div>
+                    <div class="subtab-btn" id="subtabHistory" onclick="switchOrderSubtab('history')">Pesanan Selesai</div>
                 </div>
 
-                <div class="broadcast-card">
-                    <div class="broadcast-form-group">
-                        <label>Judul Notifikasi</label>
-                        <input type="text" id="broadcastTitle" class="broadcast-input" placeholder="Contoh: Update Sistem Terbaru">
+                <div class="order-subcontent-container">
+                    <div id="orderContentActive" class="order-subcontent active">
+                        <div class="empty-state-card">Memuat data pesanan...</div>
                     </div>
-                    <div class="broadcast-form-group">
-                        <label>Isi Pesan Notifikasi</label>
-                        <textarea id="broadcastDesc" class="broadcast-textarea" placeholder="Tulis pesan lengkap di sini..."></textarea>
+
+                    <div id="orderContentHistory" class="order-subcontent">
+                        <div class="empty-state-card">Memuat data riwayat...</div>
                     </div>
-                    <button class="btn-primary-panel" id="sendBroadcastBtn">Kirim Broadcast Sekarang</button>
                 </div>
             </div>
         </main>
     </div>
 
-    <div class="order-modal-overlay" id="linkModal">
-        <div class="order-modal-card">
-            <button class="order-modal-close" id="closeLinkModalBtn">&times;</button>
-            <h3>Selesaikan Pesanan & Kirim Link</h3>
-            <p>Masukkan tautan hasil pengerjaan atau produk untuk dikirimkan ke user.</p>
-            <div class="broadcast-form-group" style="margin-top: 16px;">
-                <label>URL / Link Produk</label>
-                <input type="text" id="productLinkInput" class="broadcast-input" placeholder="https://...">
+    <div class="custom-modal-overlay" id="customModalOverlay">
+        <div class="custom-modal-card" id="customModalCard">
+            <h3 id="customModalTitle">Informasi</h3>
+            <p id="customModalDesc">Pesan informasi sistem...</p>
+            <div class="custom-modal-actions" id="customModalActions">
+                <button class="custom-modal-btn cancel" id="customModalCancel">Batal</button>
+                <button class="custom-modal-btn confirm" id="customModalConfirm">OK</button>
             </div>
-            <button class="btn-primary-panel" id="confirmDoneBtn" style="margin-top: 16px; width: 100%;">Kirim Link & Selesaikan</button>
         </div>
     </div>
 
-    <script type="module" src="../publick/js/panel.js?v=3.0"></script>
+    <script type="module" src="../publick/js/panel.js?v=7.0"></script>
 </body>
 </html>
