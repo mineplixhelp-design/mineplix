@@ -1,201 +1,563 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - Mineplix</title>
-    <meta name="description" content="Panel Admin Manajemen Produk dan Pesanan Mineplix.">
-    
-    <link rel="icon" href="../publick/img/icon.png" type="image/png">
-    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+import { auth, signOut, onAuthStateChanged, db } from './firebase.js';
+import { ref, get, set, push, remove, onValue, update } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
-    <link rel="stylesheet" href="../publick/css/panel.css?v=7.0">
-</head>
-<body>
+const panelLoader = document.getElementById('panelLoader');
+let currentCategory = 'frontend';
+let cachedProducts = {};
 
-    <div class="panel-loader" id="panelLoader">
-        <div class="loader-content">
-            <div class="spinner-ring"></div>
-            <img src="../publick/img/icon.png" alt="Mineplix Logo" class="loader-logo">
-        </div>
-    </div>
+function showCustomModal(title, desc, showCancel = false, onConfirm = null) {
+    const overlay = document.getElementById('customModalOverlay');
+    const titleElem = document.getElementById('customModalTitle');
+    const descElem = document.getElementById('customModalDesc');
+    const cancelBtn = document.getElementById('customModalCancel');
+    const confirmBtn = document.getElementById('customModalConfirm');
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    titleElem.textContent = title;
+    descElem.textContent = desc;
 
-    <header class="panel-header">
-        <div class="header-left">
-            <button class="burger-btn" id="burgerBtn" aria-label="Toggle Sidebar">
-                <svg viewBox="0 0 24 24">
-                    <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
-                </svg>
-            </button>
-            <div class="logo" onclick="window.location.href='/panel'">
-                <img src="../publick/img/icon.png" alt="Mineplix Icon">
-                <span>ineplix</span>
-            </div>
-        </div>
+    if (showCancel) {
+        cancelBtn.style.display = 'block';
+    } else {
+        cancelBtn.style.display = 'none';
+    }
 
-        <div class="header-right">
-            <div class="header-action-item">
-                <button class="icon-action-btn" id="settingBtn" aria-label="Pengaturan Profile">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                </button>
+    overlay.classList.add('show');
 
-                <div class="dropdown-popover profile-popover" id="profilePopover">
-                    <div class="user-info-header">
-                        <div class="user-display-name" id="userName">Admin Mineplix</div>
-                        <div class="user-email" id="userEmail">loading...</div>
+    const handleConfirm = () => {
+        overlay.classList.remove('show');
+        cleanup();
+        if (onConfirm) onConfirm(true);
+    };
+
+    const handleCancel = () => {
+        overlay.classList.remove('show');
+        cleanup();
+        if (onConfirm) onConfirm(false);
+    };
+
+    const cleanup = () => {
+        confirmBtn.removeEventListener('click', handleConfirm);
+        cancelBtn.removeEventListener('click', handleCancel);
+        overlay.removeEventListener('click', handleOverlayClick);
+    };
+
+    const handleOverlayClick = (e) => {
+        if (e.target === overlay) {
+            overlay.classList.remove('show');
+            cleanup();
+            if (onConfirm) onConfirm(false);
+        }
+    };
+
+    confirmBtn.addEventListener('click', handleConfirm);
+    cancelBtn.addEventListener('click', handleCancel);
+    overlay.addEventListener('click', handleOverlayClick);
+}
+
+function formatPrice(priceVal) {
+    if (!priceVal) return 'Gratis';
+    let strVal = String(priceVal).trim();
+
+    if (strVal.includes('$') || strVal.includes('€') || strVal.includes('¥') || strVal.includes('£') || strVal.includes('k') || strVal.includes('JT') || strVal.includes('Rp')) {
+        return strVal;
+    }
+
+    const num = parseFloat(strVal.replace(/[^0-9.]/g, ''));
+    if (isNaN(num)) return strVal;
+
+    if (num >= 1000000) {
+        const jtVal = num / 1000000;
+        return (jtVal % 1 === 0 ? jtVal : jtVal.toFixed(1)) + ' JT';
+    } else if (num >= 1000) {
+        const kVal = num / 1000;
+        return (kVal % 1 === 0 ? kVal.toLocaleString('id-ID') : kVal.toFixed(1)) + 'k';
+    }
+    return 'Rp ' + num.toLocaleString('id-ID');
+}
+
+function formatDate(timestamp) {
+    if (!timestamp) return '-';
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        window.location.replace('/login/');
+        return;
+    }
+
+    try {
+        const userRef = ref(db, 'users/' + user.uid);
+        const snapshot = await get(userRef);
+
+        if (!snapshot.exists() || snapshot.val().role !== 'admin') {
+            showCustomModal("Akses Ditolak", "Halaman ini khusus untuk Admin.", false, () => {
+                window.location.replace('/');
+            });
+            return;
+        }
+
+        const userNameElem = document.getElementById('userName');
+        const userEmailElem = document.getElementById('userEmail');
+        if (userNameElem) userNameElem.textContent = user.displayName || 'Admin Mineplix';
+        if (userEmailElem) userEmailElem.textContent = user.email || '';
+
+        if (panelLoader) {
+            setTimeout(() => { panelLoader.classList.add('hidden'); }, 300);
+        }
+
+        setupFormCatDropdown();
+        loadAdminProducts(currentCategory);
+        listenAllOrders();
+
+    } catch (error) {
+        window.location.replace('/');
+    }
+});
+
+function setupFormCatDropdown() {
+    const dropdown = document.getElementById('formCatDropdown');
+    if (!dropdown) return;
+
+    const toggle = dropdown.querySelector('.custom-dropdown-toggle');
+    const label = document.getElementById('formCatLabel');
+    const items = dropdown.querySelectorAll('.custom-dropdown-item');
+
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+    });
+
+    items.forEach(item => {
+        item.addEventListener('click', () => {
+            const val = item.getAttribute('data-value');
+            const txt = item.getAttribute('data-label');
+            dropdown.setAttribute('data-value', val);
+            label.textContent = txt;
+            dropdown.classList.remove('open');
+        });
+    });
+
+    document.addEventListener('click', () => {
+        dropdown.classList.remove('open');
+    });
+}
+
+function loadAdminProducts(category) {
+    const grid = document.getElementById('adminProductGrid');
+    const prodRef = ref(db, 'produk/' + category);
+
+    onValue(prodRef, (snapshot) => {
+        const data = snapshot.val();
+        cachedProducts[category] = data;
+
+        if (!data) {
+            grid.innerHTML = `
+                <div class="empty-state-card" style="grid-column: 1 / -1;">
+                    <h3>Belum Ada Produk</h3>
+                    <p>Gunakan tab Tambah Produk untuk menambahkan produk pada kategori ini.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        Object.keys(data).forEach((id) => {
+            const item = data[id];
+            html += `
+                <div class="admin-prod-card">
+                    <img src="${item.logo || '../publick/img/icon.png'}" alt="${item.title}" class="admin-prod-img">
+                    <div class="admin-prod-body">
+                        <h4>${item.title || 'Tanpa Judul'}</h4>
+                        <div class="admin-prod-price">${formatPrice(item.harga)}</div>
+                        <p class="admin-prod-desc">${item.desc || '-'}</p>
                     </div>
-
-                    <div class="popover-body-list">
-                        <button class="dropdown-item logout-btn" id="logoutBtn">
-                            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                            <span>Keluar</span>
+                    <div class="admin-prod-actions">
+                        <button class="btn-icon-action btn-edit-prod" data-id="${id}" aria-label="Edit Produk">
+                            <svg viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        </button>
+                        <button class="btn-icon-action btn-delete-prod" data-id="${id}" aria-label="Hapus Produk">
+                            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
                         </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </header>
+            `;
+        });
 
-    <div class="panel-layout">
-        <aside class="panel-sidebar" id="panelSidebar">
-            <nav class="sidebar-nav">
-                <div class="nav-item active" id="menuDashboard" onclick="switchTab('dashboard')">
-                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-                    <span>Katalog Produk</span>
-                </div>
-                <div class="nav-item" id="menuOrder" onclick="switchTab('order')">
-                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                    <span>Kelola Pesanan</span>
-                </div>
-            </nav>
+        grid.innerHTML = html;
+
+        document.querySelectorAll('.btn-edit-prod').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.currentTarget.getAttribute('data-id');
+                setupEditProduct(category, id, data[id]);
+            });
+        });
+
+        document.querySelectorAll('.btn-delete-prod').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = e.currentTarget.getAttribute('data-id');
+                deleteProduct(category, id);
+            });
+        });
+    });
+}
+
+const productForm = document.getElementById('productForm');
+const formTitle = document.getElementById('formTitle');
+const submitBtn = document.getElementById('submitBtn');
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+
+productForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const dropdown = document.getElementById('formCatDropdown');
+    const category = dropdown.getAttribute('data-value') || 'frontend';
+    const title = document.getElementById('prodTitle').value.trim();
+    const harga = document.getElementById('prodPrice').value.trim();
+    const logo = document.getElementById('prodLogo').value.trim();
+    const desc = document.getElementById('prodDesc').value.trim();
+
+    const editCat = document.getElementById('editCategory').value;
+    const editId = document.getElementById('editProductId').value;
+
+    try {
+        if (editId && editCat) {
+            const targetRef = ref(db, `produk/${editCat}/${editId}`);
+            await update(targetRef, { title, harga, logo, desc });
+            showCustomModal("Sukses", "Produk berhasil diperbarui.");
+        } else {
+            const targetRef = ref(db, `produk/${category}`);
+            const newRef = push(targetRef);
+            await set(newRef, {
+                title,
+                harga,
+                logo,
+                desc,
+                createdBy: user.email,
+                createdAt: Date.now()
+            });
+            showCustomModal("Sukses", "Produk baru berhasil ditambahkan.");
+        }
+
+        resetForm();
+        window.switchProdSubtab('list');
+    } catch (error) {
+        showCustomModal("Gagal", "Gagal menyimpan data produk: " + error.message);
+    }
+});
+
+function setupEditProduct(category, id, item) {
+    window.switchProdSubtab('add');
+
+    formTitle.textContent = "Edit Produk";
+    submitBtn.textContent = "Perbarui Produk";
+    cancelEditBtn.style.display = "inline-block";
+
+    document.getElementById('editCategory').value = category;
+    document.getElementById('editProductId').value = id;
+
+    const dropdown = document.getElementById('formCatDropdown');
+    const label = document.getElementById('formCatLabel');
+    dropdown.setAttribute('data-value', category);
+
+    const matchItem = dropdown.querySelector(`.custom-dropdown-item[data-value="${category}"]`);
+    if (matchItem) {
+        label.textContent = matchItem.getAttribute('data-label');
+    }
+
+    document.getElementById('prodTitle').value = item.title || '';
+    document.getElementById('prodPrice').value = item.harga || '';
+    document.getElementById('prodLogo').value = item.logo || '';
+    document.getElementById('prodDesc').value = item.desc || '';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+    formTitle.textContent = "Tambah Produk Baru";
+    submitBtn.textContent = "Simpan Produk";
+    cancelEditBtn.style.display = "none";
+    document.getElementById('editCategory').value = "";
+    document.getElementById('editProductId').value = "";
+    productForm.reset();
+}
+
+cancelEditBtn.addEventListener('click', resetForm);
+
+async function deleteProduct(category, id) {
+    showCustomModal("Konfirmasi", "Apakah Anda yakin ingin menghapus produk ini dari katalog?", true, async (confirmed) => {
+        if (confirmed) {
+            try {
+                await remove(ref(db, `produk/${category}/${id}`));
+                showCustomModal("Sukses", "Produk berhasil dihapus.");
+            } catch (error) {
+                showCustomModal("Gagal", "Gagal menghapus produk: " + error.message);
+            }
+        }
+    });
+}
+
+document.querySelectorAll('.cat-tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.cat-tab-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCategory = e.target.getAttribute('data-cat');
+        loadAdminProducts(currentCategory);
+    });
+});
+
+function listenAllOrders() {
+    const ordersRef = ref(db, 'orders');
+    onValue(ordersRef, (snapshot) => {
+        const allOrders = snapshot.val();
+        renderAdminOrders(allOrders);
+    });
+}
+
+function getStatusBadgeClass(status) {
+    switch (status) {
+        case 'Konfirmasi': return 'badge-konfirmasi';
+        case 'Pembayaran Terkonfirmasi': return 'badge-pembayaran';
+        case 'Mengerjakan': return 'badge-mengerjakan';
+        case 'Completed': return 'badge-completed';
+        default: return 'badge-konfirmasi';
+    }
+}
+
+function renderAdminOrders(allUsersOrders) {
+    const orderContentActive = document.getElementById('orderContentActive');
+    const orderContentHistory = document.getElementById('orderContentHistory');
+
+    if (!allUsersOrders) {
+        orderContentActive.innerHTML = '<div class="empty-state-card">Belum ada pesanan masuk.</div>';
+        orderContentHistory.innerHTML = '<div class="empty-state-card">Belum ada pesanan yang selesai.</div>';
+        return;
+    }
+
+    const activeOrders = [];
+    const historyOrders = [];
+
+    Object.keys(allUsersOrders).forEach(uid => {
+        const userOrders = allUsersOrders[uid];
+        Object.keys(userOrders).forEach(orderKey => {
+            const item = userOrders[orderKey];
+            item.uid = uid;
+            item.orderKey = orderKey;
             
-            <div class="sidebar-footer">
-                <div class="back-to-home" onclick="window.location.href='/'">
-                    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-                    <span>Kembali ke Website</span>
+            const currentStatus = item.status || 'Konfirmasi';
+            if (currentStatus === 'Completed') {
+                historyOrders.push(item);
+            } else {
+                activeOrders.push(item);
+            }
+        });
+    });
+
+    activeOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    historyOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    orderContentActive.innerHTML = buildOrdersCardGrid(activeOrders);
+    orderContentHistory.innerHTML = buildOrdersCardGrid(historyOrders);
+
+    setupCustomDropdowns();
+}
+
+function setupCustomDropdowns() {
+    document.querySelectorAll('.order-grid-card .custom-dropdown').forEach(dropdown => {
+        const toggle = dropdown.querySelector('.custom-dropdown-toggle');
+        const items = dropdown.querySelectorAll('.custom-dropdown-item');
+
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.custom-dropdown').forEach(d => {
+                if (d !== dropdown) d.classList.remove('open');
+            });
+            dropdown.classList.toggle('open');
+        });
+
+        items.forEach(item => {
+            item.addEventListener('click', async () => {
+                const newStatus = item.getAttribute('data-value');
+                const oldStatus = dropdown.getAttribute('data-current');
+                const uid = dropdown.getAttribute('data-uid');
+                const key = dropdown.getAttribute('data-key');
+
+                dropdown.classList.remove('open');
+
+                if (newStatus === oldStatus) return;
+
+                showCustomModal("Konfirmasi", `Simpan status pesanan baru menjadi "${newStatus}" ke Firebase?`, true, async (confirmed) => {
+                    if (confirmed) {
+                        try {
+                            await update(ref(db, `orders/${uid}/${key}`), { status: newStatus });
+                            showCustomModal("Sukses", "Status pesanan berhasil disimpan.");
+                        } catch (err) {
+                            showCustomModal("Gagal", "Gagal memperbarui status: " + err.message);
+                        }
+                    }
+                });
+            });
+        });
+    });
+}
+
+function buildOrdersCardGrid(ordersList) {
+    if (ordersList.length === 0) {
+        return `<div class="empty-state-card">Tidak ada data pesanan.</div>`;
+    }
+
+    let html = `<div class="orders-cards-grid">`;
+
+    ordersList.forEach(item => {
+        const statusVal = item.status || 'Konfirmasi';
+        const badgeClass = getStatusBadgeClass(statusVal);
+        const orderIdShort = item.productId || item.orderKey.slice(-6);
+
+        html += `
+            <div class="order-grid-card">
+                <div class="order-card-header">
+                    <span class="order-id">ID: #${orderIdShort}</span>
+                    <span class="status-pill ${badgeClass}">${statusVal}</span>
                 </div>
-            </div>
-        </aside>
 
-        <main class="panel-main">
-            <div id="contentDashboard" class="tab-content active">
-                <div class="page-header-title">
-                    <h2>Manajemen Katalog Produk</h2>
-                    <p>Kelola daftar layanan digital dan penambahan produk storefront.</p>
-                </div>
-
-                <div class="order-subtabs">
-                    <div class="subtab-btn active" id="subtabAddProd" onclick="switchProdSubtab('add')">Tambah Produk</div>
-                    <div class="subtab-btn" id="subtabListProd" onclick="switchProdSubtab('list')">Daftar Produk</div>
-                </div>
-
-                <div class="prod-subcontent-container">
-                    <div id="prodContentAdd" class="prod-subcontent active">
-                        <div class="admin-form-card fade-up visible">
-                            <h3 id="formTitle">Tambah Produk Baru</h3>
-                            <form id="productForm">
-                                <input type="hidden" id="editCategory">
-                                <input type="hidden" id="editProductId">
-
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label>Kategori Produk</label>
-                                        <div class="custom-dropdown form-cat-dropdown" id="formCatDropdown" data-value="frontend">
-                                            <div class="custom-dropdown-toggle">
-                                                <span id="formCatLabel">Frontend Web Design</span>
-                                                <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                            </div>
-                                            <div class="custom-dropdown-menu">
-                                                <div class="custom-dropdown-item" data-value="frontend" data-label="Frontend Web Design">Frontend Web Design</div>
-                                                <div class="custom-dropdown-item" data-value="graphic" data-label="Graphic Design">Graphic Design</div>
-                                                <div class="custom-dropdown-item" data-value="mapminecraft" data-label="Minecraft Maps Builder">Minecraft Maps Builder</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="prodTitle">Judul Produk</label>
-                                        <input type="text" id="prodTitle" placeholder="Contoh: Modern Storefront UI" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="prodPrice">Harga</label>
-                                        <input type="text" id="prodPrice" placeholder="Contoh: 150000 / 150k" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="prodLogo">URL Banner / Gambar</label>
-                                        <input type="url" id="prodLogo" placeholder="https://domain.com/image.png" required>
-                                    </div>
-
-                                    <div class="form-group full-width">
-                                        <label for="prodDesc">Deskripsi Ringkas</label>
-                                        <textarea id="prodDesc" rows="3" placeholder="Deskripsikan fitur atau cakupan produk..." required></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="form-actions">
-                                    <button type="submit" class="btn-submit-prod" id="submitBtn">Simpan Produk</button>
-                                    <button type="button" class="btn-cancel-prod" id="cancelEditBtn" style="display: none;">Batal Edit</button>
-                                </div>
-                            </form>
+                <div class="order-card-body">
+                    <h4 class="order-item-title">${item.title || 'Layanan Digital'}</h4>
+                    <div class="order-item-price">${formatPrice(item.harga)}</div>
+                    
+                    <div class="order-buyer-info">
+                        <div class="info-row">
+                            <span class="info-label">Pembeli:</span>
+                            <span class="info-value">${item.userName || 'Pelanggan'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value">${item.userEmail || '-'}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Waktu:</span>
+                            <span class="info-value">${formatDate(item.createdAt)}</span>
                         </div>
                     </div>
+                </div>
 
-                    <div id="prodContentList" class="prod-subcontent">
-                        <div class="category-filter-tabs">
-                            <button class="cat-tab-btn active" data-cat="frontend">Frontend Web Design</button>
-                            <button class="cat-tab-btn" data-cat="graphic">Graphic Design</button>
-                            <button class="cat-tab-btn" data-cat="mapminecraft">Minecraft Maps Builder</button>
+                <div class="order-card-footer">
+                    <span class="select-label">Ubah Status:</span>
+                    <div class="custom-dropdown" data-uid="${item.uid}" data-key="${item.orderKey}" data-current="${statusVal}">
+                        <div class="custom-dropdown-toggle">
+                            <span>${statusVal}</span>
+                            <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                         </div>
-
-                        <div id="adminProductGrid" class="admin-products-grid">
-                            <div class="empty-state-card">Memuat katalog produk...</div>
+                        <div class="custom-dropdown-menu">
+                            <div class="custom-dropdown-item" data-value="Konfirmasi">Konfirmasi</div>
+                            <div class="custom-dropdown-item" data-value="Pembayaran Terkonfirmasi">Pembayaran Terkonfirmasi</div>
+                            <div class="custom-dropdown-item" data-value="Mengerjakan">Mengerjakan</div>
+                            <div class="custom-dropdown-item" data-value="Completed">Completed</div>
                         </div>
                     </div>
                 </div>
             </div>
+        `;
+    });
 
-            <div id="contentOrder" class="tab-content">
-                <div class="page-header-title">
-                    <h2>Kelola Pesanan Masuk</h2>
-                    <p>Atur alur pemrosesan pesanan pelanggan dari konfirmasi hingga selesai.</p>
-                </div>
+    html += `</div>`;
+    return html;
+}
 
-                <div class="order-subtabs">
-                    <div class="subtab-btn active" id="subtabActive" onclick="switchOrderSubtab('active')">Pesanan Aktif</div>
-                    <div class="subtab-btn" id="subtabHistory" onclick="switchOrderSubtab('history')">Pesanan Selesai</div>
-                </div>
+window.switchTab = function(tabName) {
+    const menuDashboard = document.getElementById('menuDashboard');
+    const menuOrder = document.getElementById('menuOrder');
+    const contentDashboard = document.getElementById('contentDashboard');
+    const contentOrder = document.getElementById('contentOrder');
 
-                <div class="order-subcontent-container">
-                    <div id="orderContentActive" class="order-subcontent active">
-                        <div class="empty-state-card">Memuat data pesanan...</div>
-                    </div>
+    if (tabName === 'dashboard') {
+        menuDashboard.classList.add('active');
+        menuOrder.classList.remove('active');
+        contentDashboard.classList.add('active');
+        contentOrder.classList.remove('active');
+    } else {
+        menuOrder.classList.add('active');
+        menuDashboard.classList.remove('active');
+        contentOrder.classList.add('active');
+        contentDashboard.classList.remove('active');
+    }
+};
 
-                    <div id="orderContentHistory" class="order-subcontent">
-                        <div class="empty-state-card">Memuat data riwayat...</div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+window.switchProdSubtab = function(subtabName) {
+    const subtabAdd = document.getElementById('subtabAddProd');
+    const subtabList = document.getElementById('subtabListProd');
+    const contentAdd = document.getElementById('prodContentAdd');
+    const contentList = document.getElementById('prodContentList');
 
-    <div class="custom-modal-overlay" id="customModalOverlay">
-        <div class="custom-modal-card" id="customModalCard">
-            <h3 id="customModalTitle">Informasi</h3>
-            <p id="customModalDesc">Pesan informasi sistem...</p>
-            <div class="custom-modal-actions" id="customModalActions">
-                <button class="custom-modal-btn cancel" id="customModalCancel">Batal</button>
-                <button class="custom-modal-btn confirm" id="customModalConfirm">OK</button>
-            </div>
-        </div>
-    </div>
+    if (subtabName === 'add') {
+        subtabAdd.classList.add('active');
+        subtabList.classList.remove('active');
+        contentList.classList.remove('active');
+        contentAdd.classList.add('active');
+    } else {
+        subtabList.classList.add('active');
+        subtabAdd.classList.remove('active');
+        contentAdd.classList.remove('active');
+        contentList.classList.add('active');
+    }
+};
 
-    <script type="module" src="../publick/js/panel.js?v=7.0"></script>
-</body>
-</html>
+window.switchOrderSubtab = function(subtabName) {
+    const subtabActive = document.getElementById('subtabActive');
+    const subtabHistory = document.getElementById('subtabHistory');
+    const orderContentActive = document.getElementById('orderContentActive');
+    const orderContentHistory = document.getElementById('orderContentHistory');
+
+    if (subtabName === 'active') {
+        subtabActive.classList.add('active');
+        subtabHistory.classList.remove('active');
+        orderContentHistory.classList.remove('active');
+        orderContentActive.classList.add('active');
+    } else {
+        subtabHistory.classList.add('active');
+        subtabActive.classList.remove('active');
+        orderContentActive.classList.remove('active');
+        orderContentHistory.classList.add('active');
+    }
+};
+
+const burgerBtn = document.getElementById('burgerBtn');
+const panelSidebar = document.getElementById('panelSidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function toggleSidebar() {
+    if (panelSidebar) panelSidebar.classList.toggle('active');
+    if (sidebarOverlay) sidebarOverlay.classList.toggle('active');
+}
+
+if (burgerBtn) burgerBtn.addEventListener('click', toggleSidebar);
+if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+
+const settingBtn = document.getElementById('settingBtn');
+const profilePopover = document.getElementById('profilePopover');
+
+if (settingBtn) {
+    settingBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profilePopover.classList.toggle('show');
+    });
+}
+
+document.addEventListener('click', (e) => {
+    if (profilePopover && !profilePopover.contains(e.target) && !settingBtn.contains(e.target)) {
+        profilePopover.classList.remove('show');
+    }
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    await signOut(auth);
+    window.location.replace('/login/');
+});
