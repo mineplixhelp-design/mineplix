@@ -439,7 +439,6 @@
         const loginModal = document.getElementById('loginModal');
         const closeModalBtn = document.getElementById('closeModalBtn');
         const btnGoogleAuth = document.getElementById('btnGoogleAuth');
-        const mobileDrawer = document.getElementById('mobileDrawer');
 
         let pendingCheckoutItem = null;
         let fetchedProductsData = null;
@@ -458,16 +457,6 @@
                 desc: 'Custom map dunia virtual Minecraft (Spawn, Lobby, Survival, PvP Arena) dengan detail tingkat tinggi.'
             }
         };
-
-        if (mobileDrawer) {
-            mobileDrawer.querySelectorAll('a, .nav-link').forEach(el => {
-                if (!el.classList.contains('dropdown-toggle')) {
-                    el.addEventListener('click', () => {
-                        mobileDrawer.classList.remove('open', 'show', 'active');
-                    });
-                }
-            });
-        }
 
         function formatPrice(priceVal) {
             if (!priceVal) return 'Gratis';
