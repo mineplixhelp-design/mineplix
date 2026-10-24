@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graphic Design - Mineplix</title>
+    <meta name="description" content="Jelajahi berbagai produk dan layanan Graphic Design unggulan dari Mineplix.">
+
+    <meta property="og:title" content="Graphic Design - Mineplix">
+    <meta property="og:description" content="Aset visual profesional, banner promosi, dan logo server dari Mineplix.">
+    <meta property="og:image" content="../../publick/img/banner.png">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Graphic Design - Mineplix">
+    <meta name="twitter:description" content="Aset visual profesional, banner promosi, dan logo server dari Mineplix.">
+    <meta name="twitter:image" content="../../publick/img/banner.png">
+
+    <link rel="icon" href="../../publick/img/icon.png" type="image/png">
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="../../publick/css/style.css?v=1.0">
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-light);
+        }
+        .dropdown-menu a.active {
+            font-weight: 700;
+        }
+        .product-section {
+            background-color: var(--bg-light);
+            background-image: 
+                linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            flex: 1;
+            padding: calc(var(--space-xxl) + 20px) 5% var(--space-xxl) 5%;
+            position: relative;
+        }
+        .product-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        .product-header-title {
+            text-align: center;
+            margin-bottom: var(--space-md);
+        }
+        .product-header-title h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--space-xs);
+        }
+        .product-header-title p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: var(--space-md);
+            width: 100%;
+        }
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 480px;
+            display: flex;
+            align-items: center;
+        }
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-muted);
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            pointer-events: none;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 16px 12px 46px;
+            border-radius: var(--radius-full);
+            background-color: rgba(243, 243, 245, 0.85);
+            font-size: 0.92rem;
+            color: var(--text-dark);
+            outline: none;
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: var(--space-md);
+        }
+
+        .product-card {
+            background-color: rgba(243, 243, 245, 0.7);
+            border: none !important;
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+        }
+        .product-card-top {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+        .product-logo-icon {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            display: block;
+        }
+        .product-footer-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-top: 16px;
+            margin-top: auto;
+        }
+        .product-footer-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+        .product-footer-info p {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+        }
+        .product-footer-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .product-price {
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        .product-action-btn {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.82rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: opacity 0.15s ease, transform 0.1s ease;
+        }
+        .product-action-btn:active {
+            transform: scale(0.96);
+            opacity: 0.9;
+        }
+
+        .empty-product-state {
+            grid-column: 1 / -1;
+            background: transparent;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .empty-product-state h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .empty-product-state p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+        }
+
+        .skeleton-card {
+            background-color: rgba(243, 243, 245, 0.5);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+            background-size: 200% 100%;
+            animation: skeletonShimmer 1.5s infinite;
+            border-radius: 6px;
+        }
+        @keyframes skeletonShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-logo { width: 100%; height: 150px; border-radius: var(--radius-md); margin-bottom: 16px; }
+        .skeleton-title { width: 65%; height: 20px; margin-bottom: 8px; }
+        .skeleton-text { width: 100%; height: 14px; margin-bottom: 6px; }
+        .skeleton-text-short { width: 80%; height: 14px; margin-bottom: 20px; }
+        .skeleton-footer { display: flex; justify-content: space-between; align-items: center; }
+        .skeleton-price { width: 30%; height: 18px; }
+        .skeleton-btn { width: 40%; height: 30px; border-radius: var(--radius-full); }
+
+        @media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 868px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .product-header-title h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="window.location.href='../'">
+            <img src="../../publick/img/icon.png" alt="Icon">ineplix
+        </div>
+
+        <nav class="nav">
+            <div class="nav-link" onclick="window.location.href='../'">Beranda</div>
+            <div class="nav-link" onclick="window.location.href='../layanan/frontend/'">Frontend Web Design</div>
+            <div class="nav-link active" onclick="window.location.href='../layanan/graphic/'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='../layanan/mapminecraft/'">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='../porto'">Portofolio</div>
+        </nav>
+
+        <div class="actions">
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='../login'">
+                    Masuk
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-btn" id="menuToggle" aria-label="Menu">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
+            </svg>
+        </div>
+    </header>
+
+    <div class="drawer" id="mobileDrawer">
+        <div class="nav-link" onclick="window.location.href='../'">Beranda</div>
+        
+        <div class="dropdown-toggle nav-link" id="mobileLayananToggle">
+            <span>Layanan</span>
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </div>
+        <div class="dropdown-menu" id="mobileLayananMenu">
+            <a href="../layanan/frontend/">Frontend Web Design</a>
+            <a href="../layanan/graphic/" class="active">Graphic Design</a>
+            <a href="../layanan/mapminecraft/">Minecraft Maps Builder</a>
+        </div>
+
+        <div class="nav-link" onclick="window.location.href='../porto'">Portofolio</div>
+        
+        <div class="drawer-actions">
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='../login'" style="width: 100%; justify-content: center;">
+                    Masuk
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="product-section">
+        <div class="product-container">
+            <div class="product-header-title fade-up visible">
+                <h1>Graphic Design</h1>
+                <p>Aset visual profesional, banner promosi, logo server, dan icon rank berkualitas tinggi.</p>
+            </div>
+
+            <div class="search-container fade-up visible">
+                <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Cari layanan berdasarkan judul...">
+                </div>
+            </div>
+
+            <div class="product-grid" id="productGrid">
+                <div class="skeleton-card"><div class="skeleton skeleton-logo"></div><div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton-footer"><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div></div></div>
+                <div class="skeleton-card"><div class="skeleton skeleton-logo"></div><div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton-footer"><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div></div></div>
+                <div class="skeleton-card"><div class="skeleton skeleton-logo"></div><div><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton-footer"><div class="skeleton skeleton-price"></div><div class="skeleton skeleton-btn"></div></div></div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer fade-in" id="kontak">
+        <h2>Mulai Wujudkan <span class="highlight">Server Impianmu</span> Hari Ini</h2>
+        <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
+        <div class="scale-in" style="transition-delay: 0.2s;">
+            <div class="btn-white" onclick="window.location.href='mailto:mineplixhelp@gmail.com'">
+                Hubungi Kami Sekarang 
+                <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+        </div>
+        <div class="footer-inner">
+            <div>
+                © 2026 Mineplix. All Rights Reserved.
+            </div>
+            <div class="footer-links">
+                <a href="../terms/privacy.html">Privasi</a>
+                <a href="../terms/">Syarat & Ketentuan</a>
+                <a href="../terms/help.html">Bantuan</a>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { db } from '../../publick/js/firebase.js';
+        import { ref, onValue } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
+
+        const productGridElem = document.getElementById('productGrid');
+        const searchInput = document.getElementById('searchInput');
+        let fetchedProductsData = null;
+
+        function formatPrice(priceVal) {
+            if (!priceVal) return 'Gratis';
+            let strVal = String(priceVal).trim();
+
+            if (strVal.includes('$')) return 'Harga : ' + strVal;
+            if (strVal.includes('€')) return 'Harga : ' + strVal;
+            if (strVal.includes('¥')) return 'Harga : ' + strVal;
+            if (strVal.includes('£')) return 'Harga : ' + strVal;
+
+            if (strVal.includes('k') || strVal.includes('JT') || strVal.includes('Rp')) {
+                if (!strVal.toLowerCase().startsWith('harga')) {
+                    return 'Harga : ' + strVal;
+                }
+                return strVal;
+            }
+
+            const num = parseFloat(strVal.replace(/[^0-9.]/g, ''));
+            if (isNaN(num)) return 'Harga : ' + strVal;
+
+            if (num >= 1000000) {
+                const jtVal = num / 1000000;
+                return 'Harga : ' + (jtVal % 1 === 0 ? jtVal : jtVal.toFixed(1)) + ' JT';
+            } else if (num >= 1000) {
+                const kVal = num / 1000;
+                return 'Harga : ' + (kVal % 1 === 0 ? kVal.toLocaleString('id-ID') : kVal.toFixed(1)) + 'k';
+            }
+            return 'Harga : Rp ' + num.toLocaleString('id-ID');
+        }
+
+        function renderProducts(data, filterKeyword = '') {
+            if (!data) {
+                productGridElem.innerHTML = `
+                    <div class="empty-product-state">
+                        <h3>Belum Ada Produk</h3>
+                        <p>Produk belum tersedia untuk kategori ini.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '';
+            let matchCount = 0;
+            const keyword = filterKeyword.toLowerCase().trim();
+
+            Object.keys(data).forEach((productId) => {
+                const item = data[productId];
+                const title = item.title || 'Produk Mineplix';
+                const desc = item.desc || 'Deskripsi singkat produk belum tersedia.';
+                const logo = item.logo || '../../publick/img/icon.png';
+                const hargaFormatted = formatPrice(item.harga);
+
+                if (keyword === '' || title.toLowerCase().includes(keyword)) {
+                    matchCount++;
+                    const shortId = productId.length > 5 ? productId.slice(-5) : productId;
+
+                    html += `
+                        <div class="product-card fade-up visible">
+                            <div class="product-card-top">
+                                <img src="${logo}" alt="${title}" class="product-logo-icon">
+                            </div>
+                            <div class="product-footer-card">
+                                <div class="product-footer-info">
+                                    <h3>${title}</h3>
+                                    <p>${desc}</p>
+                                </div>
+                                <div class="product-footer-action">
+                                    <span class="product-price">${hargaFormatted}</span>
+                                    <a href="../checkout#${shortId}" class="product-action-btn">
+                                        Checkout 
+                                        <svg style="width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (matchCount === 0) {
+                productGridElem.innerHTML = `
+                    <div class="empty-product-state">
+                        <h3>Produk Tidak Ditemukan</h3>
+                        <p>Tidak ada layanan yang cocok dengan kata kunci "<strong>${filterKeyword}</strong>".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            productGridElem.innerHTML = html;
+        }
+
+        function loadProducts() {
+            const productRef = ref(db, 'produk/graphic');
+            onValue(productRef, (snapshot) => {
+                fetchedProductsData = snapshot.val();
+                renderProducts(fetchedProductsData, searchInput.value);
+            }, (error) => {
+                productGridElem.innerHTML = `
+                    <div class="empty-product-state">
+                        <h3>Gagal Memuat Data</h3>
+                        <p>Terjadi kesalahan saat mengambil data produk dari database.</p>
+                    </div>
+                `;
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderProducts(fetchedProductsData, e.target.value);
+        });
+
+        window.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+
+    <script src="../../publick/js/script.js?v=1.0"></script>
+</body>
+</html>
