@@ -10,7 +10,7 @@
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="../publick/css/panel.css?v=1.4">
+    <link rel="stylesheet" href="../publick/css/panel.css?v=2.0">
 </head>
 <body>
 
@@ -50,16 +50,9 @@
                         <span>Notifikasi</span>
                         <span class="mark-read" id="markReadBtn">Tandai dibaca</span>
                     </div>
-                    <div class="popover-body">
-                        <div class="notif-item unread">
-                            <div class="notif-title">Selamat Datang di Mineplix Panel!</div>
-                            <div class="notif-desc">Akun Anda telah berhasil terhubung. Jelajahi layanan web & server Minecraft kami.</div>
-                            <div class="notif-time">Baru saja</div>
-                        </div>
+                    <div class="popover-body" id="notifBody">
                         <div class="notif-item">
-                            <div class="notif-title">Update Layanan</div>
-                            <div class="notif-desc">Kini telah hadir layanan custom Minecraft maps builder terbaru!</div>
-                            <div class="notif-time">1 hari lalu</div>
+                            <div class="notif-desc">Memuat notifikasi...</div>
                         </div>
                     </div>
                 </div>
@@ -124,8 +117,34 @@
                     <p>Selamat datang di panel kontrol Mineplix. Akses layanan dan orderan Anda dengan cepat melalui menu di bawah.</p>
                 </div>
 
+                <div class="shortcuts-grid fade-up visible">
+                    <div class="order-shortcut-card" onclick="switchTab('order')">
+                        <div class="shortcut-info">
+                            <h3>Status Orderan & Riwayat</h3>
+                            <p>Pantau proses pengerjaan project Anda.</p>
+                        </div>
+                        <div class="shortcut-arrow">
+                            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
+                    </div>
+
+                    <div class="discord-card" onclick="window.open('https://discord.gg/bJNR4cPhYh', '_blank')">
+                        <div class="discord-info">
+                            <h3>Komunitas Discord</h3>
+                            <p>Dapatkan update terbaru dan bantuan.</p>
+                        </div>
+                        <div class="discord-arrow">
+                            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title fade-up visible">
+                    <h3>Layanan Dasar Kami</h3>
+                </div>
+
                 <div class="services-grid">
-                    <div class="service-card fade-up visible" style="transition-delay: 0.1s;" onclick="window.location.href='/layanan/frontend'">
+                    <div class="service-card fade-up visible" style="transition-delay: 0.1s;" onclick="window.location.href='/produk#id=frontend'">
                         <div class="ripple"></div>
                         <div class="card-header">
                             <h3>Frontend Web Design</h3>
@@ -138,7 +157,7 @@
                         </div>
                     </div>
 
-                    <div class="service-card fade-up visible" style="transition-delay: 0.2s;" onclick="window.location.href='/layanan/graphic'">
+                    <div class="service-card fade-up visible" style="transition-delay: 0.2s;" onclick="window.location.href='/produk#id=graphic'">
                         <div class="ripple"></div>
                         <div class="card-header">
                             <h3>Graphic Design</h3>
@@ -151,7 +170,7 @@
                         </div>
                     </div>
 
-                    <div class="service-card fade-up visible" style="transition-delay: 0.3s;" onclick="window.location.href='/layanan/minecraft'">
+                    <div class="service-card fade-up visible" style="transition-delay: 0.3s;" onclick="window.location.href='/produk#id=mapminecraft'">
                         <div class="ripple"></div>
                         <div class="card-header">
                             <h3>Minecraft Maps Builder</h3>
@@ -177,26 +196,35 @@
                     <div class="subtab-btn" id="subtabHistory" onclick="switchOrderSubtab('history')">Riwayat Pemesanan</div>
                 </div>
 
-                <div id="orderContentActive" class="order-subcontent active">
-                    <div class="empty-state-card">
-                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-                        <h3>Belum Ada Orderan Aktif</h3>
-                        <p>Anda belum memiliki pemesanan layanan yang sedang berjalan saat ini.</p>
-                        <div class="btn-primary-panel" onclick="window.location.href='/layanan'">Pesan Layanan Sekarang</div>
+                <div class="order-subcontent-container">
+                    <div id="orderContentActive" class="order-subcontent active">
+                        <div class="empty-state-card">
+                            <h3>Belum Ada Orderan Aktif</h3>
+                            <p>Anda belum memiliki pemesanan layanan yang sedang berjalan saat ini.</p>
+                            <div class="btn-primary-panel" onclick="window.location.href='/produk'">Pesan Layanan Sekarang</div>
+                        </div>
                     </div>
-                </div>
 
-                <div id="orderContentHistory" class="order-subcontent">
-                    <div class="empty-state-card">
-                        <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
-                        <h3>Riwayat Pemesanan Kosong</h3>
-                        <p>Belum ada riwayat transaksi atau layanan yang telah selesai sebelumnya.</p>
+                    <div id="orderContentHistory" class="order-subcontent">
+                        <div class="empty-state-card">
+                            <h3>Riwayat Pemesanan Kosong</h3>
+                            <p>Belum ada riwayat transaksi atau layanan yang telah selesai sebelumnya.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <script type="module" src="../publick/js/panel.js?v=1.4"></script>
+    <div class="order-modal-overlay" id="orderModal">
+        <div class="order-modal-card">
+            <button class="order-modal-close" id="closeOrderModalBtn">&times;</button>
+            <h3 id="modalOrderTitle">Detail Pemesanan</h3>
+            <div class="order-modal-body" id="modalOrderBody">
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../publick/js/panel.js?v=2.0"></script>
 </body>
 </html>
