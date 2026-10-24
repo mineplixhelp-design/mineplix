@@ -1,8 +1,10 @@
 import { auth, signOut, onAuthStateChanged, db } from './firebase.js';
-import { ref, onValue, update } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
+import { ref, onValue, update, push, set } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
 
 const panelLoader = document.getElementById('panelLoader');
-let ordersListener = null;
+let currentUserRole = 'user';
+let activeSelectedOrderId = null;
+let activeSelectedOrderUserId = null;
 
 function formatPrice(priceVal) {
     if (!priceVal) return 'Gratis';
@@ -41,217 +43,196 @@ function formatDate(timestamp) {
     });
 }
 
-function renderOrders(ordersData) {
-    const orderContentActive = document.getElementById('orderContentActive');
-    const orderContentHistory = document.getElementById('orderContentHistory');
+function renderOrderCards(ordersData, isViewerAdmin) {
+    const container = document.getElementById('orderCardsContainer');
+    if (!container) return;
 
     if (!ordersData) {
-        if (orderContentActive) {
-            orderContentActive.innerHTML = `
-                <div class="empty-state-card">
-                    <h3>Belum Ada Orderan Aktif</h3>
-                    <p>Anda belum memiliki pemesanan layanan yang sedang berjalan saat ini.</p>
-                    <div class="btn-primary-panel" onclick="window.location.href='/produk'">Pesan Layanan Sekarang</div>
-                </div>
-            `;
-        }
-        if (orderContentHistory) {
-            orderContentHistory.innerHTML = `
-                <div class="empty-state-card">
-                    <h3>Riwayat Pemesanan Kosong</h3>
-                    <p>Belum ada riwayat transaksi atau layanan yang telah selesai sebelumnya.</p>
-                </div>
-            `;
-        }
+        container.innerHTML = `
+            <div class="empty-state-card">
+                <h3>Belum Ada Orderan</h3>
+                <p>Belum ada data pemesanan saat ini.</p>
+                ${!isViewerAdmin ? '<div class="btn-primary-panel" onclick="window.location.href=\'/produk\'">Pesan Layanan Sekarang</div>' : ''}
+            </div>
+        `;
         return;
     }
 
-    const activeOrders = [];
-    const historyOrders = [];
+    let allOrdersList = [];
 
-    Object.keys(ordersData).forEach((key) => {
-        const order = ordersData[key];
-        order.orderKey = key;
-        const statusLower = (order.status || '').toLowerCase();
-
-        if (statusLower === 'completed' || statusLower === 'selesai' || statusLower === 'canceled' || statusLower === 'batal') {
-            historyOrders.push(order);
-        } else {
-            activeOrders.push(order);
-        }
-    });
-
-    activeOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-    historyOrders.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-    if (orderContentActive) {
-        if (activeOrders.length === 0) {
-            orderContentActive.innerHTML = `
-                <div class="empty-state-card">
-                    <h3>Belum Ada Orderan Aktif</h3>
-                    <p>Anda belum memiliki pemesanan layanan yang sedang berjalan saat ini.</p>
-                    <div class="btn-primary-panel" onclick="window.location.href='/produk'">Pesan Layanan Sekarang</div>
-                </div>
-            `;
-        } else {
-            let activeHtml = `
-                <div class="orders-table-container">
-                    <table class="orders-table">
-                        <thead>
-                            <tr>
-                                <th>Layanan</th>
-                                <th>ID Pesanan</th>
-                                <th>Harga</th>
-                                <th>Status</th>
-                                <th>Tanggal</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            activeOrders.forEach((item) => {
-                const statusStr = item.status || 'Active';
-                const statusBadgeClass = 'badge-' + statusStr.toLowerCase().replace(/\s+/g, '');
-                
-                activeHtml += `
-                    <tr>
-                        <td><strong>${item.title || 'Layanan Mineplix'}</strong></td>
-                        <td><code>#${item.productId || item.orderKey.slice(-5)}</code></td>
-                        <td>${formatPrice(item.harga)}</td>
-                        <td><span class="status-badge ${statusBadgeClass}">${statusStr}</span></td>
-                        <td>${formatDate(item.createdAt)}</td>
-                        <td>
-                            <button class="btn-detail-order" data-key="${item.orderKey}">Detail</button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            activeHtml += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            orderContentActive.innerHTML = activeHtml;
-        }
-    }
-
-    if (orderContentHistory) {
-        if (historyOrders.length === 0) {
-            orderContentHistory.innerHTML = `
-                <div class="empty-state-card">
-                    <h3>Riwayat Pemesanan Kosong</h3>
-                    <p>Belum ada riwayat transaksi atau layanan yang telah selesai sebelumnya.</p>
-                </div>
-            `;
-        } else {
-            let historyHtml = `
-                <div class="orders-table-container">
-                    <table class="orders-table">
-                        <thead>
-                            <tr>
-                                <th>Layanan</th>
-                                <th>ID Pesanan</th>
-                                <th>Harga</th>
-                                <th>Status</th>
-                                <th>Tanggal</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-
-            historyOrders.forEach((item) => {
-                const statusStr = item.status || 'Completed';
-                const statusBadgeClass = 'badge-' + statusStr.toLowerCase().replace(/\s+/g, '');
-
-                historyHtml += `
-                    <tr>
-                        <td><strong>${item.title || 'Layanan Mineplix'}</strong></td>
-                        <td><code>#${item.productId || item.orderKey.slice(-5)}</code></td>
-                        <td>${formatPrice(item.harga)}</td>
-                        <td><span class="status-badge ${statusBadgeClass}">${statusStr}</span></td>
-                        <td>${formatDate(item.createdAt)}</td>
-                        <td>
-                            <button class="btn-detail-order" data-key="${item.orderKey}">Detail</button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            historyHtml += `
-                        </tbody>
-                    </table>
-                </div>
-            `;
-            orderContentHistory.innerHTML = historyHtml;
-        }
-    }
-
-    document.querySelectorAll('.btn-detail-order').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const key = e.currentTarget.getAttribute('data-key');
-            if (ordersData[key]) {
-                showOrderDetailModal(ordersData[key]);
+    if (isViewerAdmin) {
+        Object.keys(ordersData).forEach((userId) => {
+            const userOrders = ordersData[userId];
+            if (userOrders) {
+                Object.keys(userOrders).forEach((orderId) => {
+                    allOrdersList.push({
+                        userId: userId,
+                        orderId: orderId,
+                        ...userOrders[orderId]
+                    });
+                });
             }
         });
+    } else {
+        Object.keys(ordersData).forEach((orderId) => {
+            allOrdersList.push({
+                orderId: orderId,
+                ...ordersData[orderId]
+            });
+        });
+    }
+
+    if (allOrdersList.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state-card">
+                <h3>Belum Ada Orderan</h3>
+                <p>Belum ada data pemesanan saat ini.</p>
+                ${!isViewerAdmin ? '<div class="btn-primary-panel" onclick="window.location.href=\'/produk\'">Pesan Layanan Sekarang</div>' : ''}
+            </div>
+        `;
+        return;
+    }
+
+    allOrdersList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+    let html = '<div class="order-cards-grid">';
+
+    allOrdersList.forEach((item) => {
+        const status = item.status || 'Menunggu Konfirmasi';
+        const formattedPrice = formatPrice(item.harga);
+        const dateStr = formatDate(item.createdAt);
+        const orderCode = item.productId || item.orderId.slice(-5);
+
+        let statusBadgeClass = 'badge-pending';
+        let stepInfoHtml = '';
+
+        if (status.toLowerCase().includes('menunggu')) {
+            statusBadgeClass = 'badge-pending';
+            stepInfoHtml = `
+                <div class="order-step-box info-box">
+                    <strong>⏳ Status: Menunggu Konfirmasi Admin</strong>
+                    <p>Pesanan Anda telah diterima dan sedang diperiksa oleh admin kami.</p>
+                </div>
+            `;
+        } else if (status.toLowerCase().includes('qris') || status.toLowerCase().includes('bayar')) {
+            statusBadgeClass = 'badge-qris';
+            stepInfoHtml = `
+                <div class="order-step-box qris-box">
+                    <strong>📲 Silakan Lakukan Pembayaran QRIS</strong>
+                    <p>Total Tagihan: <span style="font-weight:700; color:var(--primary-dark);">${formattedPrice}</span></p>
+                    <div class="qris-preview-placeholder">[ QRIS Code / Informasi Rekening Mineplix ]</div>
+                    <p style="font-size: 0.8rem; margin-top:4px;">Bayar sesuai dengan harga tertera agar dapat segera dikonfirmasi.</p>
+                </div>
+            `;
+        } else if (status.toLowerCase().includes('pengerjaan') || status.toLowerCase().includes('diproses')) {
+            statusBadgeClass = 'badge-process';
+            stepInfoHtml = `
+                <div class="order-step-box process-box">
+                    <strong>⚙️ Pembayaran Dikonfirmasi & Pengerjaan</strong>
+                    <p>Pembayaran diterima. Tim Mineplix sedang mengerjakan project Anda.</p>
+                </div>
+            `;
+        } else if (status.toLowerCase().includes('selesai') || status.toLowerCase().includes('completed')) {
+            statusBadgeClass = 'badge-completed';
+            stepInfoHtml = `
+                <div class="order-step-box done-box">
+                    <strong>✅ Selesai</strong>
+                    <p>Project telah selesai dikerjakan!</p>
+                    ${item.productLink ? `<a href="${item.productLink}" target="_blank" class="btn-download-link">🔗 Akses / Download Link Produk</a>` : ''}
+                </div>
+            `;
+        }
+
+        let adminActionHtml = '';
+        if (isViewerAdmin) {
+            adminActionHtml = `
+                <div class="admin-action-bar">
+                    <span style="font-size:0.8rem; color:var(--text-muted);">Aksi Admin:</span>
+                    <div class="admin-btn-group">
+                        <button class="admin-step-btn" onclick="updateOrderStatus('${item.userId}', '${item.orderId}', 'Menunggu Pembayaran (QRIS)')">Kirim QRIS</button>
+                        <button class="admin-step-btn" onclick="updateOrderStatus('${item.userId}', '${item.orderId}', 'Pengerjaan Berlangsung')">Proses / Pengerjaan</button>
+                        <button class="admin-step-btn btn-done-action" onclick="openLinkModal('${item.userId}', '${item.orderId}')">Selesai & Kirim Link</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        html += `
+            <div class="order-item-card">
+                <div class="order-card-top-info">
+                    <div>
+                        <h3 class="order-item-title">${item.title || 'Layanan Mineplix'}</h3>
+                        <span class="order-item-id">ID: #${orderCode} ${isViewerAdmin ? `| User: ${item.userEmail || item.userName || item.userId}` : ''}</span>
+                    </div>
+                    <span class="status-badge ${statusBadgeClass}">${status}</span>
+                </div>
+                <div class="order-card-middle">
+                    <div class="order-meta-info">
+                        <span>Harga: <strong>${formattedPrice}</strong></span>
+                        <span>Waktu: ${dateStr}</span>
+                    </div>
+                    ${stepInfoHtml}
+                </div>
+                ${adminActionHtml}
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+window.updateOrderStatus = async function(userId, orderId, newStatus) {
+    try {
+        const orderRef = ref(db, 'orders/' + userId + '/' + orderId);
+        await update(orderRef, { status: newStatus });
+        alert("Status order berhasil diperbarui menjadi: " + newStatus);
+    } catch (error) {
+        alert("Gagal memperbarui status: " + error.message);
+    }
+};
+
+window.openLinkModal = function(userId, orderId) {
+    activeSelectedUserId = userId;
+    activeSelectedOrderId = orderId;
+    const modal = document.getElementById('linkModal');
+    const input = document.getElementById('productLinkInput');
+    if (input) input.value = '';
+    if (modal) modal.classList.add('show');
+};
+
+const closeLinkModalBtn = document.getElementById('closeLinkModalBtn');
+const linkModal = document.getElementById('linkModal');
+if (closeLinkModalBtn && linkModal) {
+    closeLinkModalBtn.addEventListener('click', () => {
+        linkModal.classList.remove('show');
+    });
+    linkModal.addEventListener('click', (e) => {
+        if (e.target === linkModal) {
+            linkModal.classList.remove('show');
+        }
     });
 }
 
-function showOrderDetailModal(order) {
-    const modal = document.getElementById('orderModal');
-    const modalTitle = document.getElementById('modalOrderTitle');
-    const modalBody = document.getElementById('modalOrderBody');
-
-    if (!modal || !modalBody) return;
-
-    if (modalTitle) modalTitle.textContent = order.title || 'Detail Pemesanan';
-
-    const statusStr = order.status || 'Active';
-    const statusBadgeClass = 'badge-' + statusStr.toLowerCase().replace(/\s+/g, '');
-
-    modalBody.innerHTML = `
-        <div class="order-detail-group">
-            <span class="detail-label">ID Pesanan</span>
-            <span class="detail-val">#${order.productId || order.orderKey.slice(-5)}</span>
-        </div>
-        <div class="order-detail-group">
-            <span class="detail-label">Nama Pemesan</span>
-            <span class="detail-val">${order.userName || '-'}</span>
-        </div>
-        <div class="order-detail-group">
-            <span class="detail-label">Email Pemesan</span>
-            <span class="detail-val">${order.userEmail || '-'}</span>
-        </div>
-        <div class="order-detail-group">
-            <span class="detail-label">Total Harga</span>
-            <span class="detail-val" style="color: var(--primary-dark); font-weight: 700;">${formatPrice(order.harga)}</span>
-        </div>
-        <div class="order-detail-group">
-            <span class="detail-label">Status saat ini</span>
-            <span class="detail-val"><span class="status-badge ${statusBadgeClass}">${statusStr}</span></span>
-        </div>
-        <div class="order-detail-group">
-            <span class="detail-label">Waktu Pemesanan</span>
-            <span class="detail-val">${formatDate(order.createdAt)}</span>
-        </div>
-    `;
-
-    modal.classList.add('show');
-}
-
-const closeOrderModalBtn = document.getElementById('closeOrderModalBtn');
-const orderModal = document.getElementById('orderModal');
-
-if (closeOrderModalBtn && orderModal) {
-    closeOrderModalBtn.addEventListener('click', () => {
-        orderModal.classList.remove('show');
-    });
-
-    orderModal.addEventListener('click', (e) => {
-        if (e.target === orderModal) {
-            orderModal.classList.remove('show');
+const confirmDoneBtn = document.getElementById('confirmDoneBtn');
+if (confirmDoneBtn) {
+    confirmDoneBtn.addEventListener('click', async () => {
+        const linkInput = document.getElementById('productLinkInput');
+        const linkVal = linkInput ? linkInput.value.trim() : '';
+        if (!linkVal) {
+            alert("Masukkan link produk atau hasil pengerjaan terlebih dahulu.");
+            return;
+        }
+        try {
+            const orderRef = ref(db, 'orders/' + activeSelectedUserId + '/' + activeSelectedOrderId);
+            await update(orderRef, {
+                status: 'Selesai',
+                productLink: linkVal
+            });
+            linkModal.classList.remove('show');
+            alert("Pesanan diselesaikan dan link berhasil dikirim ke user!");
+        } catch (error) {
+            alert("Gagal menyelesaikan pesanan: " + error.message);
         }
     });
 }
@@ -271,11 +252,37 @@ onAuthStateChanged(auth, (user) => {
         if (welcomeUserElem) welcomeUserElem.textContent = name;
         if (userEmailElem) userEmailElem.textContent = email;
 
-        if (panelLoader) {
-            setTimeout(() => {
-                panelLoader.classList.add('hidden');
-            }, 400);
-        }
+        const userRef = ref(db, 'users/' + user.uid);
+        onValue(userRef, (snapshot) => {
+            const userData = snapshot.val();
+            if (userData && userData.role === 'admin') {
+                currentUserRole = 'admin';
+                const menuBroadcast = document.getElementById('menuBroadcast');
+                if (menuBroadcast) menuBroadcast.style.display = 'flex';
+
+                const orderHeaderTitle = document.getElementById('orderHeaderTitle');
+                const orderHeaderDesc = document.getElementById('orderHeaderDesc');
+                if (orderHeaderTitle) orderHeaderTitle.textContent = 'Kelola Semua Orderan (Admin)';
+                if (orderHeaderDesc) orderHeaderDesc.textContent = 'Pantau dan perbarui langkah status pesanan dari seluruh pengguna.';
+
+                const allOrdersRef = ref(db, 'orders');
+                onValue(allOrdersRef, (orderSnap) => {
+                    renderOrderCards(orderSnap.val(), true);
+                });
+            } else {
+                currentUserRole = 'user';
+                const userOrdersRef = ref(db, 'orders/' + user.uid);
+                onValue(userOrdersRef, (orderSnap) => {
+                    renderOrderCards(orderSnap.val(), false);
+                });
+            }
+
+            if (panelLoader) {
+                setTimeout(() => {
+                    panelLoader.classList.add('hidden');
+                }, 400);
+            }
+        }, { onlyOnce: true });
 
         const notifRef = ref(db, 'users/' + user.uid + '/notifications');
         onValue(notifRef, (snapshot) => {
@@ -308,16 +315,50 @@ onAuthStateChanged(auth, (user) => {
                 notifBadge.style.display = hasUnread ? 'block' : 'none';
             }
         });
-
-        const userOrdersRef = ref(db, 'orders/' + user.uid);
-        ordersListener = onValue(userOrdersRef, (snapshot) => {
-            const ordersData = snapshot.val();
-            renderOrders(ordersData);
-        }, (error) => {
-            console.error("Gagal mengambil data orderan:", error);
-        });
     }
 });
+
+const sendBroadcastBtn = document.getElementById('sendBroadcastBtn');
+if (sendBroadcastBtn) {
+    sendBroadcastBtn.addEventListener('click', async () => {
+        const titleInput = document.getElementById('broadcastTitle');
+        const descInput = document.getElementById('broadcastDesc');
+        const title = titleInput ? titleInput.value.trim() : '';
+        const desc = descInput ? descInput.value.trim() : '';
+
+        if (!title || !desc) {
+            alert("Judul dan isi notifikasi tidak boleh kosong.");
+            return;
+        }
+
+        try {
+            const usersRef = ref(db, 'users');
+            onValue(usersRef, async (snapshot) => {
+                const usersData = snapshot.val();
+                if (!usersData) return;
+
+                const timeStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+                for (const uid of Object.keys(usersData)) {
+                    const userNotifRef = ref(db, 'users/' + uid + '/notifications');
+                    const newNotifRef = push(userNotifRef);
+                    await set(newNotifRef, {
+                        title: title,
+                        desc: desc,
+                        time: timeStr,
+                        read: false
+                    });
+                }
+
+                alert("Notifikasi broadcast berhasil dikirim ke semua pengguna!");
+                if (titleInput) titleInput.value = '';
+                if (descInput) descInput.value = '';
+            }, { onlyOnce: true });
+        } catch (error) {
+            alert("Gagal mengirim broadcast: " + error.message);
+        }
+    });
+}
 
 window.addEventListener('pageshow', (event) => {
     if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
@@ -332,25 +373,32 @@ window.addEventListener('pageshow', (event) => {
 window.switchTab = function(tabName, updateHistory = true) {
     const menuDashboard = document.getElementById('menuDashboard');
     const menuOrder = document.getElementById('menuOrder');
+    const menuBroadcast = document.getElementById('menuBroadcast');
+
     const contentDashboard = document.getElementById('contentDashboard');
     const contentOrder = document.getElementById('contentOrder');
+    const contentBroadcast = document.getElementById('contentBroadcast');
+
+    if (menuDashboard) menuDashboard.classList.remove('active');
+    if (menuOrder) menuOrder.classList.remove('active');
+    if (menuBroadcast) menuBroadcast.classList.remove('active');
+
+    if (contentDashboard) contentDashboard.classList.remove('active');
+    if (contentOrder) contentOrder.classList.remove('active');
+    if (contentBroadcast) contentBroadcast.classList.remove('active');
 
     if (tabName === 'dashboard') {
         if (menuDashboard) menuDashboard.classList.add('active');
-        if (menuOrder) menuOrder.classList.remove('active');
         if (contentDashboard) contentDashboard.classList.add('active');
-        if (contentOrder) contentOrder.classList.remove('active');
-        if (updateHistory) {
-            history.pushState({ tab: 'dashboard' }, '', '/panel');
-        }
+        if (updateHistory) history.pushState({ tab: 'dashboard' }, '', '/panel');
     } else if (tabName === 'order') {
         if (menuOrder) menuOrder.classList.add('active');
-        if (menuDashboard) menuDashboard.classList.remove('active');
         if (contentOrder) contentOrder.classList.add('active');
-        if (contentDashboard) contentDashboard.classList.remove('active');
-        if (updateHistory) {
-            history.pushState({ tab: 'order' }, '', '/panel#order');
-        }
+        if (updateHistory) history.pushState({ tab: 'order' }, '', '/panel#order');
+    } else if (tabName === 'broadcast') {
+        if (menuBroadcast) menuBroadcast.classList.add('active');
+        if (contentBroadcast) contentBroadcast.classList.add('active');
+        if (updateHistory) history.pushState({ tab: 'broadcast' }, '', '/panel#broadcast');
     }
 
     if (window.innerWidth <= 768) {
@@ -362,38 +410,19 @@ window.switchTab = function(tabName, updateHistory = true) {
 };
 
 window.addEventListener('popstate', (event) => {
-    if (window.location.hash === '#order' || (event.state && event.state.tab === 'order')) {
+    if (window.location.hash === '#order') {
         window.switchTab('order', false);
+    } else if (window.location.hash === '#broadcast') {
+        window.switchTab('broadcast', false);
     } else {
         window.switchTab('dashboard', false);
     }
 });
 
-window.switchOrderSubtab = function(subtabName) {
-    const subtabActive = document.getElementById('subtabActive');
-    const subtabHistory = document.getElementById('subtabHistory');
-    const orderContentActive = document.getElementById('orderContentActive');
-    const orderContentHistory = document.getElementById('orderContentHistory');
-
-    if (subtabName === 'active') {
-        if (subtabActive) subtabActive.classList.add('active');
-        if (subtabHistory) subtabHistory.classList.remove('active');
-        if (orderContentHistory) orderContentHistory.classList.remove('active');
-        setTimeout(() => {
-            if (orderContentActive) orderContentActive.classList.add('active');
-        }, 50);
-    } else if (subtabName === 'history') {
-        if (subtabHistory) subtabHistory.classList.add('active');
-        if (subtabActive) subtabActive.classList.remove('active');
-        if (orderContentActive) orderContentActive.classList.remove('active');
-        setTimeout(() => {
-            if (orderContentHistory) orderContentHistory.classList.add('active');
-        }, 50);
-    }
-};
-
 if (window.location.hash === '#order') {
     window.switchTab('order', false);
+} else if (window.location.hash === '#broadcast') {
+    window.switchTab('broadcast', false);
 }
 
 const burgerBtn = document.getElementById('burgerBtn');
@@ -406,13 +435,8 @@ function toggleSidebar() {
     sidebarOverlay.classList.toggle('active');
 }
 
-if (burgerBtn) {
-    burgerBtn.addEventListener('click', toggleSidebar);
-}
-
-if (sidebarOverlay) {
-    sidebarOverlay.addEventListener('click', toggleSidebar);
-}
+if (burgerBtn) burgerBtn.addEventListener('click', toggleSidebar);
+if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
 
 const notifBtn = document.getElementById('notifBtn');
 const notifPopover = document.getElementById('notifPopover');
@@ -470,38 +494,7 @@ if (markReadBtn) {
     });
 }
 
-const serviceCards = document.querySelectorAll('.service-card');
-
-serviceCards.forEach(card => {
-    const ripple = card.querySelector('.ripple');
-
-    const setRipplePos = (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : rect.width / 2)) - rect.left;
-        const y = (e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : rect.height / 2)) - rect.top;
-        if (ripple) {
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-        }
-    };
-
-    card.addEventListener('pointerdown', (e) => {
-        serviceCards.forEach(c => {
-            if (c !== card) c.classList.remove('active-ripple');
-        });
-        setRipplePos(e);
-        card.classList.add('active-ripple');
-    });
-});
-
-document.addEventListener('pointerdown', (e) => {
-    if (!e.target.closest('.service-card')) {
-        serviceCards.forEach(c => c.classList.remove('active-ripple'));
-    }
-});
-
 const logoutBtn = document.getElementById('logoutBtn');
-
 if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
         try {
