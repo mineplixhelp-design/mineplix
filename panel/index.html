@@ -10,7 +10,7 @@
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="../publick/css/panel.css?v=2.0">
+    <link rel="stylesheet" href="../publick/css/panel.css?v=3.0">
 </head>
 <body>
 
@@ -98,7 +98,11 @@
                 </div>
                 <div class="nav-item" id="menuOrder" onclick="switchTab('order')">
                     <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-                    <span>Orderan</span>
+                    <span id="menuOrderText">Orderan</span>
+                </div>
+                <div class="nav-item" id="menuBroadcast" onclick="switchTab('broadcast')" style="display: none;">
+                    <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                    <span>Kirim Notifikasi</span>
                 </div>
             </nav>
             
@@ -187,44 +191,52 @@
 
             <div id="contentOrder" class="tab-content">
                 <div class="welcome-banner fade-up visible">
-                    <h2>Daftar Orderan Saya</h2>
-                    <p>Kelola dan pantau seluruh status pemesanan serta riwayat transaksi project Anda di Mineplix.</p>
+                    <h2 id="orderHeaderTitle">Daftar Orderan Saya</h2>
+                    <p id="orderHeaderDesc">Kelola dan pantau seluruh status pemesanan serta riwayat transaksi project Anda di Mineplix.</p>
                 </div>
 
-                <div class="order-subtabs">
-                    <div class="subtab-btn active" id="subtabActive" onclick="switchOrderSubtab('active')">Orderan Aktif</div>
-                    <div class="subtab-btn" id="subtabHistory" onclick="switchOrderSubtab('history')">Riwayat Pemesanan</div>
+                <div class="order-cards-container" id="orderCardsContainer">
+                    <div class="empty-state-card">
+                        <h3>Memuat Orderan...</h3>
+                        <p>Mohon tunggu sebentar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contentBroadcast" class="tab-content">
+                <div class="welcome-banner fade-up visible">
+                    <h2>Kirim Notifikasi ke Semua User</h2>
+                    <p>Buat pengumuman atau pesan broadcast yang akan masuk ke notifikasi seluruh pengguna terdaftar.</p>
                 </div>
 
-                <div class="order-subcontent-container">
-                    <div id="orderContentActive" class="order-subcontent active">
-                        <div class="empty-state-card">
-                            <h3>Belum Ada Orderan Aktif</h3>
-                            <p>Anda belum memiliki pemesanan layanan yang sedang berjalan saat ini.</p>
-                            <div class="btn-primary-panel" onclick="window.location.href='/produk'">Pesan Layanan Sekarang</div>
-                        </div>
+                <div class="broadcast-card">
+                    <div class="broadcast-form-group">
+                        <label>Judul Notifikasi</label>
+                        <input type="text" id="broadcastTitle" class="broadcast-input" placeholder="Contoh: Update Sistem Terbaru">
                     </div>
-
-                    <div id="orderContentHistory" class="order-subcontent">
-                        <div class="empty-state-card">
-                            <h3>Riwayat Pemesanan Kosong</h3>
-                            <p>Belum ada riwayat transaksi atau layanan yang telah selesai sebelumnya.</p>
-                        </div>
+                    <div class="broadcast-form-group">
+                        <label>Isi Pesan Notifikasi</label>
+                        <textarea id="broadcastDesc" class="broadcast-textarea" placeholder="Tulis pesan lengkap di sini..."></textarea>
                     </div>
+                    <button class="btn-primary-panel" id="sendBroadcastBtn">Kirim Broadcast Sekarang</button>
                 </div>
             </div>
         </main>
     </div>
 
-    <div class="order-modal-overlay" id="orderModal">
+    <div class="order-modal-overlay" id="linkModal">
         <div class="order-modal-card">
-            <button class="order-modal-close" id="closeOrderModalBtn">&times;</button>
-            <h3 id="modalOrderTitle">Detail Pemesanan</h3>
-            <div class="order-modal-body" id="modalOrderBody">
+            <button class="order-modal-close" id="closeLinkModalBtn">&times;</button>
+            <h3>Selesaikan Pesanan & Kirim Link</h3>
+            <p>Masukkan tautan hasil pengerjaan atau produk untuk dikirimkan ke user.</p>
+            <div class="broadcast-form-group" style="margin-top: 16px;">
+                <label>URL / Link Produk</label>
+                <input type="text" id="productLinkInput" class="broadcast-input" placeholder="https://...">
             </div>
+            <button class="btn-primary-panel" id="confirmDoneBtn" style="margin-top: 16px; width: 100%;">Kirim Link & Selesaikan</button>
         </div>
     </div>
 
-    <script type="module" src="../publick/js/panel.js?v=2.0"></script>
+    <script type="module" src="../publick/js/panel.js?v=3.0"></script>
 </body>
 </html>
