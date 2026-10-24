@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mineplix - Hubungi Kami</title>
-    <meta name="description" content="Hubungi tim Mineplix untuk konsultasi project web design, desain grafis, dan custom map Minecraft.">
+    <title>Mineplix - Portofolio & Tim Kami</title>
+    <meta name="description" content="Mengenal Mineplix, portofolio project unggulan web design, graphic design, Minecraft map builder, dan daftar tim profesional kami.">
     
-    <meta property="og:title" content="Mineplix - Hubungi Kami">
-    <meta property="og:description" content="Hubungi tim Mineplix untuk konsultasi project web design, desain grafis, dan custom map Minecraft.">
+    <meta property="og:title" content="Mineplix - Portofolio & Tim Kami">
+    <meta property="og:description" content="Mengenal Mineplix, portofolio project unggulan, dan daftar tim profesional kami.">
     <meta property="og:image" content="../publick/img/banner.png">
     <meta property="og:type" content="website">
 
@@ -37,51 +37,133 @@
         .page-hero p {
             color: var(--text-muted);
             font-size: 1.05rem;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
         }
-        .contact-section {
-            max-width: 800px;
+
+        .portfolio-wrapper {
+            max-width: 1100px;
             margin: 0 auto;
             padding: var(--space-md) 5% var(--space-xxl) 5%;
         }
-        .contact-card {
+
+        /* Section Headings */
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: var(--space-sm);
+        }
+
+        /* About Section */
+        .about-card {
             background-color: var(--card-bg);
             border-radius: var(--radius-lg);
             padding: var(--space-lg);
-            text-align: center;
-            margin-bottom: var(--space-md);
+            margin-bottom: var(--space-xl);
         }
-        .contact-card h3 {
-            font-size: 1.4rem;
+        .about-card p {
+            font-size: 1.02rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: var(--space-sm);
+        }
+        .about-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Project Card List */
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+            transition: transform 0.2s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-2px);
+        }
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .project-header h3 {
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--text-dark);
-            margin-bottom: 8px;
         }
-        .contact-card p {
-            color: var(--text-muted);
-            font-size: 0.98rem;
-            margin-bottom: var(--space-md);
-        }
-        .contact-email {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        .project-badge {
             background-color: var(--primary-dark);
             color: #ffffff;
-            padding: 12px 28px;
-            border-radius: var(--radius-full);
+            font-size: 0.75rem;
             font-weight: 700;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: opacity 0.2s ease;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
         }
-        .contact-email:hover {
-            opacity: 0.9;
+        .project-desc {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.6;
         }
+
+        /* Staff List Section */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+        }
+        .staff-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .staff-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: var(--space-xs);
+            background-color: #000;
+        }
+        .staff-card h4 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+        .staff-role {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+        .staff-bio {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
         @media (max-width: 868px) {
             .page-hero h1 {
                 font-size: 2.1rem;
+            }
+            .staff-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -98,7 +180,7 @@
             <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
             <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
             <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
-            <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+            <div class="nav-link active" onclick="window.location.href='/porto'">Portofolio</div>
         </nav>
 
         <div class="actions">
@@ -127,7 +209,7 @@
             <a href="/layanan/minecraft">Minecraft Maps Builder</a>
         </div>
 
-        <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
+        <div class="nav-link active" onclick="window.location.href='/porto'">Portofolio</div>
         
         <div class="drawer-actions">
             <div class="auth-action-container">
@@ -140,18 +222,87 @@
 
     <section class="page-hero">
         <div class="fade-up">
-            <h1>Hubungi Kami</h1>
-            <p>Punya pertanyaan, ide custom map, atau ingin memesan project web? Silakan hubungi tim kami.</p>
+            <h1>Tentang & Portofolio Mineplix</h1>
+            <p>Penyedia solusi kreatif terpercaya untuk pengerjaan website modern, desain grafis visual, dan custom map Minecraft berkualitas tinggi.</p>
         </div>
     </section>
 
-    <div class="contact-section">
-        <div class="contact-card fade-up">
-            <h3>Saluran Komunikasi Resmi</h3>
-            <p>Untuk pemesanan, konsultasi teknis, maupun diskusi detail project, Anda dapat langsung mengirimkan email ke alamat resmi kami:</p>
-            <a href="mailto:mineplixhelp@gmail.com" class="contact-email">mineplixhelp@gmail.com
-            </a>
+    <div class="portfolio-wrapper">
+        
+        <!-- 1. INFORMATION ABOUT -->
+        <h2 class="section-title fade-up">Tentang Kami</h2>
+        <div class="about-card fade-up">
+            <p>
+                <strong>Mineplix</strong> adalah studio layanan kreatif yang berfokus pada pengembangan kehadiran digital dan ekosistem server game. Kami mengintegrasikan keahlian desain web modern (Frontend UI/UX), branding visual yang memikat, serta keahlian membangun peta khusus (Custom Maps) Minecraft dengan optimasi tinggi.
+            </p>
+            <p>
+                Komitmen utama kami adalah menghadirkan standar pengerjaan profesional yang rapi, responsif, dan disesuaikan secara khusus demi memenuhi visi serta kebutuhan komunitas maupun brand Anda.
+            </p>
         </div>
+
+        <!-- 2. PROJECT CARD LIST -->
+        <h2 class="section-title fade-up">Daftar Project Terbaru</h2>
+        <div class="project-list">
+            
+            <div class="project-card fade-up" style="transition-delay: 0.1s;">
+                <div class="project-header">
+                    <h3>Mineplix Store</h3>
+                    <span class="project-badge">Frontend Web Design</span>
+                </div>
+                <div class="project-desc">
+                    Tampilan antarmuka toko web server Minecraft yang bersih dan terintegrasi dengan sistem autentikasi Google Firebase, tata letak produk serbaguna, serta navigasi yang responsif di perangkat mobile.
+                </div>
+            </div>
+
+            <div class="project-card fade-up" style="transition-delay: 0.2s;">
+                <div class="project-header">
+                    <h3>Mineplix Minecraft Servers</h3>
+                    <span class="project-badge">Minecraft Maps Builder</span>
+                </div>
+                <div class="project-desc">
+                    Pembangunan custom map area Spawn & Lobby bernuansa eksklusif dengan arsitektur berdetail tinggi, dilengkapi jalur navigasi pemain yang efisien dan struktur block yang teroptimasi tanpa lagging.
+                </div>
+            </div>
+
+            <div class="project-card fade-up" style="transition-delay: 0.3s;">
+                <div class="project-header">
+                    <h3>Mineplix Apps & Branding</h3>
+                    <span class="project-badge">Graphic Design</span>
+                </div>
+                <div class="project-desc">
+                    Perancangan aset identitas visual mencakup logo server, banner promosi berkresolusi tinggi, ikon pangkat (rank icons), serta aset media sosial untuk meningkatkan kredibilitas project.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 3. LIST STAFF -->
+        <h2 class="section-title fade-up">Tim Kami</h2>
+        <div class="staff-grid">
+            
+            <div class="staff-card fade-up" style="transition-delay: 0.1s;">
+                <img src="../publick/img/icon.png" alt="Lead Developer" class="staff-avatar">
+                <h4>Yoga Kusmara</h4>
+                <div class="staff-role">Lead Developer & UI Designer</div>
+                <div class="staff-bio">Mengelola arsitektur kode frontend, tata letak website responsif, serta sistem integrasi platform Mineplix.</div>
+            </div>
+
+            <div class="staff-card fade-up" style="transition-delay: 0.2s;">
+                <img src="../publick/img/icon.png" alt="Head Builder" class="staff-avatar">
+                <h4>Tim Builder Mineplix</h4>
+                <div class="staff-role">Minecraft Map Builders</div>
+                <div class="staff-bio">Spesialis pembuat struktur dunia virtual, terrain custom, serta desain spawn/lobby Minecraft terintegrasi.</div>
+            </div>
+
+            <div class="staff-card fade-up" style="transition-delay: 0.3s;">
+                <img src="../publick/img/icon.png" alt="Graphic Designer" class="staff-avatar">
+                <h4>Tim Desain Grafis</h4>
+                <div class="staff-role">Visual & Graphic Artist</div>
+                <div class="staff-bio">Berfokus pada pembuatan banner visual, ikon pangkat, aset branding, serta ilustrasi media sosial.</div>
+            </div>
+
+        </div>
+
     </div>
 
     <footer class="footer fade-in">
