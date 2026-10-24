@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Kontrol - Mineplix</title>
+    <meta name="description" content="Panel manajemen akun dan layanan server Mineplix.">
+    
+    <link rel="icon" href="../publick/img/icon.png" type="image/png">
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="../publick/css/panel.css?v=1.4">
+</head>
+<body>
+
+    <div class="panel-loader" id="panelLoader">
+        <div class="loader-content">
+            <div class="spinner-ring"></div>
+            <img src="../publick/img/icon.png" alt="Mineplix Logo" class="loader-logo">
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <header class="panel-header">
+        <div class="header-left">
+            <button class="burger-btn" id="burgerBtn" aria-label="Toggle Sidebar">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
+                </svg>
+            </button>
+            <div class="logo" onclick="window.location.href='/panel'">
+                <img src="../publick/img/icon.png" alt="Mineplix Icon">
+                <span>ineplix</span>
+            </div>
+        </div>
+
+        <div class="header-right">
+            <div class="header-action-item">
+                <button class="icon-action-btn" id="notifBtn" aria-label="Notifikasi">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                    </svg>
+                    <span class="notif-badge"></span>
+                </button>
+
+                <div class="dropdown-popover notif-popover" id="notifPopover">
+                    <div class="popover-header">
+                        <span>Notifikasi</span>
+                        <span class="mark-read" id="markReadBtn">Tandai dibaca</span>
+                    </div>
+                    <div class="popover-body">
+                        <div class="notif-item unread">
+                            <div class="notif-title">Selamat Datang di Mineplix Panel!</div>
+                            <div class="notif-desc">Akun Anda telah berhasil terhubung. Jelajahi layanan web & server Minecraft kami.</div>
+                            <div class="notif-time">Baru saja</div>
+                        </div>
+                        <div class="notif-item">
+                            <div class="notif-title">Update Layanan</div>
+                            <div class="notif-desc">Kini telah hadir layanan custom Minecraft maps builder terbaru!</div>
+                            <div class="notif-time">1 hari lalu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-action-item">
+                <button class="icon-action-btn" id="settingBtn" aria-label="Pengaturan Profile">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </button>
+
+                <div class="dropdown-popover profile-popover" id="profilePopover">
+                    <div class="user-info-header">
+                        <div class="user-display-name" id="userName">User Mineplix</div>
+                        <div class="user-email" id="userEmail">loading...</div>
+                    </div>
+
+                    <div class="popover-body-list">
+                        <div onclick="window.location.href='mailto:mineplixhelp@gmail.com'" class="dropdown-item">
+                            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                            <span>Bantuan (Email)</span>
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                            <span>Keluar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="panel-layout">
+        <aside class="panel-sidebar" id="panelSidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-item active" id="menuDashboard" onclick="switchTab('dashboard')">
+                    <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" id="menuOrder" onclick="switchTab('order')">
+                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <span>Orderan</span>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="back-to-home" onclick="window.location.href='/'">
+                    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                    <span>Kembali ke Website</span>
+                </div>
+            </div>
+        </aside>
+
+        <main class="panel-main">
+            <div id="contentDashboard" class="tab-content active">
+                <div class="welcome-banner fade-up visible">
+                    <h2>Hai, <span id="welcomeUserName">Pencinta Mineplix</span> 👋</h2>
+                    <p>Selamat datang di panel kontrol Mineplix. Akses layanan dan orderan Anda dengan cepat melalui menu di bawah.</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card fade-up visible" style="transition-delay: 0.1s;" onclick="window.location.href='/layanan/frontend'">
+                        <div class="ripple"></div>
+                        <div class="card-header">
+                            <h3>Frontend Web Design</h3>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Membuat tampilan website server, store, atau landing page yang responsif, interaktif, bersih, dan memukau.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-card fade-up visible" style="transition-delay: 0.2s;" onclick="window.location.href='/layanan/graphic'">
+                        <div class="ripple"></div>
+                        <div class="card-header">
+                            <h3>Graphic Design</h3>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Desain banner, logo server, icon rank, dan aset promosi visual berkualitas tinggi untuk menarik lebih banyak pemain.</p>
+                        </div>
+                    </div>
+
+                    <div class="service-card fade-up visible" style="transition-delay: 0.3s;" onclick="window.location.href='/layanan/minecraft'">
+                        <div class="ripple"></div>
+                        <div class="card-header">
+                            <h3>Minecraft Maps Builder</h3>
+                            <div class="card-arrow">
+                                <svg viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>Membangun custom map (Spawn, Lobby, Survival, PvP Arena) dengan detail tinggi dan optimasi performa server.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contentOrder" class="tab-content">
+                <div class="welcome-banner fade-up visible">
+                    <h2>Daftar Orderan Saya</h2>
+                    <p>Kelola dan pantau seluruh status pemesanan serta riwayat transaksi project Anda di Mineplix.</p>
+                </div>
+
+                <div class="order-subtabs">
+                    <div class="subtab-btn active" id="subtabActive" onclick="switchOrderSubtab('active')">Orderan Aktif</div>
+                    <div class="subtab-btn" id="subtabHistory" onclick="switchOrderSubtab('history')">Riwayat Pemesanan</div>
+                </div>
+
+                <div id="orderContentActive" class="order-subcontent active">
+                    <div class="empty-state-card">
+                        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+                        <h3>Belum Ada Orderan Aktif</h3>
+                        <p>Anda belum memiliki pemesanan layanan yang sedang berjalan saat ini.</p>
+                        <div class="btn-primary-panel" onclick="window.location.href='/layanan'">Pesan Layanan Sekarang</div>
+                    </div>
+                </div>
+
+                <div id="orderContentHistory" class="order-subcontent">
+                    <div class="empty-state-card">
+                        <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>
+                        <h3>Riwayat Pemesanan Kosong</h3>
+                        <p>Belum ada riwayat transaksi atau layanan yang telah selesai sebelumnya.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="../publick/js/panel.js?v=1.4"></script>
+</body>
+</html>
