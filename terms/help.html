@@ -15,162 +15,33 @@
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
-          authDomain: "mineplix-3d91c.firebaseapp.com",
-          databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "mineplix-3d91c",
-          storageBucket: "mineplix-3d91c.firebasestorage.app",
-          messagingSenderId: "932702850146",
-          appId: "1:932702850146:web:0933bde133e94b4254953b",
-          measurementId: "G-VTMMJV3HY7"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        onAuthStateChanged(auth, (user) => {
-            const authActionContainers = document.querySelectorAll('.auth-action-container');
-            authActionContainers.forEach(container => {
-                if (user) {
-                    const photoURL = user.photoURL || '../publick/img/icon.png';
-                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'Akun';
-                    container.innerHTML = `
-                        <div class="user-profile-btn" onclick="handleLogout()">
-                            <img src="${photoURL}" alt="Profile" class="user-avatar">
-                            <span>${displayName}</span>
-                            <span class="logout-text">Keluar</span>
-                        </div>
-                    `;
-                    if (window.Android && typeof window.Android.goToMain === 'function') {
-                        window.Android.goToMain();
-                    }
-                } else {
-                    container.innerHTML = `
-                        <div class="btn-outline" onclick="handleGoogleLogin()">
-                            <svg class="google-icon" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v2.39h3.88c2.27-2.09 3.66-5.17 3.66-8.82z"/>
-                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.02c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.13C3.18 21.36 7.23 24 12 24z"/>
-                                <path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.39-1.5-.39-2.28s.14-1.56.39-2.28V6.59H1.2C.44 8.13 0 9.87 0 12s.44 3.87 1.2 5.41l4.08-3.13z"/>
-                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.64 1.2 6.59l4.08 3.13c.95-2.84 3.6-4.97 6.72-4.97z"/>
-                            </svg>
-                            Masuk
-                        </div>
-                    `;
-                }
-            });
-        });
-
-        window.handleGoogleLogin = async function() {
-            try { await signInWithPopup(auth, provider); } catch (error) { console.error(error); }
-        };
-
-        window.handleLogout = async function() {
-            try { await signOut(auth); } catch (error) { console.error(error); }
-        };
-    </script>
+    <!-- CSS External dengan Cache Busting -->
+    <link rel="stylesheet" href="../publick/css/style.css?v=1.0">
 
     <style>
-        @font-face {
-            font-family: 'DieGrotesk-C';
-            src: url('https://op.al/fonts/DieGrotesk-C-Regular.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
+        .page-hero {
+            background-color: var(--bg-light);
+            background-image: 
+                linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            padding: calc(var(--space-xxl) + 20px) 5% var(--space-lg) 5%;
+            text-align: center;
         }
-        @font-face {
-            font-family: 'DieGrotesk-C';
-            src: url('https://op.al/fonts/DieGrotesk-C-Bold.woff2') format('woff2');
+        .page-hero h1 {
+            font-size: 2.8rem;
             font-weight: 700;
-            font-style: normal;
-            font-display: swap;
+            color: var(--text-dark);
+            margin-bottom: var(--space-xs);
         }
-        :root {
-            --primary: #7c3aed;
-            --primary-dark: #6d28d9;
-            --bg-light: #ffffff;
-            --card-bg: #f3f3f5;
-            --text-dark: #18181b;
-            --text-muted: #6b7280;
-            --radius-sm: 12px;
-            --radius-md: 20px;
-            --radius-lg: 24px;
-            --radius-full: 9999px;
-            --space-xs: 8px;
-            --space-sm: 16px;
-            --space-md: 24px;
-            --space-lg: 32px;
-            --space-xl: 64px;
-            --space-xxl: 96px;
+        .page-hero p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
         }
-        ::selection { background-color: var(--primary-dark); color: #ffffff; }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'DieGrotesk-C', system-ui, -apple-system, sans-serif; border: none; outline: none; box-shadow: none; text-decoration: none; }
-        body { color: var(--text-dark); background-color: var(--bg-light); line-height: 1.6; overflow-x: hidden; font-weight: 400; }
-        ul { list-style: none; }
-        .fade-up { opacity: 0; transform: translateY(45px); transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity, transform; }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
-        .fade-in { opacity: 0; transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1); will-change: opacity; }
-        .fade-in.visible { opacity: 1; }
-
-        header { position: fixed; top: 0; left: 0; width: 100%; background: var(--primary-dark); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 1000; padding: var(--space-sm) 5%; display: grid; grid-template-columns: auto 1fr auto; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.15); }
-        .logo { font-weight: 700; font-size: 1.6rem; color: #ffffff; letter-spacing: -0.5px; user-select: none; display: flex; align-items: center; gap: 4px; cursor: pointer; }
-        .logo img { height: 28px; width: auto; display: block; }
-        .nav { display: flex; gap: var(--space-md); align-items: center; justify-content: center; font-size: 0.95rem; justify-self: center; }
-        .nav-link { color: #ffffff; transition: opacity 0.15s ease; user-select: none; display: flex; align-items: center; gap: 6px; position: relative; white-space: nowrap; font-weight: 500; cursor: pointer; }
-        .nav-link:hover, .nav-link:active { opacity: 0.85; color: #ffffff; }
-        .actions { display: flex; align-items: center; gap: var(--space-sm); justify-self: end; }
-        .btn-outline { padding: 8px 20px; border-radius: var(--radius-full); color: var(--primary-dark); background-color: #ffffff; font-weight: 700; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
-        .user-profile-btn { display: inline-flex; align-items: center; gap: 8px; background-color: #ffffff; color: var(--primary-dark); padding: 4px 16px 4px 4px; border-radius: var(--radius-full); font-weight: 700; font-size: 0.9rem; cursor: pointer; }
-        .user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
-        .logout-text { color: #dc2626; font-weight: 700; margin-left: 4px; }
-        .menu-btn { display: none; background: transparent; padding: var(--space-xs); justify-self: end; cursor: pointer; }
-        .menu-btn svg { width: 28px; height: 28px; fill: #ffffff; display: block; }
-
-        .drawer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--primary-dark); display: flex; flex-direction: column; padding: 90px 8% 40px 8%; opacity: 0; visibility: hidden; transform: translateY(-15px); transition: opacity 0.35s ease, transform 0.35s ease, visibility 0.35s ease; z-index: 999; overflow-y: auto; }
-        .drawer.active { opacity: 1; visibility: visible; transform: translateY(0); }
-        .drawer .nav-link { font-size: 1.25rem; font-weight: 500; color: #ffffff; padding: 16px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.15); justify-content: space-between; }
-        .dropdown-toggle svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s ease; }
-        .dropdown-toggle.active svg { transform: rotate(90deg); }
-        .dropdown-menu { max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.35s ease, opacity 0.35s ease, padding 0.35s ease; padding-left: 16px; background: rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); }
-        .dropdown-menu.show { max-height: 200px; opacity: 1; padding-top: 8px; padding-bottom: 8px; margin: 8px 0; }
-        .dropdown-menu a { display: block; padding: 12px 0; color: #ffffff; font-size: 1rem; font-weight: 500; }
-        .drawer-actions { margin-top: 24px; }
-        .drawer-actions .auth-action-container .btn-outline, .drawer-actions .auth-action-container .user-profile-btn { width: 100%; justify-content: center; padding: 14px 0; font-size: 1rem; }
-
-        .page-hero { background-color: var(--bg-light); background-image: linear-gradient(to right, rgba(124, 58, 237, 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgba(124, 58, 237, 0.07) 1px, transparent 1px); background-size: 40px 40px; padding: calc(var(--space-xxl) + 20px) 5% var(--space-lg) 5%; text-align: center; }
-        .page-hero h1 { font-size: 2.8rem; font-weight: 700; color: var(--text-dark); margin-bottom: var(--space-xs); }
-        .page-hero p { color: var(--text-muted); font-size: 1.05rem; }
-
-        .faq { padding: 0 5% var(--space-xxl) 5%; max-width: 800px; margin: 0 auto; }
-        .faq-list { display: flex; flex-direction: column; margin-top: var(--space-sm); }
-        .faq-item { border-bottom: 1px solid rgba(124, 58, 237, 0.12); }
-        .faq-q { width: 100%; padding: 20px 0; background: transparent; display: flex; justify-content: space-between; align-items: center; font-size: 1.1rem; font-weight: 700; color: var(--text-dark); text-align: left; cursor: pointer; }
-        .faq-q:hover { color: var(--primary-dark); }
-        .faq-icon { width: 20px; height: 20px; fill: none; stroke: var(--primary-dark); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; transition: transform 0.3s ease; }
-        .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
-        .faq-item.active .faq-a { max-height: 200px; padding-bottom: 20px; }
-        .faq-item.active .faq-icon { transform: rotate(45deg); }
-
-        .footer { background-color: var(--primary-dark); padding: var(--space-xl) 5%; text-align: center; color: #ffffff; }
-        .footer h2 { font-size: 2.2rem; font-weight: 700; margin-bottom: var(--space-xs); color: #ffffff; }
-        .footer p { font-size: 1rem; color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto var(--space-md) auto; }
-        .btn-white { background-color: #ffffff; color: var(--primary-dark); padding: 14px 32px; border-radius: var(--radius-full); font-weight: 700; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
-        .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; padding-top: var(--space-md); border-top: 1px solid rgba(255, 255, 255, 0.15); font-size: 0.85rem; color: rgba(255, 255, 255, 0.8); }
-        .footer-links { display: flex; gap: 16px; }
-        .footer-links a { color: rgba(255, 255, 255, 0.8); }
-        .footer-links a:hover { color: #ffffff; }
-
         @media (max-width: 868px) {
-            header { grid-template-columns: 1fr auto; }
-            .nav, .actions { display: none; }
-            .menu-btn { display: block; z-index: 1001; }
-            .page-hero h1 { font-size: 2.1rem; }
-            .footer-inner { flex-direction: column; text-align: center; }
+            .page-hero h1 {
+                font-size: 2.1rem;
+            }
         }
     </style>
 </head>
@@ -187,7 +58,14 @@
             <div class="nav-link" onclick="window.location.href='../layanan/minecraft'">Minecraft Maps Builder</div>
             <div class="nav-link" onclick="window.location.href='../porto'">Portofolio</div>
         </nav>
-        <div class="actions"><div class="auth-action-container"></div></div>
+        <div class="actions">
+            <!-- Tombol Masuk dialihkan ke halaman login -->
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='../login/'">
+                    Masuk
+                </div>
+            </div>
+        </div>
         <div class="menu-btn" id="menuToggle" aria-label="Menu">
             <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
         </div>
@@ -205,7 +83,13 @@
             <a href="../layanan/minecraft">Minecraft Maps Builder</a>
         </div>
         <div class="nav-link" onclick="window.location.href='../porto'">Portofolio</div>
-        <div class="drawer-actions"><div class="auth-action-container"></div></div>
+        <div class="drawer-actions">
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='../login/'" style="width: 100%; justify-content: center;">
+                    Masuk
+                </div>
+            </div>
+        </div>
     </div>
 
     <section class="page-hero">
@@ -264,9 +148,11 @@
     <footer class="footer fade-in">
         <h2>Masih Butuh Bantuan?</h2>
         <p>Diskusikan kendala atau pertanyaan Anda langsung bersama tim Mineplix.</p>
-        <div class="btn-white" onclick="window.location.href='../kontak'">
-            Hubungi Kami Sekarang 
-            <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        <div class="scale-in" style="transition-delay: 0.2s;">
+            <div class="btn-white" onclick="window.location.href='../kontak'">
+                Hubungi Kami Sekarang 
+                <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
         </div>
         <div class="footer-inner">
             <div>© 2026 Mineplix. All Rights Reserved.</div>
@@ -278,33 +164,7 @@
         </div>
     </footer>
 
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileDrawer = document.getElementById('mobileDrawer');
-        menuToggle.addEventListener('click', () => {
-            const isOpen = mobileDrawer.classList.toggle('active');
-            document.body.style.overflow = isOpen ? 'hidden' : '';
-        });
-        const mobileLayananToggle = document.getElementById('mobileLayananToggle');
-        const mobileLayananMenu = document.getElementById('mobileLayananMenu');
-        mobileLayananToggle.addEventListener('click', () => {
-            mobileLayananMenu.classList.toggle('show');
-            mobileLayananToggle.classList.toggle('active');
-        });
-        const faqQuestions = document.querySelectorAll('.faq-q');
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const faqItem = question.parentElement;
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    if (item !== faqItem) item.classList.remove('active');
-                });
-                faqItem.classList.toggle('active');
-            });
-        });
-        const observer = new IntersectionObserver((entries, obs) => {
-            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.fade-up, .fade-in').forEach(el => observer.observe(el));
-    </script>
+    <!-- JS External dengan Cache Busting -->
+    <script src="../publick/js/script.js?v=1.0"></script>
 </body>
 </html>
