@@ -1,507 +1,201 @@
-import { auth, signOut, onAuthStateChanged, db } from './firebase.js';
-import { ref, onValue, update, push, set } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-database.js";
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Mineplix</title>
+    <meta name="description" content="Panel Admin Manajemen Produk dan Pesanan Mineplix.">
+    
+    <link rel="icon" href="../publick/img/icon.png" type="image/png">
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-const panelLoader = document.getElementById('panelLoader');
-let currentUserRole = 'user';
-let activeSelectedOrderId = null;
-let activeSelectedOrderUserId = null;
+    <link rel="stylesheet" href="../publick/css/panel.css?v=7.0">
+</head>
+<body>
 
-function formatPrice(priceVal) {
-    if (!priceVal) return 'Gratis';
-    let strVal = String(priceVal).trim();
+    <div class="panel-loader" id="panelLoader">
+        <div class="loader-content">
+            <div class="spinner-ring"></div>
+            <img src="../publick/img/icon.png" alt="Mineplix Logo" class="loader-logo">
+        </div>
+    </div>
 
-    if (strVal.includes('$') || strVal.includes('€') || strVal.includes('¥') || strVal.includes('£')) {
-        return strVal;
-    }
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    if (strVal.includes('k') || strVal.includes('JT') || strVal.includes('Rp')) {
-        return strVal;
-    }
-
-    const num = parseFloat(strVal.replace(/[^0-9.]/g, ''));
-    if (isNaN(num)) return strVal;
-
-    if (num >= 1000000) {
-        const jtVal = num / 1000000;
-        return (jtVal % 1 === 0 ? jtVal : jtVal.toFixed(1)) + ' JT';
-    } else if (num >= 1000) {
-        const kVal = num / 1000;
-        return (kVal % 1 === 0 ? kVal.toLocaleString('id-ID') : kVal.toFixed(1)) + 'k';
-    }
-    return 'Rp ' + num.toLocaleString('id-ID');
-}
-
-function formatDate(timestamp) {
-    if (!timestamp) return '-';
-    const date = new Date(timestamp);
-    return date.toLocaleDateString('id-ID', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-function renderOrderCards(ordersData, isViewerAdmin) {
-    const container = document.getElementById('orderCardsContainer');
-    if (!container) return;
-
-    if (!ordersData) {
-        container.innerHTML = `
-            <div class="empty-state-card">
-                <h3>Belum Ada Orderan</h3>
-                <p>Belum ada data pemesanan saat ini.</p>
-                ${!isViewerAdmin ? '<div class="btn-primary-panel" onclick="window.location.href=\'/produk\'">Pesan Layanan Sekarang</div>' : ''}
+    <header class="panel-header">
+        <div class="header-left">
+            <button class="burger-btn" id="burgerBtn" aria-label="Toggle Sidebar">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/>
+                </svg>
+            </button>
+            <div class="logo" onclick="window.location.href='/panel'">
+                <img src="../publick/img/icon.png" alt="Mineplix Icon">
+                <span>ineplix</span>
             </div>
-        `;
-        return;
-    }
+        </div>
 
-    let allOrdersList = [];
+        <div class="header-right">
+            <div class="header-action-item">
+                <button class="icon-action-btn" id="settingBtn" aria-label="Pengaturan Profile">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </button>
 
-    if (isViewerAdmin) {
-        Object.keys(ordersData).forEach((userId) => {
-            const userOrders = ordersData[userId];
-            if (userOrders) {
-                Object.keys(userOrders).forEach((orderId) => {
-                    allOrdersList.push({
-                        userId: userId,
-                        orderId: orderId,
-                        ...userOrders[orderId]
-                    });
-                });
-            }
-        });
-    } else {
-        Object.keys(ordersData).forEach((orderId) => {
-            allOrdersList.push({
-                orderId: orderId,
-                ...ordersData[orderId]
-            });
-        });
-    }
+                <div class="dropdown-popover profile-popover" id="profilePopover">
+                    <div class="user-info-header">
+                        <div class="user-display-name" id="userName">Admin Mineplix</div>
+                        <div class="user-email" id="userEmail">loading...</div>
+                    </div>
 
-    if (allOrdersList.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state-card">
-                <h3>Belum Ada Orderan</h3>
-                <p>Belum ada data pemesanan saat ini.</p>
-                ${!isViewerAdmin ? '<div class="btn-primary-panel" onclick="window.location.href=\'/produk\'">Pesan Layanan Sekarang</div>' : ''}
+                    <div class="popover-body-list">
+                        <button class="dropdown-item logout-btn" id="logoutBtn">
+                            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                            <span>Keluar</span>
+                        </button>
+                    </div>
+                </div>
             </div>
-        `;
-        return;
-    }
+        </div>
+    </header>
 
-    allOrdersList.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-    let html = '<div class="order-cards-grid">';
-
-    allOrdersList.forEach((item) => {
-        const status = item.status || 'Menunggu Konfirmasi';
-        const formattedPrice = formatPrice(item.harga);
-        const dateStr = formatDate(item.createdAt);
-        const orderCode = item.productId || item.orderId.slice(-5);
-
-        let statusBadgeClass = 'badge-pending';
-        let stepInfoHtml = '';
-
-        if (status.toLowerCase().includes('menunggu')) {
-            statusBadgeClass = 'badge-pending';
-            stepInfoHtml = `
-                <div class="order-step-box info-box">
-                    <strong>⏳ Status: Menunggu Konfirmasi Admin</strong>
-                    <p>Pesanan Anda telah diterima dan sedang diperiksa oleh admin kami.</p>
+    <div class="panel-layout">
+        <aside class="panel-sidebar" id="panelSidebar">
+            <nav class="sidebar-nav">
+                <div class="nav-item active" id="menuDashboard" onclick="switchTab('dashboard')">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    <span>Katalog Produk</span>
                 </div>
-            `;
-        } else if (status.toLowerCase().includes('qris') || status.toLowerCase().includes('bayar')) {
-            statusBadgeClass = 'badge-qris';
-            stepInfoHtml = `
-                <div class="order-step-box qris-box">
-                    <strong>📲 Silakan Lakukan Pembayaran QRIS</strong>
-                    <p>Total Tagihan: <span style="font-weight:700; color:var(--primary-dark);">${formattedPrice}</span></p>
-                    <div class="qris-preview-placeholder">[ QRIS Code / Informasi Rekening Mineplix ]</div>
-                    <p style="font-size: 0.8rem; margin-top:4px;">Bayar sesuai dengan harga tertera agar dapat segera dikonfirmasi.</p>
+                <div class="nav-item" id="menuOrder" onclick="switchTab('order')">
+                    <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                    <span>Kelola Pesanan</span>
                 </div>
-            `;
-        } else if (status.toLowerCase().includes('pengerjaan') || status.toLowerCase().includes('diproses')) {
-            statusBadgeClass = 'badge-process';
-            stepInfoHtml = `
-                <div class="order-step-box process-box">
-                    <strong>⚙️ Pembayaran Dikonfirmasi & Pengerjaan</strong>
-                    <p>Pembayaran diterima. Tim Mineplix sedang mengerjakan project Anda.</p>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="back-to-home" onclick="window.location.href='/'">
+                    <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                    <span>Kembali ke Website</span>
                 </div>
-            `;
-        } else if (status.toLowerCase().includes('selesai') || status.toLowerCase().includes('completed')) {
-            statusBadgeClass = 'badge-completed';
-            stepInfoHtml = `
-                <div class="order-step-box done-box">
-                    <strong>✅ Selesai</strong>
-                    <p>Project telah selesai dikerjakan!</p>
-                    ${item.productLink ? `<a href="${item.productLink}" target="_blank" class="btn-download-link">🔗 Akses / Download Link Produk</a>` : ''}
-                </div>
-            `;
-        }
-
-        let adminActionHtml = '';
-        if (isViewerAdmin) {
-            adminActionHtml = `
-                <div class="admin-action-bar">
-                    <span style="font-size:0.8rem; color:var(--text-muted);">Aksi Admin:</span>
-                    <div class="admin-btn-group">
-                        <button class="admin-step-btn" onclick="updateOrderStatus('${item.userId}', '${item.orderId}', 'Menunggu Pembayaran (QRIS)')">Kirim QRIS</button>
-                        <button class="admin-step-btn" onclick="updateOrderStatus('${item.userId}', '${item.orderId}', 'Pengerjaan Berlangsung')">Proses / Pengerjaan</button>
-                        <button class="admin-step-btn btn-done-action" onclick="openLinkModal('${item.userId}', '${item.orderId}')">Selesai & Kirim Link</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        html += `
-            <div class="order-item-card">
-                <div class="order-card-top-info">
-                    <div>
-                        <h3 class="order-item-title">${item.title || 'Layanan Mineplix'}</h3>
-                        <span class="order-item-id">ID: #${orderCode} ${isViewerAdmin ? `| User: ${item.userEmail || item.userName || item.userId}` : ''}</span>
-                    </div>
-                    <span class="status-badge ${statusBadgeClass}">${status}</span>
-                </div>
-                <div class="order-card-middle">
-                    <div class="order-meta-info">
-                        <span>Harga: <strong>${formattedPrice}</strong></span>
-                        <span>Waktu: ${dateStr}</span>
-                    </div>
-                    ${stepInfoHtml}
-                </div>
-                ${adminActionHtml}
             </div>
-        `;
-    });
+        </aside>
 
-    html += '</div>';
-    container.innerHTML = html;
-}
+        <main class="panel-main">
+            <div id="contentDashboard" class="tab-content active">
+                <div class="page-header-title">
+                    <h2>Manajemen Katalog Produk</h2>
+                    <p>Kelola daftar layanan digital dan penambahan produk storefront.</p>
+                </div>
 
-window.updateOrderStatus = async function(userId, orderId, newStatus) {
-    try {
-        const orderRef = ref(db, 'orders/' + userId + '/' + orderId);
-        await update(orderRef, { status: newStatus });
-        alert("Status order berhasil diperbarui menjadi: " + newStatus);
-    } catch (error) {
-        alert("Gagal memperbarui status: " + error.message);
-    }
-};
+                <div class="order-subtabs">
+                    <div class="subtab-btn active" id="subtabAddProd" onclick="switchProdSubtab('add')">Tambah Produk</div>
+                    <div class="subtab-btn" id="subtabListProd" onclick="switchProdSubtab('list')">Daftar Produk</div>
+                </div>
 
-window.openLinkModal = function(userId, orderId) {
-    activeSelectedUserId = userId;
-    activeSelectedOrderId = orderId;
-    const modal = document.getElementById('linkModal');
-    const input = document.getElementById('productLinkInput');
-    if (input) input.value = '';
-    if (modal) modal.classList.add('show');
-};
+                <div class="prod-subcontent-container">
+                    <div id="prodContentAdd" class="prod-subcontent active">
+                        <div class="admin-form-card fade-up visible">
+                            <h3 id="formTitle">Tambah Produk Baru</h3>
+                            <form id="productForm">
+                                <input type="hidden" id="editCategory">
+                                <input type="hidden" id="editProductId">
 
-const closeLinkModalBtn = document.getElementById('closeLinkModalBtn');
-const linkModal = document.getElementById('linkModal');
-if (closeLinkModalBtn && linkModal) {
-    closeLinkModalBtn.addEventListener('click', () => {
-        linkModal.classList.remove('show');
-    });
-    linkModal.addEventListener('click', (e) => {
-        if (e.target === linkModal) {
-            linkModal.classList.remove('show');
-        }
-    });
-}
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label>Kategori Produk</label>
+                                        <div class="custom-dropdown form-cat-dropdown" id="formCatDropdown" data-value="frontend">
+                                            <div class="custom-dropdown-toggle">
+                                                <span id="formCatLabel">Frontend Web Design</span>
+                                                <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                            </div>
+                                            <div class="custom-dropdown-menu">
+                                                <div class="custom-dropdown-item" data-value="frontend" data-label="Frontend Web Design">Frontend Web Design</div>
+                                                <div class="custom-dropdown-item" data-value="graphic" data-label="Graphic Design">Graphic Design</div>
+                                                <div class="custom-dropdown-item" data-value="mapminecraft" data-label="Minecraft Maps Builder">Minecraft Maps Builder</div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-const confirmDoneBtn = document.getElementById('confirmDoneBtn');
-if (confirmDoneBtn) {
-    confirmDoneBtn.addEventListener('click', async () => {
-        const linkInput = document.getElementById('productLinkInput');
-        const linkVal = linkInput ? linkInput.value.trim() : '';
-        if (!linkVal) {
-            alert("Masukkan link produk atau hasil pengerjaan terlebih dahulu.");
-            return;
-        }
-        try {
-            const orderRef = ref(db, 'orders/' + activeSelectedUserId + '/' + activeSelectedOrderId);
-            await update(orderRef, {
-                status: 'Selesai',
-                productLink: linkVal
-            });
-            linkModal.classList.remove('show');
-            alert("Pesanan diselesaikan dan link berhasil dikirim ke user!");
-        } catch (error) {
-            alert("Gagal menyelesaikan pesanan: " + error.message);
-        }
-    });
-}
+                                    <div class="form-group">
+                                        <label for="prodTitle">Judul Produk</label>
+                                        <input type="text" id="prodTitle" placeholder="Contoh: Modern Storefront UI" required>
+                                    </div>
 
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.replace('/login/');
-    } else {
-        const userNameElem = document.getElementById('userName');
-        const welcomeUserElem = document.getElementById('welcomeUserName');
-        const userEmailElem = document.getElementById('userEmail');
+                                    <div class="form-group">
+                                        <label for="prodPrice">Harga</label>
+                                        <input type="text" id="prodPrice" placeholder="Contoh: 150000 / 150k" required>
+                                    </div>
 
-        const name = user.displayName || 'Pengguna Mineplix';
-        const email = user.email || '';
+                                    <div class="form-group">
+                                        <label for="prodLogo">URL Banner / Gambar</label>
+                                        <input type="url" id="prodLogo" placeholder="https://domain.com/image.png" required>
+                                    </div>
 
-        if (userNameElem) userNameElem.textContent = name;
-        if (welcomeUserElem) welcomeUserElem.textContent = name;
-        if (userEmailElem) userEmailElem.textContent = email;
+                                    <div class="form-group full-width">
+                                        <label for="prodDesc">Deskripsi Ringkas</label>
+                                        <textarea id="prodDesc" rows="3" placeholder="Deskripsikan fitur atau cakupan produk..." required></textarea>
+                                    </div>
+                                </div>
 
-        const userRef = ref(db, 'users/' + user.uid);
-        onValue(userRef, (snapshot) => {
-            const userData = snapshot.val();
-            if (userData && userData.role === 'admin') {
-                currentUserRole = 'admin';
-                const menuBroadcast = document.getElementById('menuBroadcast');
-                if (menuBroadcast) menuBroadcast.style.display = 'flex';
-
-                const orderHeaderTitle = document.getElementById('orderHeaderTitle');
-                const orderHeaderDesc = document.getElementById('orderHeaderDesc');
-                if (orderHeaderTitle) orderHeaderTitle.textContent = 'Kelola Semua Orderan (Admin)';
-                if (orderHeaderDesc) orderHeaderDesc.textContent = 'Pantau dan perbarui langkah status pesanan dari seluruh pengguna.';
-
-                const allOrdersRef = ref(db, 'orders');
-                onValue(allOrdersRef, (orderSnap) => {
-                    renderOrderCards(orderSnap.val(), true);
-                });
-            } else {
-                currentUserRole = 'user';
-                const userOrdersRef = ref(db, 'orders/' + user.uid);
-                onValue(userOrdersRef, (orderSnap) => {
-                    renderOrderCards(orderSnap.val(), false);
-                });
-            }
-
-            if (panelLoader) {
-                setTimeout(() => {
-                    panelLoader.classList.add('hidden');
-                }, 400);
-            }
-        }, { onlyOnce: true });
-
-        const notifRef = ref(db, 'users/' + user.uid + '/notifications');
-        onValue(notifRef, (snapshot) => {
-            const data = snapshot.val();
-            const notifBody = document.getElementById('notifBody');
-            const notifBadge = document.querySelector('.notif-badge');
-            if (!notifBody) return;
-
-            if (!data) {
-                notifBody.innerHTML = '<div class="notif-item"><div class="notif-desc">Belum ada notifikasi</div></div>';
-                if (notifBadge) notifBadge.style.display = 'none';
-                return;
-            }
-
-            let html = '';
-            let hasUnread = false;
-            Object.keys(data).forEach((key) => {
-                const item = data[key];
-                if (!item.read) hasUnread = true;
-                html += `
-                    <div class="notif-item ${item.read ? '' : 'unread'}">
-                        <div class="notif-title">${item.title || 'Notifikasi'}</div>
-                        <div class="notif-desc">${item.desc || ''}</div>
-                        <div class="notif-time">${item.time || ''}</div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn-submit-prod" id="submitBtn">Simpan Produk</button>
+                                    <button type="button" class="btn-cancel-prod" id="cancelEditBtn" style="display: none;">Batal Edit</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                `;
-            });
-            notifBody.innerHTML = html;
-            if (notifBadge) {
-                notifBadge.style.display = hasUnread ? 'block' : 'none';
-            }
-        });
-    }
-});
 
-const sendBroadcastBtn = document.getElementById('sendBroadcastBtn');
-if (sendBroadcastBtn) {
-    sendBroadcastBtn.addEventListener('click', async () => {
-        const titleInput = document.getElementById('broadcastTitle');
-        const descInput = document.getElementById('broadcastDesc');
-        const title = titleInput ? titleInput.value.trim() : '';
-        const desc = descInput ? descInput.value.trim() : '';
+                    <div id="prodContentList" class="prod-subcontent">
+                        <div class="category-filter-tabs">
+                            <button class="cat-tab-btn active" data-cat="frontend">Frontend Web Design</button>
+                            <button class="cat-tab-btn" data-cat="graphic">Graphic Design</button>
+                            <button class="cat-tab-btn" data-cat="mapminecraft">Minecraft Maps Builder</button>
+                        </div>
 
-        if (!title || !desc) {
-            alert("Judul dan isi notifikasi tidak boleh kosong.");
-            return;
-        }
+                        <div id="adminProductGrid" class="admin-products-grid">
+                            <div class="empty-state-card">Memuat katalog produk...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        try {
-            const usersRef = ref(db, 'users');
-            onValue(usersRef, async (snapshot) => {
-                const usersData = snapshot.val();
-                if (!usersData) return;
+            <div id="contentOrder" class="tab-content">
+                <div class="page-header-title">
+                    <h2>Kelola Pesanan Masuk</h2>
+                    <p>Atur alur pemrosesan pesanan pelanggan dari konfirmasi hingga selesai.</p>
+                </div>
 
-                const timeStr = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                <div class="order-subtabs">
+                    <div class="subtab-btn active" id="subtabActive" onclick="switchOrderSubtab('active')">Pesanan Aktif</div>
+                    <div class="subtab-btn" id="subtabHistory" onclick="switchOrderSubtab('history')">Pesanan Selesai</div>
+                </div>
 
-                for (const uid of Object.keys(usersData)) {
-                    const userNotifRef = ref(db, 'users/' + uid + '/notifications');
-                    const newNotifRef = push(userNotifRef);
-                    await set(newNotifRef, {
-                        title: title,
-                        desc: desc,
-                        time: timeStr,
-                        read: false
-                    });
-                }
+                <div class="order-subcontent-container">
+                    <div id="orderContentActive" class="order-subcontent active">
+                        <div class="empty-state-card">Memuat data pesanan...</div>
+                    </div>
 
-                alert("Notifikasi broadcast berhasil dikirim ke semua pengguna!");
-                if (titleInput) titleInput.value = '';
-                if (descInput) descInput.value = '';
-            }, { onlyOnce: true });
-        } catch (error) {
-            alert("Gagal mengirim broadcast: " + error.message);
-        }
-    });
-}
+                    <div id="orderContentHistory" class="order-subcontent">
+                        <div class="empty-state-card">Memuat data riwayat...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
-window.addEventListener('pageshow', (event) => {
-    if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-        if (!auth.currentUser) {
-            window.location.replace('/login/');
-        } else {
-            window.location.reload();
-        }
-    }
-});
+    <div class="custom-modal-overlay" id="customModalOverlay">
+        <div class="custom-modal-card" id="customModalCard">
+            <h3 id="customModalTitle">Informasi</h3>
+            <p id="customModalDesc">Pesan informasi sistem...</p>
+            <div class="custom-modal-actions" id="customModalActions">
+                <button class="custom-modal-btn cancel" id="customModalCancel">Batal</button>
+                <button class="custom-modal-btn confirm" id="customModalConfirm">OK</button>
+            </div>
+        </div>
+    </div>
 
-window.switchTab = function(tabName, updateHistory = true) {
-    const menuDashboard = document.getElementById('menuDashboard');
-    const menuOrder = document.getElementById('menuOrder');
-    const menuBroadcast = document.getElementById('menuBroadcast');
-
-    const contentDashboard = document.getElementById('contentDashboard');
-    const contentOrder = document.getElementById('contentOrder');
-    const contentBroadcast = document.getElementById('contentBroadcast');
-
-    if (menuDashboard) menuDashboard.classList.remove('active');
-    if (menuOrder) menuOrder.classList.remove('active');
-    if (menuBroadcast) menuBroadcast.classList.remove('active');
-
-    if (contentDashboard) contentDashboard.classList.remove('active');
-    if (contentOrder) contentOrder.classList.remove('active');
-    if (contentBroadcast) contentBroadcast.classList.remove('active');
-
-    if (tabName === 'dashboard') {
-        if (menuDashboard) menuDashboard.classList.add('active');
-        if (contentDashboard) contentDashboard.classList.add('active');
-        if (updateHistory) history.pushState({ tab: 'dashboard' }, '', '/panel');
-    } else if (tabName === 'order') {
-        if (menuOrder) menuOrder.classList.add('active');
-        if (contentOrder) contentOrder.classList.add('active');
-        if (updateHistory) history.pushState({ tab: 'order' }, '', '/panel#order');
-    } else if (tabName === 'broadcast') {
-        if (menuBroadcast) menuBroadcast.classList.add('active');
-        if (contentBroadcast) contentBroadcast.classList.add('active');
-        if (updateHistory) history.pushState({ tab: 'broadcast' }, '', '/panel#broadcast');
-    }
-
-    if (window.innerWidth <= 768) {
-        const panelSidebar = document.getElementById('panelSidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-        if (panelSidebar) panelSidebar.classList.remove('active');
-        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
-    }
-};
-
-window.addEventListener('popstate', (event) => {
-    if (window.location.hash === '#order') {
-        window.switchTab('order', false);
-    } else if (window.location.hash === '#broadcast') {
-        window.switchTab('broadcast', false);
-    } else {
-        window.switchTab('dashboard', false);
-    }
-});
-
-if (window.location.hash === '#order') {
-    window.switchTab('order', false);
-} else if (window.location.hash === '#broadcast') {
-    window.switchTab('broadcast', false);
-}
-
-const burgerBtn = document.getElementById('burgerBtn');
-const panelSidebar = document.getElementById('panelSidebar');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-function toggleSidebar() {
-    if (!panelSidebar || !sidebarOverlay) return;
-    panelSidebar.classList.toggle('active');
-    sidebarOverlay.classList.toggle('active');
-}
-
-if (burgerBtn) burgerBtn.addEventListener('click', toggleSidebar);
-if (sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
-
-const notifBtn = document.getElementById('notifBtn');
-const notifPopover = document.getElementById('notifPopover');
-const settingBtn = document.getElementById('settingBtn');
-const profilePopover = document.getElementById('profilePopover');
-
-if (notifBtn && notifPopover) {
-    notifBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (profilePopover) profilePopover.classList.remove('show');
-        notifPopover.classList.toggle('show');
-    });
-}
-
-if (settingBtn && profilePopover) {
-    settingBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (notifPopover) notifPopover.classList.remove('show');
-        profilePopover.classList.toggle('show');
-    });
-}
-
-document.addEventListener('click', (e) => {
-    if (notifPopover && !notifPopover.contains(e.target) && !notifBtn.contains(e.target)) {
-        notifPopover.classList.remove('show');
-    }
-    if (profilePopover && !profilePopover.contains(e.target) && !settingBtn.contains(e.target)) {
-        profilePopover.classList.remove('show');
-    }
-});
-
-const markReadBtn = document.getElementById('markReadBtn');
-const notifBadge = document.querySelector('.notif-badge');
-
-if (markReadBtn) {
-    markReadBtn.addEventListener('click', () => {
-        const user = auth.currentUser;
-        if (user) {
-            const notifRef = ref(db, 'users/' + user.uid + '/notifications');
-            onValue(notifRef, (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    const updates = {};
-                    Object.keys(data).forEach((key) => {
-                        updates[key + '/read'] = true;
-                    });
-                    update(notifRef, updates);
-                }
-            }, { onlyOnce: true });
-        }
-        document.querySelectorAll('.notif-item').forEach(item => {
-            item.classList.remove('unread');
-        });
-        if (notifBadge) notifBadge.style.display = 'none';
-    });
-}
-
-const logoutBtn = document.getElementById('logoutBtn');
-if (logoutBtn) {
-    logoutBtn.addEventListener('click', async () => {
-        try {
-            await signOut(auth);
-            window.location.replace('/login/');
-        } catch (error) {
-            alert("Terjadi kesalahan saat keluar. Silakan coba lagi.");
-        }
-    });
-}
+    <script type="module" src="../publick/js/panel.js?v=7.0"></script>
+</body>
+</html>
