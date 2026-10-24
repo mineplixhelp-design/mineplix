@@ -14,7 +14,10 @@ async function checkAndRedirectUser(user) {
         const userRef = ref(db, 'users/' + user.uid);
         const snapshot = await get(userRef);
 
+        let role = 'user';
+
         if (!snapshot.exists()) {
+            // Jika user baru pertama kali login, daftarkan sebagai 'user'
             await set(userRef, {
                 name: user.displayName || 'Pengguna Mineplix',
                 email: user.email,
@@ -28,12 +31,26 @@ async function checkAndRedirectUser(user) {
                     }
                 }
             });
+        } else {
+            const userData = snapshot.val();
+            if (userData.role) {
+                role = userData.role;
+            }
         }
         
-        window.location.replace('/panel');
+        // Cek Role: Jika admin masuk ke /panel, jika user kembali ke halaman sebelumnya
+        if (role === 'admin') {
+            window.location.replace('/panel');
+        } else {
+            if (window.history.length > 1 && document.referrer && !document.referrer.includes('/login')) {
+                window.history.back();
+            } else {
+                window.location.replace('/');
+            }
+        }
     } catch (error) {
         console.error("Gagal mendeteksi database user:", error);
-        window.location.replace('/panel');
+        window.location.replace('/');
     }
 }
 
