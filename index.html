@@ -21,7 +21,6 @@
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-    <!-- CSS External dengan Cache Busting -->
     <link rel="stylesheet" href="../publick/css/style.css?v=1.0">
 </head>
 <body>
@@ -33,14 +32,13 @@
 
         <nav class="nav">
             <div class="nav-link active" onclick="window.location.href='/'">Beranda</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/frontend'">Frontend Web Design</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/graphic'">Graphic Design</div>
-            <div class="nav-link" onclick="window.location.href='/layanan/minecraft'">Minecraft Maps Builder</div>
+            <div class="nav-link" onclick="window.location.href='/produk#id=frontend'">Frontend Web Design</div>
+            <div class="nav-link" onclick="window.location.href='/produk#id=graphic'">Graphic Design</div>
+            <div class="nav-link" onclick="window.location.href='/produk#id=mapminecraft'">Minecraft Maps Builder</div>
             <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         </nav>
 
         <div class="actions">
-            <!-- Tombol Masuk dialihkan ke halaman /login -->
             <div class="auth-action-container">
                 <div class="btn-outline" onclick="window.location.href='/login'">
                     Masuk
@@ -63,9 +61,9 @@
             <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </div>
         <div class="dropdown-menu" id="mobileLayananMenu">
-            <a href="/layanan/frontend">Frontend Web Design</a>
-            <a href="/layanan/graphic">Graphic Design</a>
-            <a href="/layanan/minecraft">Minecraft Maps Builder</a>
+            <a href="/produk#id=frontend">Frontend Web Design</a>
+            <a href="/produk#id=graphic">Graphic Design</a>
+            <a href="/produk#id=mapminecraft">Minecraft Maps Builder</a>
         </div>
 
         <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
@@ -97,13 +95,16 @@
             </p>
             <div class="hero-btns">
                 <div class="scale-in" style="transition-delay: 0.6s;">
-                    <div class="btn-primary" onclick="window.location.href='/layanan'">
+                    <div class="btn-primary" onclick="document.getElementById('layanan').scrollIntoView({ behavior: 'smooth' });">
                         Jelajahi Layanan 
                         <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </div>
                 </div>
                 <div class="scale-in" style="transition-delay: 0.7s;">
-                    <div class="btn-secondary" onclick="window.location.href='/kontak'">Hubungi Kami</div>
+                    <div class="btn-secondary btn-discord" onclick="window.open('https://discord.gg/bJNR4cPhYh', '_blank')">
+                        <svg class="discord-icon" viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.893.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                        Discord
+                    </div>
                 </div>
             </div>
         </div>
@@ -119,7 +120,7 @@
         <section class="services">
             <div class="grid">
                 
-                <div class="card fade-up" style="transition-delay: 0.1s;" onclick="window.location.href='/layanan/frontend'">
+                <div class="card fade-up" style="transition-delay: 0.1s;" onclick="window.location.href='/produk#id=frontend'">
                     <div class="ripple"></div>
                     <div class="card-header">
                         <h3>Frontend Web Design</h3>
@@ -132,7 +133,7 @@
                     </div>
                 </div>
 
-                <div class="card fade-up" style="transition-delay: 0.25s;" onclick="window.location.href='/layanan/graphic'">
+                <div class="card fade-up" style="transition-delay: 0.25s;" onclick="window.location.href='/produk#id=graphic'">
                     <div class="ripple"></div>
                     <div class="card-header">
                         <h3>Graphic Design</h3>
@@ -145,7 +146,7 @@
                     </div>
                 </div>
 
-                <div class="card fade-up" style="transition-delay: 0.4s;" onclick="window.location.href='/layanan/minecraft'">
+                <div class="card fade-up" style="transition-delay: 0.4s;" onclick="window.location.href='/produk#id=mapminecraft'">
                     <div class="ripple"></div>
                     <div class="card-header">
                         <h3>Minecraft Maps Builder</h3>
@@ -231,7 +232,7 @@
         <h2>Mulai Wujudkan <span class="highlight">Server Impianmu</span> Hari Ini</h2>
         <p>Diskusikan ide project frontend website, desain grafis, atau custom map Minecraft Anda bersama tim Mineplix.</p>
         <div class="scale-in" style="transition-delay: 0.2s;">
-            <div class="btn-white" onclick="window.location.href='/kontak'">
+            <div class="btn-white" onclick="window.location.href='mailto:mineplixhelp@gmail.com'">
                 Hubungi Kami Sekarang 
                 <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </div>
@@ -248,7 +249,6 @@
         </div>
     </footer>
 
-    <!-- JS External dengan Cache Busting (Tanpa Firebase di Home) -->
     <script src="../publick/js/script.js?v=1.0"></script>
 </body>
 </html>
