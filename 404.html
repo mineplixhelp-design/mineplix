@@ -21,410 +21,15 @@
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://op.al/fonts/DieGrotesk-C-Bold.woff2" as="font" type="font/woff2" crossorigin>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.0.0/firebase-auth.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyCdZkTVOW_TrOiKtsYwojUI5GHHVh_ZMwk",
-          authDomain: "mineplix-3d91c.firebaseapp.com",
-          databaseURL: "https://mineplix-3d91c-default-rtdb.asia-southeast1.firebasedatabase.app",
-          projectId: "mineplix-3d91c",
-          storageBucket: "mineplix-3d91c.firebasestorage.app",
-          messagingSenderId: "932702850146",
-          appId: "1:932702850146:web:0933bde133e94b4254953b",
-          measurementId: "G-VTMMJV3HY7"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
-
-        onAuthStateChanged(auth, (user) => {
-            const authActionContainers = document.querySelectorAll('.auth-action-container');
-            
-            authActionContainers.forEach(container => {
-                if (user) {
-                    const photoURL = user.photoURL || '../publick/img/icon.png';
-                    const displayName = user.displayName ? user.displayName.split(' ')[0] : 'Akun';
-                    container.innerHTML = `
-                        <div class="user-profile-btn" onclick="handleLogout()">
-                            <img src="${photoURL}" alt="Profile" class="user-avatar">
-                            <span>${displayName}</span>
-                            <span class="logout-text">Keluar</span>
-                        </div>
-                    `;
-                    if (window.Android && typeof window.Android.goToMain === 'function') {
-                        window.Android.goToMain();
-                    }
-                } else {
-                    container.innerHTML = `
-                        <div class="btn-outline" onclick="handleGoogleLogin()">
-                            <svg class="google-icon" viewBox="0 0 24 24">
-                                <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v2.39h3.88c2.27-2.09 3.66-5.17 3.66-8.82z"/>
-                                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.02c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.2v3.13C3.18 21.36 7.23 24 12 24z"/>
-                                <path fill="#FBBC05" d="M5.28 14.28c-.25-.72-.39-1.5-.39-2.28s.14-1.56.39-2.28V6.59H1.2C.44 8.13 0 9.87 0 12s.44 3.87 1.2 5.41l4.08-3.13z"/>
-                                <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.23 0 3.18 2.64 1.2 6.59l4.08 3.13c.95-2.84 3.6-4.97 6.72-4.97z"/>
-                            </svg>
-                            Masuk
-                        </div>
-                    `;
-                }
-            });
-        });
-
-        window.handleGoogleLogin = async function() {
-            try {
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        window.handleLogout = async function() {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-    </script>
+    <!-- CSS External dengan Cache Busting -->
+    <link rel="stylesheet" href="../publick/css/style.css?v=1.0">
 
     <style>
-        @font-face {
-            font-family: 'DieGrotesk-C';
-            src: url('https://op.al/fonts/DieGrotesk-C-Regular.woff2') format('woff2');
-            font-weight: 400;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        @font-face {
-            font-family: 'DieGrotesk-C';
-            src: url('https://op.al/fonts/DieGrotesk-C-Bold.woff2') format('woff2');
-            font-weight: 700;
-            font-style: normal;
-            font-display: swap;
-        }
-
-        :root {
-            --primary: #7c3aed;
-            --primary-dark: #6d28d9;
-            --bg-light: #ffffff;
-            --card-bg: #f3f3f5;
-            --text-dark: #18181b;
-            --text-muted: #6b7280;
-            --trustpilot: #00b67a;
-
-            --radius-sm: 12px;
-            --radius-md: 20px;
-            --radius-lg: 24px;
-            --radius-full: 9999px;
-
-            --space-xs: 8px;
-            --space-sm: 16px;
-            --space-md: 24px;
-            --space-lg: 32px;
-            --space-xl: 64px;
-            --space-xxl: 96px;
-        }
-
-        ::selection {
-            background-color: var(--primary-dark);
-            color: #ffffff;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'DieGrotesk-C', system-ui, -apple-system, sans-serif;
-            border: none;
-            outline: none;
-            box-shadow: none;
-            text-decoration: none;
-        }
-
         body {
-            color: var(--text-dark);
-            background-color: var(--bg-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-            font-weight: 400;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
-
-        ul {
-            list-style: none;
-        }
-
-        .fade-up {
-            opacity: 0;
-            transform: translateY(45px);
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-        }
-
-        .fade-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .fade-in {
-            opacity: 0;
-            transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-        }
-
-        .scale-in {
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
-            display: inline-block;
-        }
-
-        .scale-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: var(--primary-dark);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 1000;
-            padding: var(--space-sm) 5%;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .logo {
-            font-weight: 700;
-            font-size: 1.6rem;
-            color: #ffffff;
-            letter-spacing: -0.5px;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .logo img {
-            height: 28px;
-            width: auto;
-            display: block;
-        }
-
-        .nav {
-            display: flex;
-            gap: var(--space-md);
-            align-items: center;
-            justify-content: center;
-            font-size: 0.95rem;
-            justify-self: center;
-        }
-
-        .nav-link {
-            color: #ffffff;
-            transition: opacity 0.15s ease;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            position: relative;
-            white-space: nowrap;
-            font-weight: 500;
-        }
-
-        .nav-link:hover,
-        .nav-link:active {
-            opacity: 0.85;
-            color: #ffffff;
-        }
-
-        .actions {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-            justify-self: end;
-        }
-
-        .btn-outline {
-            padding: 8px 20px;
-            border-radius: var(--radius-full);
-            color: var(--primary-dark);
-            background-color: #ffffff;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.12s ease, opacity 0.12s ease;
-            will-change: transform, opacity;
-        }
-
-        .btn-outline:active {
-            transform: scale(0.96);
-            opacity: 0.9;
-        }
-
-        .google-icon {
-            width: 18px;
-            height: 18px;
-        }
-
-        .user-profile-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #ffffff;
-            color: var(--primary-dark);
-            padding: 4px 16px 4px 4px;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: transform 0.12s ease, opacity 0.12s ease;
-            will-change: transform, opacity;
-        }
-
-        .user-profile-btn:active {
-            transform: scale(0.96);
-            opacity: 0.9;
-        }
-
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .logout-text {
-            color: #dc2626;
-            font-weight: 700;
-            margin-left: 4px;
-        }
-
-        .menu-btn {
-            display: none;
-            background: transparent;
-            padding: var(--space-xs);
-            justify-self: end;
-        }
-
-        .menu-btn svg {
-            width: 28px;
-            height: 28px;
-            fill: #ffffff;
-            display: block;
-        }
-
-        .drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: var(--primary-dark);
-            display: flex;
-            flex-direction: column;
-            padding: 90px 8% 40px 8%;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-15px);
-            transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 999;
-            overflow-y: auto;
-        }
-
-        .drawer.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .drawer .nav-link {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: #ffffff;
-            padding: 16px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            justify-content: space-between;
-        }
-
-        .dropdown-toggle svg {
-            width: 20px;
-            height: 20px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .dropdown-toggle.active svg {
-            transform: rotate(90deg);
-        }
-
-        .dropdown-menu {
-            max-height: 0;
-            overflow: hidden;
-            opacity: 0;
-            transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            padding-left: 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: var(--radius-sm);
-        }
-
-        .dropdown-menu.show {
-            max-height: 200px;
-            opacity: 1;
-            padding-top: 8px;
-            padding-bottom: 8px;
-            margin: 8px 0;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 12px 0;
-            color: #ffffff;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .drawer-actions {
-            margin-top: 24px;
-            padding-top: 0;
-        }
-
-        .drawer-actions .auth-action-container .btn-outline {
-            width: 100%;
-            justify-content: center;
-            padding: 14px 0;
-            font-size: 1rem;
-        }
-
-        .drawer-actions .auth-action-container .user-profile-btn {
-            width: 100%;
-            justify-content: center;
-            padding: 10px 0;
-            font-size: 1rem;
-        }
-
         .error-section {
             background-color: var(--bg-light);
             background-image: 
@@ -439,13 +44,11 @@
             padding: calc(var(--space-xxl) + 20px) 5% var(--space-xxl) 5%;
             position: relative;
         }
-
         .error-content {
             max-width: 700px;
             position: relative;
             z-index: 1;
         }
-
         .error-code {
             font-size: 7rem;
             font-weight: 700;
@@ -454,7 +57,6 @@
             margin-bottom: var(--space-sm);
             letter-spacing: -2px;
         }
-
         .error-content h1 {
             font-size: 2.2rem;
             font-weight: 700;
@@ -462,170 +64,18 @@
             margin-bottom: var(--space-md);
             color: var(--text-dark);
         }
-
-        .highlight {
-            position: relative;
-            display: inline-block;
-            background-color: var(--primary-dark);
-            color: #ffffff !important;
-            padding: 2px 12px;
-            border-radius: 0px;
-            line-height: 1.2;
-            margin: 0 2px;
-            white-space: nowrap;
-        }
-
-        .highlight::before,
-        .highlight::after {
-            content: '';
-            position: absolute;
-            bottom: -14px;
-            width: 14px;
-            height: 14px;
-            background-color: var(--primary-dark);
-        }
-
-        .highlight::before {
-            left: -12px;
-            border-radius: 50% 0 50% 50%;
-        }
-
-        .highlight::after {
-            right: -12px;
-            border-radius: 0 50% 50% 50%;
-        }
-
-        .footer .highlight {
-            background-color: #ffffff;
-            color: var(--primary-dark) !important;
-        }
-
-        .footer .highlight::before,
-        .footer .highlight::after {
-            background-color: #ffffff;
-        }
-
         .error-content p {
             font-size: 1.05rem;
             color: var(--text-muted);
             margin-bottom: var(--space-lg);
         }
-
         .error-btns {
             display: flex;
             gap: var(--space-sm);
             flex-wrap: wrap;
             justify-content: center;
         }
-
-        .btn-primary {
-            background-color: var(--primary-dark);
-            color: #ffffff;
-            padding: 14px 28px;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-xs);
-            transition: transform 0.12s ease, opacity 0.12s ease;
-            will-change: transform, opacity;
-        }
-
-        .btn-primary:active {
-            transform: scale(0.96);
-            opacity: 0.9;
-        }
-
-        .footer {
-            background-color: var(--primary-dark);
-            padding: var(--space-xl) 5%;
-            text-align: center;
-            color: #ffffff;
-            margin-top: auto;
-        }
-
-        .footer h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: var(--space-xs);
-            color: #ffffff;
-            line-height: 1.4;
-        }
-
-        .footer p {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 600px;
-            margin: 0 auto var(--space-md) auto;
-        }
-
-        .btn-white {
-            background-color: #ffffff;
-            color: var(--primary-dark);
-            padding: 14px 32px;
-            border-radius: var(--radius-full);
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.12s ease, opacity 0.12s ease;
-            will-change: transform, opacity;
-        }
-
-        .btn-white:active {
-            transform: scale(0.96);
-            opacity: 0.9;
-        }
-
-        .btn-white svg {
-            width: 16px;
-            height: 16px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .footer-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-top: var(--space-md);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 16px;
-        }
-
-        .footer-links a {
-            color: rgba(255, 255, 255, 0.8);
-            transition: color 0.2s ease;
-        }
-
-        .footer-links a:hover {
-            color: #ffffff;
-        }
-
         @media (max-width: 868px) {
-            header {
-                grid-template-columns: 1fr auto;
-            }
-            .nav, .actions {
-                display: none;
-            }
-            .menu-btn {
-                display: block;
-                z-index: 1001;
-            }
             .error-code {
                 font-size: 5rem;
             }
@@ -638,13 +88,6 @@
             .btn-primary {
                 width: 100%;
                 justify-content: center;
-            }
-            .footer h2 {
-                font-size: 1.8rem;
-            }
-            .footer-inner {
-                flex-direction: column;
-                text-align: center;
             }
         }
     </style>
@@ -665,7 +108,11 @@
         </nav>
 
         <div class="actions">
-            <div class="auth-action-container"></div>
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='/login/'">
+                    Masuk
+                </div>
+            </div>
         </div>
 
         <div class="menu-btn" id="menuToggle" aria-label="Menu">
@@ -691,7 +138,11 @@
         <div class="nav-link" onclick="window.location.href='/porto'">Portofolio</div>
         
         <div class="drawer-actions">
-            <div class="auth-action-container"></div>
+            <div class="auth-action-container">
+                <div class="btn-outline" onclick="window.location.href='/login/'" style="width: 100%; justify-content: center;">
+                    Masuk
+                </div>
+            </div>
         </div>
     </div>
 
@@ -736,52 +187,7 @@
         </div>
     </footer>
 
-    <script>
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileDrawer = document.getElementById('mobileDrawer');
-
-        function toggleMobileMenu() {
-            const isOpen = mobileDrawer.classList.toggle('active');
-            if (isOpen) {
-                document.body.style.overflow = 'hidden';
-                menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
-            } else {
-                document.body.style.overflow = '';
-                menuToggle.innerHTML = `<svg viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>`;
-            }
-        }
-
-        menuToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleMobileMenu();
-        });
-
-        const mobileLayananToggle = document.getElementById('mobileLayananToggle');
-        const mobileLayananMenu = document.getElementById('mobileLayananMenu');
-
-        mobileLayananToggle.addEventListener('click', () => {
-            mobileLayananMenu.classList.toggle('show');
-            mobileLayananToggle.classList.toggle('active');
-        });
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15
-        };
-
-        const observer = new IntersectionObserver((entries, observerInstance) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observerInstance.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-up, .fade-in, .scale-in').forEach(element => {
-            observer.observe(element);
-        });
-    </script>
+    <!-- JS External dengan Cache Busting -->
+    <script src="../publick/js/script.js?v=1.0"></script>
 </body>
 </html>
